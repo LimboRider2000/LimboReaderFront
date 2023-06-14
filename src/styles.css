@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+html, body,p{
+  margin: 0;
+  padding: 0;
+}
+body{
+  background-color: #868B8E;
+}
+.myBagColor1{
+  background-color: #868B8E;
+}
+.myBagColor2{
+  background-color: #B9B7BD;
+}
+.myBagColor3{
+  background-color: #EEEDE7;
+}
+.myBagColor4{
+  background-color: #E7D2CC;
+}
