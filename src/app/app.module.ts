@@ -15,6 +15,7 @@ import { IndexComponent } from './componenet/main/index/index.component';
 import {NgOptimizedImage} from "@angular/common";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ModalService} from "./Servises/Modal/Modalservice";
+import { AuthenticationModalComponent } from './componenet/header/Modal/auntification-modal/authentication-modal.component';
 
 const appRouths : Routes=[
   {path:"",component:IndexComponent},
@@ -30,6 +31,7 @@ const appRouths : Routes=[
     FooterComponent,
     RegistrationComponent,
     IndexComponent,
+    AuthenticationModalComponent,
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(appRouths), FormsModule, HttpClientModule, NgOptimizedImage, NgbModule,
