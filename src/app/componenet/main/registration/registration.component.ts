@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../../model/User";
-import {Router} from "@angular/router";
-import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.service";
 
 
 @Component({
