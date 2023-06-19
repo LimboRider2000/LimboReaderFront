@@ -23,41 +23,11 @@
       </ul>
       <div>
         <i role="button" class=" bi bi-box-arrow-in-right mx-3 btn btn-outline-success"
-           data-bs-toggle="modal" data-bs-target="#authModal" title="Вход" ></i>
+           data-bs-toggle="modal" data-bs-target="#authModal" title="Вход" (click)="callOpenModal()"></i>
         <a class="btn btn-outline-success" routerLink="/registration" title="Регистрация"><i
           class="bi bi-person-add"></i></a>
       </div>
     </div>
   </div>
-  <!-- Modal -->
-  <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
-      <div class="modal-content bg-black text-light">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-center" id="authModalLabel">Аутентификация</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="login-addon"><i class="bi bi-person-add"></i></span>
-            <input type="text" class="form-control" placeholder="Введите логи" aria-label="Логин"
-                   aria-describedby="login-addon"
-                   id="auth-login" name="auth-login">
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="password-addon"><i class="bi bi-key"></i></span>
-            <input type="password" class="form-control  " placeholder="Введите пароль" aria-label="Пароль"
-                   aria-describedby="login-addon"
-                   id="auth-password" name="auth-password">
-          </div>
 
-        </div>
-        <div class="modal-footer">
-          <div class="col col-6 alert text-success fs-6 me-5 text-center"  id="error-message"></div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрить</button>
-          <button type="button" class="btn btn-primary" id="auth-button">Вход</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </nav>

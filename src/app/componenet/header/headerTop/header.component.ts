@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ModalService} from "../../../Servises/Modal/Modalservice";
 
 @Component({
   selector: 'app-headerTop',
@@ -6,16 +7,12 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit{
-  constructor() { }
+  constructor(private modalService: ModalService) { }
   ngOnInit() {
   }
-OpenModal(){
-    const modalDiv= document.getElementById("authModal")
-  if(modalDiv != null){
-      modalDiv.style.display = "block"
+  callOpenModal(){
+    this.modalService.openModal();
   }
-}
-
 
   @Input() bookCount: number = 0;
   @Input() performerCount: number =0;

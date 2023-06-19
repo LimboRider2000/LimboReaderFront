@@ -14,6 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { IndexComponent } from './componenet/main/index/index.component';
 import {NgOptimizedImage} from "@angular/common";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ModalService} from "./Servises/Modal/Modalservice";
 
 const appRouths : Routes=[
   {path:"",component:IndexComponent},
@@ -33,7 +34,7 @@ const appRouths : Routes=[
   imports: [
     BrowserModule, RouterModule.forRoot(appRouths), FormsModule, HttpClientModule, NgOptimizedImage, NgbModule,
   ],
-  providers: [],
+  providers: [ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
