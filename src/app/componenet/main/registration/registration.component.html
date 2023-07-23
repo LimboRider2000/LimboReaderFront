@@ -1,16 +1,27 @@
+<div class="alert alert-danger" style="display: none">{{serverValidationError}}</div>
 <div class="row">
   <div class="col col-6 container fs-6">
-    <form enctype="multipart/form-data" method="post">
+    <form #myForm="ngForm" (ngSubmit)=" FromSubmit(myForm)" enctype="multipart/form-data" method="post">
       <div class="mb-3">
         <label for="user-login" class="form-label">
           Выберете Логин
         </label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="login-addon"><i class="bi bi-person-add"></i></span>
-          <input type="text" class="form-control " placeholder="Логин" aria-label="Логин"
+          <input autocomplete="off" type="text" class="form-control" [(ngModel)]="user.login"
+                 #Login="ngModel" minlength="5" placeholder="Логин" aria-label="Логин"    required
                  aria-describedby="login-addon"
-                 id="user-login" name="user-login">
+                 id="user-login" name="Login">
         </div>
+        <div>
+          <div [hidden]="Login.valid || Login.untouched" class="alert alert-danger">
+          Логин обязателен
+        </div>
+          <div *ngIf="Login.errors?.['minlength']" class="alert alert-danger">
+            Логин должен быть больше 5 символов
+          </div>
+        </div>
+
       </div>
       <div class="mb-3">
         <label for="user-name" class="form-label">
@@ -19,8 +30,17 @@
         <div class="input-group mb-3">
           <span class="input-group-text" id="name-addon"><i class="bi bi-person-add"></i></span>
           <input type="text" class="form-control" placeholder="Петренко В.В." aria-label="Имя"
+                 autocomplete="off" [(ngModel)]="user.name" minlength="2" #name="ngModel" required
                  aria-describedby="name-addon"
-                 id="user-name" name="user-name">
+                 id="user-name" name="name">
+        </div>
+        <div>
+          <div [hidden]="name.valid || name.untouched" class="alert alert-danger">
+          Имя обязательно
+        </div>
+          <div *ngIf="name.errors?.['minlength']" class="alert alert-danger">
+            Имя должен быть больше 2 символов
+          </div>
         </div>
       </div>
       <div class="mb-3">
@@ -31,18 +51,37 @@
           <span class="input-group-text" id="password-addon"><i class="bi bi-key"></i></span>
           <input type="password" class="form-control" placeholder="*******" aria-label="Пароль"
                  aria-describedby="login-addon"
-                 id="user-password" name="user-password">
+                 id="user-password"
+                 [(ngModel)]="myPassword"
+                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*?[A-Z])[A-Za-z\d]{6,}$"
+                 name="password" #password='ngModel'>
+        </div>
+        <div>
+          <div [hidden]="password.valid || password.untouched"  class="alert alert-danger">
+          Пароль Обязателен
+        </div>
+          <div *ngIf="password.errors?.['pattern']" class="alert alert-danger">
+            Пароль должен содержать не менее 8 символов (минимум одна большая Буква и одна цифра, пароль латиницей)
+          </div>
         </div>
       </div>
       <div class="mb-3">
         <label for="user-password-repiat" class="form-label">
-          Повторите Пароль
+          Повтор пароля
         </label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="password-repiat-addon"><i class="bi bi-key"></i></span>
           <input type="password" class="form-control" placeholder="*******" aria-label="Повторить пароль"
-                 aria-describedby="login-addon"
-                 id="user-password-repiat" name="user-password-repiat">
+                 aria-describedby="login-addon" required
+                 id="user-password-repiat" [(ngModel)]="myRepeatPassword" #repeatPassword="ngModel" name="user-password-repiat">
+        </div>
+        <div>
+          <div [hidden]="repeatPassword.valid || repeatPassword.untouched" class="alert alert-danger">
+          Повторите пароль
+         </div>
+          <div *ngIf="myPassword !== myRepeatPassword && repeatPassword.valid && repeatPassword.dirty" class="alert alert-danger">
+            Пароли не совпадают
+          </div>
         </div>
       </div>
       <div class="mb-3">
@@ -54,7 +93,16 @@
           <input type="email" class="form-control" placeholder="name@example.com"
                  aria-label="Введите Почту"
                  aria-describedby="Email-addon"
-                 id="user-email" name="user-email">
+                 pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                 id="user-email" name="email" required [(ngModel)]="user.email" #email='ngModel'>
+        </div>
+        <div>
+          <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
+            Почта обязательна
+          </div>
+          <div *ngIf="email.errors?.['pattern']"  class="alert alert-danger">
+            Почта не валидна
+          </div>
         </div>
       </div>
       <div class="mb-3">
@@ -63,13 +111,22 @@
         </label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="avatar-addon"><i class="bi bi-person-bounding-box"></i></span>
-          <input type="file" aria-label="Выберете Аватар"
-                 aria-describedby="avatar-addon" class="form-control" id="user-avatar" name="user-avatar">
+          <input type="file" aria-label="Выберете Аватар" accept=".jpg, .jpeg, .png"
+                 aria-describedby="avatar-addon" class="form-control" id="user-avatar" name="avatar"
+                 (change)="handleFileInput($event)">
         </div>
+       <div *ngIf="fileError"  class="alert alert-danger">
+        {{fileError}}
+       </div>
       </div>
       <div class="row">
         <div class="container col col-3">
-          <button class="btn btn-success" type="submit">Регистрация</button>
+          <button class="btn btn-success"
+                  [disabled]="myForm.invalid|| (myPassword !== myRepeatPassword) ||
+                  Login.errors?.['minlength']||
+                 name.errors?.['minlength'] != null ||password.errors?.['pattern'] != null ||
+                 email.errors?.['pattern'] !=null ||  fileError != ''"
+                  type="submit">Регистрация</button>
         </div>
       </div>
     </form>

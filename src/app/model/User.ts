@@ -1,60 +1,69 @@
 export  class User{
-  get Avatar(): string |null {
+  get avatarPath(): string {
+    return this._AvatarPath;
+  }
+
+  set avatarPath(value: string) {
+    this._AvatarPath = value;
+  }
+  get name(): string | null {
+    return this._Name;
+  }
+
+  set name(value: string | null) {
+    this._Name = value;
+  }
+  get avatar(): File|null {
     return this._Avatar;
   }
 
-  set Avatar(value: string |null) {
+  set avatar(value: File|null) {
     this._Avatar = value;
   }
-  get UserRole(): string{
+  get userRole(): string{
     return this._UserRole;
   }
 
-  set UserRole(value: string) {
+  set userRole(value: string) {
     this._UserRole = value;
   }
-  get Salt(): string|null {
-    return this._Salt;
-  }
-
-  set Salt(value: string|null) {
-    this._Salt = value;
-  }
-  get Password(): string|null {
+  get passwordHash(): string {
     return this._Password;
   }
-
-  set Password(value: string |null) {
+  set passwordHash(value: string) {
     this._Password = value;
   }
-  get Email(): string|null {
+  get email(): string{
     return this._Email;
   }
-
-  set Email(value: string|null) {
+  set email(value: string) {
     this._Email = value;
   }
-  get Login(): string {
+  get login(): string {
     return this._Login;
   }
 
-  set Login(value: string) {
+  set login(value: string) {
     this._Login = value;
   }
-  get Id(): string {
-    return this.id;
+  get id(): string {
+    return this._id;
   }
 
-  set Id(value: string) {
-    this.id = value;
+  set id(value: string) {
+    this._id = value;
   }
 
-  private id:string;
+
+  private _id:string;
   private _Login:string;
-  private _Email:string|null;
-  private _Password:string | null;
-  private _Salt:string|null;
+  private _Email:string;
+  private _Password:string;
   private _UserRole:string;
-  private _Avatar:string|null;
+  private _Avatar:File|null;
+  private _AvatarPath :string;
+  private _Name:string|null;
+
+
 }
 

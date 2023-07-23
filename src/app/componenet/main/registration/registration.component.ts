@@ -1,5 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {User} from "../../../model/User";
+import {NgForm} from "@angular/forms";
+import {RegistrationServices} from "../../../Servises/DataService/User/RegistrationServisce";
+import {UserFormModel} from "../../../model/UserFormModel";
+
+
 
 
 @Component({
@@ -9,22 +14,43 @@ import {User} from "../../../model/User";
 })
 export class RegistrationComponent {
   @Input() user:User= new User();
-  @Input() errorMessage : string;
-  @Input() error: boolean = false;
+  @Input() myPassword: string;
+  @Input() myRepeatPassword:string;
+  @Input() serverValidationError : string;
+  @Input() fileError: string = '';
+  avatarFile: File| null = null;
+@ViewChild("myForm") form:ElementRef<NgForm>;
+   constructor(private regSer:RegistrationServices) {}
+  FromSubmit(myForm:NgForm){
+    const user: UserFormModel =  new UserFormModel();
+    user.login = myForm.value.Login;
+    user.password = myForm.value.password;
+    user.email = myForm.value.email;
+    user.name = myForm.value.name;
+    if(this.avatarFile !== null){
+        user.avatar = this.avatarFile
+     }
 
-  constructor() {
+   this.regSer.DataSend(user,this.avatarFile)
   }
-  // Authorization() {
-  //   this.error= false;
-  //   this.http.AuthUser(this.user).subscribe(
-  //     (data:User)=>{
-  //       console.log(data)
-  //       this.http.initUser(data);
-  //       this.router.navigateByUrl("")
-  //     },
-  //     error=>{
-  //       this.error = true;
-  //       this.errorMessage = error.error.detail;
-  //     })
-  // }
+  handleFileInput(event:any) {
+    const files : FileList= event.target.files;
+    this.avatarFile = <File>files[0];
+
+    if(this.avatarFile === null ) return;
+
+    const maxSize = 51200;
+    if (this.avatarFile.size > maxSize) {
+      this.fileError = 'Размер файла превышает максимальный предел (50 кб).';
+      //this.form.nativeElement.valid = false;
+      return;
+    }
+    const allowedExtensions = ['.jpg', '.jpeg', '.png'];
+    const fileExtension = this.avatarFile.name.toLowerCase().split('.').pop();
+    if (!allowedExtensions.includes(`.${fileExtension}`)) {
+      this.fileError = 'Недопустимое расширение файла. Загрузите файл в формате JPG, JPEG или PNG.';
+      return;
+    }
+    this.fileError = '';
+  }
 }

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg ">
   <div class="container-fluid myBagColor2 rounded m-1">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav col-6 mb-2 mb-lg-0 ">
         <li class="nav-item me-4">
           <div>
             <p class="text-center fs-4  fw-bolder">{{bookCount}}</p>
@@ -21,12 +21,20 @@
           </div>
         </li>
       </ul>
-      <div>
-        <i role="button" class=" bi bi-box-arrow-in-right mx-3 btn btn-outline-success"
-           data-bs-toggle="modal" data-bs-target="#authModal" title="Вход" (click)="callOpenModal()"></i>
-        <a class="btn btn-outline-success" routerLink="/registration" title="Регистрация"><i
+      <div *ngIf="sessionStorage.getItem('Login') == null; else authUser" class="col-6 justify-content-end text-end">
+        <i role="button" class="col-2 bi bi-box-arrow-in-right mx-3 btn btn-outline-success"
+           data-bs-toggle="modal" data-bs-target="#authModal"  title="Вход" (click)="callOpenModal()"></i>
+          <a class="btn btn-outline-success col-2" routerLink="/registration" title="Регистрация"><i
           class="bi bi-person-add"></i></a>
       </div>
+      <ng-template #authUser>
+        <div class="row align-items-center col-6 justify-content-end text-end">
+            <p class="col-3 fs-4 fw-bold">{{sessionStorage.getItem("Login")}}</p>
+            <img ngSrc='{{sessionStorage.getItem("Avatar")}}' class="avatar" width="5" height="5" priority/>
+            <app-my-button class="col-2" Text='Выход' btnColor="btn-outline-success" (btnClick)="Exit()"/>
+            <a class="btn btn-outline-primary col-2" routerLink="/editUser" title="Подробней">Подробней</a>
+        </div>
+      </ng-template>
     </div>
   </div>
 

@@ -1,0 +1,4 @@
+    Д.З. Обробити посилання на результати пошуку відео контенту за зразком
+    https://www.youtube.com/watch?v=_Q6sLICTixM  ---> 
+    https://www.youtube.com/embed/_Q6sLICTixM
+    Доробити шаблон відображення результату пошуку відео

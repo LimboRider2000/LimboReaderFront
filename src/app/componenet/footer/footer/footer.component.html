@@ -1,4 +1,9 @@
-<div class="fixed-bottom  bg-secondary  rounded-top">
-  <p class="m-2">Footer</p>
+<div class="fixed-bottom  bg-secondary  rounded-top ">
+  <div class="row justify-content-between m-3">
+    <p class="m-2 col-2" >Footer</p>
+    <a *ngIf="localStorage.getItem('UserRole') == 'Admin'" class="btn btn-primary col-3" routerLink="/adminPanel" >Админ Панель</a>
+  </div>
+
+
 </div>
 
