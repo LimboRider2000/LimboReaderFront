@@ -28,6 +28,7 @@ import { TagsComponent } from './componenet/main/admin-panel/tags/tags.component
 import { BooksComponent } from './componenet/main/admin-panel/books/books.component';
 import { AuthorsComponent } from './componenet/main/admin-panel/authors/authors.component';
 import {ChildNavbarComponent} from "./componenet/childNavbar/childNavbar.component";
+import {GenreServices} from "./Servises/DataService/GenreServices/GenreServices";
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -76,7 +77,8 @@ const appRoutes : Routes=[
     [ModalService,
     SingInService,
     RegistrationServices,
-    AvatarTransferServices
+    AvatarTransferServices,
+    GenreServices,
     ],
   bootstrap: [AppComponent]
 })

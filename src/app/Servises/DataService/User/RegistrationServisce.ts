@@ -23,8 +23,7 @@ export class RegistrationServices{
     if (file !== null) {
      return  this.fileServ.DataSend(file).pipe(
         map((path:any) => {
-        const pathStr = path.dbPath
-        body.avatar = pathStr
+        body.avatar = path.dbPath
         })).subscribe(pathStr =>
          this.http.post(this.urlServer, body).subscribe( (data:any) =>{
              if(data.success === true){

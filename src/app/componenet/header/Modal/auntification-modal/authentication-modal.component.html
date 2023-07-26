@@ -22,7 +22,7 @@
         <div class="modal-footer">
           <div [ngClass]="{ 'alert alert-success text-success': isAuntSuccess, 'alert alert-danger text-danger' : !isAuntSuccess }" style="display: none" id="error-message">{{errorMessage}}</div>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрить</button>
-          <button type="button" class="btn btn-primary" [disabled]="isSendDesable"  id="auth-button" (click)="AuthButtonClick()">Вход</button>
+          <button type="button" class="btn btn-primary" [disabled]="isSendDisable" id="auth-button" (click)="AuthButtonClick()">Вход</button>
         </div>
       </div>
 </ng-template>

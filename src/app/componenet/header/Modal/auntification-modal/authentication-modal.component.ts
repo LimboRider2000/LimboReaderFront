@@ -15,12 +15,12 @@ export class AuthenticationModalComponent implements OnInit {
   Password:string ="";
   errorMessage : string;
   isAuntSuccess :boolean;
-  isSendDesable: boolean = false;
+  isSendDisable: boolean = false;
 
-  @ViewChild("mymodal") mymodal:ElementRef
+  @ViewChild("mymodal") myModal:ElementRef
   constructor(private modalService: NgbModal, private myModalService:ModalService, private signInService:SingInService) {}
   ngOnInit(): void {
-        this.myModalService.openModal$.subscribe(()=>{this.open(this.mymodal)})
+        this.myModalService.openModal$.subscribe(()=>{this.open(this.myModal)})
     }
   open(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -41,7 +41,7 @@ export class AuthenticationModalComponent implements OnInit {
 
   AuthButtonClick()
   {
-    this.isSendDesable = true;
+    this.isSendDisable = true;
     this.Login =  this.Login.trim();
     this.Password = this.Password.trim();
 
@@ -66,20 +66,20 @@ export class AuthenticationModalComponent implements OnInit {
           this.MessageHide(errorMessageHTML,3000)
           this.WriteToStorage(data.currUser);
           this.modalService.dismissAll()
-          this.isSendDesable =false;
+          this.isSendDisable =false;
         }else {
           this.isAuntSuccess = true;
           this.isAuntSuccess = false;
           errorMessageHTML.style.display = "block"
           this.errorMessage = "Неправильный логин или пароль"
           this.MessageHide(errorMessageHTML,3000)
-          this.isSendDesable =false;
+          this.isSendDisable =false;
         }},
       (error: any) =>{
         this.errorMessage = error.message
         errorMessageHTML.style.display = "block"
         this.MessageHide(errorMessageHTML,3000)
-        this.isSendDesable =false;
+        this.isSendDisable =false;
       })}
   ErrorMessageShow(errorText:string) {
     const errorMessageHTML = document.getElementById("error-message");
