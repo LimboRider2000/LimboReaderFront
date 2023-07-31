@@ -1,4 +1,4 @@
-<ng-template #mymodal let-modal>
+<ng-template #myModal let-modal>
       <div class="modal-content bg-light text-black" id="authModal">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-center" id="authModalLabel">Аутентификация</h1>
@@ -18,7 +18,6 @@
           </div>
 
         </div>
-<!--        col col-6 alert text-success fs-6 me-5 text-center-->
         <div class="modal-footer">
           <div [ngClass]="{ 'alert alert-success text-success': isAuntSuccess, 'alert alert-danger text-danger' : !isAuntSuccess }" style="display: none" id="error-message">{{errorMessage}}</div>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрить</button>

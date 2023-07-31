@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalService} from "../../../Servises/Modal/Modalservice";
+import {ModalService} from "../../allPopUp/Modal/Modalservice";
 import {User} from "../../../model/User";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-headerTop',
@@ -8,7 +9,7 @@ import {User} from "../../../model/User";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit{
-  constructor(private modalService: ModalService) { }
+  constructor(private modalService: ModalService,private routh:Router) { }
   ngOnInit() {
 
     if(localStorage.getItem("Login")!= null){
@@ -36,6 +37,7 @@ export class HeaderComponent implements OnInit{
   Exit(){
     sessionStorage.clear();
     localStorage.clear();
+    this.routh.navigateByUrl("")
   }
   protected readonly sessionStorage = sessionStorage;
 }

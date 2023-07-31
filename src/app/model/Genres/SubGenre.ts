@@ -9,14 +9,14 @@ export class SubGenre {
     this._id = value;
   }
 
-  get sub_genre_name(): string {
-    return this._sub_genre_name;
+  get subGenreName(): string {
+    return this._subGenreName;
   }
 
-  set sub_genre_name(value: string) {
-    this._sub_genre_name = value;
+  set subGenreName(value: string) {
+    this._subGenreName = value;
   }
  private _id:string;
- private _sub_genre_name:string;
+ private _subGenreName:string;
 
 }

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{inputData.title}}</h1>
+<div mat-dialog-content>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1"><i class="bi bi-pen-fill"></i></span>
+      <input type="text" class="form-control" [(ngModel)]="this.inputString" aria-describedby="basic-addon1" value="{{inputData.selectedGenre}}" >
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="accent" mat-dialog-close>Закрыть</button>
+    <button mat-raised-button color="primary" (click)="editData()">Изменить</button>
+</div>

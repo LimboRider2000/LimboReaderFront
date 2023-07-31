@@ -11,7 +11,7 @@
       <div class="form-outline me-3" style="width: 14rem">
         <input type="text" [disabled]="!isGenreSelected" [(ngModel)]="subGenre" class="form-control" placeholder="Введите поджанр" autocomplete="off">
       </div>
-      <button class="btn btn-success ms-1" [disabled]="!isGenreSelected">Добавить</button>
+      <button class="btn btn-success ms-1" (click)="addSubGenre()" [disabled]="!isGenreSelected">Добавить</button>
         </div>
   </div>
 
@@ -22,18 +22,19 @@
         <div class="container col-5 text-center">
           <label for="Genre" class="fs-5"> Жанры </label>
           <select id="Genre" class="form-select col-10"  (change)="SelectGenre($event)" multiple aria-label="multiple select example">
-              <option *ngFor="let item of genreSelectList" value="{{item.id}}}">{{item.genreName}} </option>
+              <option (dblclick)="changeGenre($event)" *ngFor="let item of genreSelectList" value="{{item.id}}">{{item.genreName}} </option>
           </select>
         </div>
         <div class="container col-5 text-center ">
-          <label for="subGenre" class="fs-5" >Поджанр </label>
-          <select id="subGenre" class="form-select col-10"  multiple aria-label="multiple select example">
+          <label for="subGenre" class="fs-5">Поджанр </label>
+          <select id="subGenre"  class="form-select col-10" (change)="SelectSubGenre($event)" multiple aria-label="multiple select example">
+            <option (dblclick)="changeSubGenre($event)" *ngFor="let item of subGenreSelectList" value="{{item.id}}" >{{item.subGenreName}}</option>
           </select>
         </div>
     </div>
   </div>
   <div class="container text-center">
-  <button class="btn btn-danger mt-3 " [disabled]="(!isGenreSelected || !isSubGenreSelected)">Удалить</button>
+  <button class="btn btn-danger mt-3 " (click)="deleteGenreOrSubGenre()" [disabled]="!(isGenreSelected || isSubGenreSelected)">Удалить</button>
   </div>
   <div>{{message}}</div>
 </div>

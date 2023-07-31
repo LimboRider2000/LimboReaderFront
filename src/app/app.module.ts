@@ -14,7 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { IndexComponent } from './componenet/main/index/index.component';
 import {NgOptimizedImage} from "@angular/common";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {ModalService} from "./Servises/Modal/Modalservice";
+import {ModalService} from "./componenet/allPopUp/Modal/Modalservice";
 import { AuthenticationModalComponent } from './componenet/header/Modal/auntification-modal/authentication-modal.component';
 import {SingInService} from "./Servises/DataService/User/sin-in-srvice.service";
 import { MyButtonComponent } from './componenet/my-button/my-button.component';
@@ -29,6 +29,13 @@ import { BooksComponent } from './componenet/main/admin-panel/books/books.compon
 import { AuthorsComponent } from './componenet/main/admin-panel/authors/authors.component';
 import {ChildNavbarComponent} from "./componenet/childNavbar/childNavbar.component";
 import {GenreServices} from "./Servises/DataService/GenreServices/GenreServices";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MaterialModule} from "../MaterialModule";
+import { PopupComponent } from './componenet/allPopUp/popup/popup.component';
+import { ConfirmPopupComponent } from './componenet/allPopUp/comform-popup/confirm-popup.component';
+import { ConfirmPageComponent } from './componenet/main/registration/confirm-page/confirm-page.component';
+import {CodeInputComponent} from "angular-code-input";
+
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -44,8 +51,10 @@ const adminAPanelRoutes: Routes=[
 const appRoutes : Routes=[
   {path:"",component:IndexComponent},
   {path:"registration",component:RegistrationComponent},
+  {path:"confirmPAge",component:ConfirmPageComponent},
   {path:"editUser",component:UserEditComponent},
   {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes}
+
 
 
 ]
@@ -69,9 +78,21 @@ const appRoutes : Routes=[
     TagsComponent,
     BooksComponent,
     AuthorsComponent,
+    PopupComponent,
+    ConfirmPopupComponent,
+    ConfirmPageComponent,
+    CodeInputComponent
   ],
   imports: [
-    BrowserModule, RouterModule.forRoot(appRoutes), FormsModule, HttpClientModule, NgOptimizedImage, NgbModule,
+    BrowserModule,
+    RouterModule.forRoot(appRoutes),
+    FormsModule,
+    HttpClientModule,
+    NgOptimizedImage,
+    NgbModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+
   ],
   providers:
     [ModalService,

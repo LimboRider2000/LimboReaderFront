@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ModalService} from "../../../../Servises/Modal/Modalservice";
+import {ModalService} from "../../../allPopUp/Modal/Modalservice";
 import {SingInService} from "../../../../Servises/DataService/User/sin-in-srvice.service";
 import {User} from "../../../../model/User";
 
@@ -17,7 +17,7 @@ export class AuthenticationModalComponent implements OnInit {
   isAuntSuccess :boolean;
   isSendDisable: boolean = false;
 
-  @ViewChild("mymodal") myModal:ElementRef
+  @ViewChild("myModal") myModal:ElementRef
   constructor(private modalService: NgbModal, private myModalService:ModalService, private signInService:SingInService) {}
   ngOnInit(): void {
         this.myModalService.openModal$.subscribe(()=>{this.open(this.myModal)})

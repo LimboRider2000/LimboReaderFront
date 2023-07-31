@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 @import url("../node_modules/bootstrap-icons/font/bootstrap-icons.css");
+@import url('../node_modules/@angular/material/prebuilt-themes/indigo-pink.css');
 html, body,p{
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  
 }
 html, body{
   height: 100%;
@@ -24,3 +26,6 @@ body{
 .myBagColor4{
   background-color: #E7D2CC;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

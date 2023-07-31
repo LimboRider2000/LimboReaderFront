@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{inputData.title}}</h1>
+<div mat-dialog-content>
+    <span class="input-group-text fs-3 text-wrap" id="basic-addon1">
+           {{inputData.message}}</span>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="accent" mat-dialog-close>Отмена</button>
+  <button mat-raised-button color="primary" (click)="deleteData()">Удалить</button>
+</div>
