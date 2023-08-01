@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalService} from "../../allPopUp/Modal/Modalservice";
-import {User} from "../../../model/User";
+import {ModalService} from "../../Servises/ModalService/Modalservice";
+import {User} from "../../model/User";
 import {Router} from "@angular/router";
 
 @Component({

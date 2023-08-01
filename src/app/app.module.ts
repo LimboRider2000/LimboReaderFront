@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './componenet/header/headerTop/header.component';
+import { HeaderComponent } from './componenet/header/header.component';
 import { HeaderBottomComponent } from './componenet/main/header-bottom/header-bottom.component';
 import { NavbarComponent } from './componenet/main/MainNavbar/navbar.component';
 import { MainComponent } from './componenet/main/main.component';
@@ -14,8 +14,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { IndexComponent } from './componenet/main/index/index.component';
 import {NgOptimizedImage} from "@angular/common";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {ModalService} from "./componenet/allPopUp/Modal/Modalservice";
-import { AuthenticationModalComponent } from './componenet/header/Modal/auntification-modal/authentication-modal.component';
+import {ModalService} from "./Servises/ModalService/Modalservice";
+import { AuthenticationModalComponent } from './componenet/allPopUp/auntification-modal/authentication-modal.component';
 import {SingInService} from "./Servises/DataService/User/sin-in-srvice.service";
 import { MyButtonComponent } from './componenet/my-button/my-button.component';
 import { AdminPanelComponent } from './componenet/main/admin-panel/admin-panel.component';
@@ -33,8 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "../MaterialModule";
 import { PopupComponent } from './componenet/allPopUp/popup/popup.component';
 import { ConfirmPopupComponent } from './componenet/allPopUp/comform-popup/confirm-popup.component';
-import { ConfirmPageComponent } from './componenet/main/registration/confirm-page/confirm-page.component';
-import {CodeInputComponent} from "angular-code-input";
+import { MyConfirmPageComponent } from './componenet/main/registration/confirm-page/my-confirm-page.component';
+import {CodeInputModule} from "angular-code-input";
+import {RedirectService} from "./Servises/RedirectService/redirectService";
 
 
 const adminAPanelRoutes: Routes=[
@@ -51,7 +52,7 @@ const adminAPanelRoutes: Routes=[
 const appRoutes : Routes=[
   {path:"",component:IndexComponent},
   {path:"registration",component:RegistrationComponent},
-  {path:"confirmPAge",component:ConfirmPageComponent},
+  {path:"confirmCode",component:MyConfirmPageComponent},
   {path:"editUser",component:UserEditComponent},
   {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes}
 
@@ -80,8 +81,8 @@ const appRoutes : Routes=[
     AuthorsComponent,
     PopupComponent,
     ConfirmPopupComponent,
-    ConfirmPageComponent,
-    CodeInputComponent
+    MyConfirmPageComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -92,7 +93,7 @@ const appRoutes : Routes=[
     NgbModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    CodeInputModule
   ],
   providers:
     [ModalService,
@@ -100,6 +101,7 @@ const appRoutes : Routes=[
     RegistrationServices,
     AvatarTransferServices,
     GenreServices,
+    RedirectService
     ],
   bootstrap: [AppComponent]
 })

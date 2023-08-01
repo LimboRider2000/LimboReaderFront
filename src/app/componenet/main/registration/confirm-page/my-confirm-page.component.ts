@@ -1,26 +1,30 @@
 import {Component, Input} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {RegistrationServices} from "../../../../Servises/DataService/User/RegistrationServisce";
+import {Router} from "@angular/router";
+import {RedirectService} from "../../../../Servises/RedirectService/redirectService";
 
 @Component({
   selector: 'app-confirm-page',
-  templateUrl: './confirm-page.component.html',
-  styleUrls: ['./confirm-page.component.css']
+  templateUrl: './my-confirm-page.component.html',
+  styleUrls: ['./my-confirm-page.component.css']
 })
-export class ConfirmPageComponent {
-  constructor(private registrationService:RegistrationServices) {
-}
-@Input()message:string;
+export class MyConfirmPageComponent {
+  constructor(private registrationService:RegistrationServices,private redirectService: RedirectService) {}
+@Input()message:string = "";
 @Input()isSuccess:boolean;
   onCodeCompleted(code: string) {
-   const id = sessionStorage.getItem("idRegisteredUser")
 
+   let id = sessionStorage.getItem("idRegisteredUser")
+    //sessionStorage.removeItem("idRegisteredUser");
+   id = "c496f979-9f3b-489a-b4e8-001b717b5145"
     if(id !== null) {
       this.registrationService.CodeCheck(code,id).subscribe(
         (data:any)=>{
           if(data.success){
             this.isSuccess = true;
             this.message = "Верификация прошла успешно пожалуйста авторизуйтесь на сайте"
+            this.redirectService.redirectToPageAfterDelay(5,"")
           }else{
             this.isSuccess = false;
             this.message = data.message

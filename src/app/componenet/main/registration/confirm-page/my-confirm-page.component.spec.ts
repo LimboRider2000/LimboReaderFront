@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmPageComponent } from './confirm-page.component';
+import { MyConfirmPageComponent } from './my-confirm-page.component';
 
 describe('ConfirmPageComponent', () => {
-  let component: ConfirmPageComponent;
-  let fixture: ComponentFixture<ConfirmPageComponent>;
+  let component: MyConfirmPageComponent;
+  let fixture: ComponentFixture<MyConfirmPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfirmPageComponent ]
+      declarations: [ MyConfirmPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ConfirmPageComponent);
+    fixture = TestBed.createComponent(MyConfirmPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

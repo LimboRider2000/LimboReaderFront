@@ -19,8 +19,9 @@
 
         </div>
         <div class="modal-footer">
-          <div [ngClass]="{ 'alert alert-success text-success': isAuntSuccess, 'alert alert-danger text-danger' : !isAuntSuccess }" style="display: none" id="error-message">{{errorMessage}}</div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрить</button>
+          <div class="alert"  [ngClass]=" isAuntSuccess? 'alert-success text-success':'alert alert-danger text-danger' "
+               style="display: none" id="error-message">{{errorMessage}}</div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрыть</button>
           <button type="button" class="btn btn-primary" [disabled]="isSendDisable" id="auth-button" (click)="AuthButtonClick()">Вход</button>
         </div>
       </div>

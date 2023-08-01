@@ -1,7 +1,9 @@
 <h1 class="text-wrap text-center ">На вашу почту был отправлен код подтверждения. Пожалуйста подтвердите почту</h1>
+<div class="container col-4">
 <code-input
             [codeLength]="7"
             (codeCompleted)="onCodeCompleted($event)">
 </code-input>
-<div class="alert fs-4 fw-bold text-center text-wrap" [ngClass]="!isSuccess ? 'alert-danger': 'alert-success'">{{message}}</div>
+</div>
+<div *ngIf=" message !== ''" class="alert fs-4 fw-bold text-center text-wrap" [ngClass]="!isSuccess ? 'alert-danger': 'alert-success'">{{message}}</div>
 

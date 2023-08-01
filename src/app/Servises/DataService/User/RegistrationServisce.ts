@@ -29,7 +29,7 @@ export class RegistrationServices{
          this.http.post(this.urlServer, body).subscribe( (data:any) =>{
              if(data.success === true){
                sessionStorage.setItem("idRegisteredUser",data.id)
-               this.rout.navigateByUrl("/confirmPAge")
+               this.rout.navigateByUrl("/confirmCode")
              }else {console.log("registration fall")}
            },
            (error)=>{console.log("registration error "+ error)})
@@ -37,7 +37,7 @@ export class RegistrationServices{
     }else  return  this.http.post(this.urlServer, body).subscribe( (data:any) =>{
         if(data.success === true){
           sessionStorage.setItem("idRegisteredUser",data.id)
-          this.rout.navigateByUrl("/confirmPage")
+          this.rout.navigateByUrl("/confirmCode")
         }else {console.log("registration fall")}
       },
       (error)=>{console.log("registration error "+ error)})

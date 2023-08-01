@@ -1,8 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ModalService} from "../../../allPopUp/Modal/Modalservice";
-import {SingInService} from "../../../../Servises/DataService/User/sin-in-srvice.service";
-import {User} from "../../../../model/User";
+import {ModalService} from "../../../Servises/ModalService/Modalservice";
+import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.service";
+import {User} from "../../../model/User";
+import {RegistrationServices} from "../../../Servises/DataService/User/RegistrationServisce";
+import {RedirectService} from "../../../Servises/RedirectService/redirectService";
 
 @Component({
   selector: 'app-auth-modal',
@@ -13,12 +15,14 @@ export class AuthenticationModalComponent implements OnInit {
   closeResult: string;
   Login:string = "";
   Password:string ="";
-  errorMessage : string;
+  errorMessage : string = "";
   isAuntSuccess :boolean;
   isSendDisable: boolean = false;
 
   @ViewChild("myModal") myModal:ElementRef
-  constructor(private modalService: NgbModal, private myModalService:ModalService, private signInService:SingInService) {}
+  constructor(private modalService: NgbModal, private myModalService:ModalService,
+              private signInService:SingInService,private registrationService:RegistrationServices,
+              private redirectService: RedirectService) {}
   ngOnInit(): void {
         this.myModalService.openModal$.subscribe(()=>{this.open(this.myModal)})
     }
@@ -59,7 +63,7 @@ export class AuthenticationModalComponent implements OnInit {
     this.signInService.SingInDataTooServer(this.Login, this.Password).subscribe(
       (data: any) =>{
 
-        if(data.success === true ){
+        if(data.success){
           this.isAuntSuccess = true;
           errorMessageHTML.style.display = "block"
           this.errorMessage = "Успешно"
@@ -68,9 +72,19 @@ export class AuthenticationModalComponent implements OnInit {
           this.modalService.dismissAll()
           this.isSendDisable =false;
         }else {
+          if(data.notVerifi){
+            sessionStorage.setItem("idRegisteredUser", data.id)
+            this.redirectService.redirectToPageAfterDelay(2,"/confirmCode")
+
+            return
+          }
+
           this.isAuntSuccess = true;
           this.isAuntSuccess = false;
           errorMessageHTML.style.display = "block"
+          if(data.notActive){
+            this.errorMessage = "Ваш аккаунт не активный обратитесь к администрации сайта limboreader@gmail.com"
+          }
           this.errorMessage = "Неправильный логин или пароль"
           this.MessageHide(errorMessageHTML,3000)
           this.isSendDisable =false;
