@@ -22,7 +22,7 @@
         <div class="container col-5 text-center">
           <label for="Genre" class="fs-5"> Жанры </label>
           <select id="Genre" class="form-select col-10"  (change)="SelectGenre($event)" multiple aria-label="multiple select example">
-              <option (dblclick)="changeGenre($event)" *ngFor="let item of genreSelectList" value="{{item.id}}">{{item.genreName}} </option>
+              <option (dblclick)="changeGenre($event)" *ngFor="let item of collectionGenreSubGenre" value="{{item.genre.id}}">{{item.genre.genreName}} </option>
           </select>
         </div>
         <div class="container col-5 text-center ">

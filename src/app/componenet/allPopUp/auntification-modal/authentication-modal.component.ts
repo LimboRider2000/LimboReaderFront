@@ -75,7 +75,6 @@ export class AuthenticationModalComponent implements OnInit {
           if(data.notVerifi){
             sessionStorage.setItem("idRegisteredUser", data.id)
             this.redirectService.redirectToPageAfterDelay(2,"/confirmCode")
-
             return
           }
 

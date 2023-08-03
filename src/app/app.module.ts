@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './componenet/header/header.component';
-import { HeaderBottomComponent } from './componenet/main/header-bottom/header-bottom.component';
-import { NavbarComponent } from './componenet/main/MainNavbar/navbar.component';
+import { GlobalSearch } from './componenet/main/global-search/global-search.component';
+import { SidebarComponent } from './componenet/main/sidebar/sidebar.component';
 import { MainComponent } from './componenet/main/main.component';
 import { FooterComponent } from './componenet/footer/footer/footer.component';
 import {RouterModule, Routes} from "@angular/router";
@@ -36,7 +36,7 @@ import { ConfirmPopupComponent } from './componenet/allPopUp/comform-popup/confi
 import { MyConfirmPageComponent } from './componenet/main/registration/confirm-page/my-confirm-page.component';
 import {CodeInputModule} from "angular-code-input";
 import {RedirectService} from "./Servises/RedirectService/redirectService";
-
+import {GenreSubGenreCollectionService} from "./Servises/DataService/GenreServices/GenreSubGenreCollectionService";
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -63,8 +63,8 @@ const appRoutes : Routes=[
   declarations: [
     AppComponent,
     HeaderComponent,
-    HeaderBottomComponent,
-    NavbarComponent,
+    GlobalSearch,
+    SidebarComponent,
     ChildNavbarComponent,
     MainComponent,
     FooterComponent,
@@ -93,7 +93,8 @@ const appRoutes : Routes=[
     NgbModule,
     BrowserAnimationsModule,
     MaterialModule,
-    CodeInputModule
+    CodeInputModule,
+    NgbModule
   ],
   providers:
     [ModalService,
@@ -101,7 +102,8 @@ const appRoutes : Routes=[
     RegistrationServices,
     AvatarTransferServices,
     GenreServices,
-    RedirectService
+    RedirectService,
+    GenreSubGenreCollectionService
     ],
   bootstrap: [AppComponent]
 })

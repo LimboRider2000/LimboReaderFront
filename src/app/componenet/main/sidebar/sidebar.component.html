@@ -1,0 +1,27 @@
+
+<div id="sidebar" class="myBagColor2 pb-4 " >
+ <div class="Logo mt-3 text-center" >
+   <div >
+   <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+      class="nav-link active" aria-current="page" routerLink="">
+     <img src="../../../../assets/img/upscale_3.png" alt="Logo" />
+   </a>
+   </div>
+ </div>
+  <hr>
+<div class="bg-primary rounded text-center m-3">
+  <p>Выборка по жанрам: </p>
+</div>
+<div class="container col-12">
+  <div class="dropdown dropend" *ngFor="let genre of genreSubGenreCollection">
+    <button class="btn btn-secondary dropdown-toggle col-12 mb-1"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      {{genre.genre.genreName}}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark">
+      <li  *ngFor="let subGenre of genre.subGenreCollection"><a class="dropdown-item" href="#">{{subGenre.subGenreName}}</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+

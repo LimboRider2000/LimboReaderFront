@@ -3,16 +3,19 @@ import {serverAddress} from "../ServerAddress";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, Subscription} from "rxjs";
 
+
 @Injectable()
 export class GenreServices {
+
   urlServer:string = serverAddress + "api/Genre";
   constructor(private http: HttpClient) { }
- postGenre(genreName:string):Observable<Object>{
-    return  this.http.get(this.urlServer +"?genreName="+ genreName).pipe()
+ addGenre(genreName:string):Observable<Object>{
+    return  this.http.get(this.urlServer +"?genreName="+ genreName)
   }
   getInitialDate():Observable<object>{
     return this.http.get(this.urlServer+"/GetAll");
   }
+
   postSubGenre(genre_id:string, subgenreName:string):Observable<object>{
      return this.http.get(this.urlServer+"/addSubGenre"+"/?genre_id="+genre_id+"&subGenreName="+subgenreName)
   }
@@ -38,4 +41,5 @@ export class GenreServices {
   deleteSubGenre(id: string) {
     return  this.http.delete(this.urlServer+"/DeleteSubGenre" +"/?id="+id)
   }
+
 }
