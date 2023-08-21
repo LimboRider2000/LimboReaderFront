@@ -1,5 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {of, Subscription, switchMap} from "rxjs";
 import {BookPostService} from "../../../../Servises/DataService/Book-post/book-post.service";
 import {Book} from "../../../../model/Book/Book";
@@ -8,46 +8,70 @@ import {FormatDataStringService} from "../../../../Servises/format-data-string.s
 import {FileBookDownloadServiceService} from "../../../../Servises/FileService/file-book-download-service.service";
 import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../../allPopUp/info-pop-up/info-pop-up.component";
-
+import {Comment} from "../../../../model/Comment"
+import {CommentService} from "../../../../Servises/DataService/comment.service";
 @Component({
   selector: 'app-detail-info',
   templateUrl: './detail-info.component.html',
   styleUrls: ['./detail-info.component.css']
 })
-export class DetailInfoComponent implements OnInit{
+export class DetailInfoComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.subscription = this.activateRouter.params.pipe(
       switchMap(param=>
       {this.id = param['id']
         const dataSessionSt = sessionStorage.getItem('currentBook')
-        if(dataSessionSt){
+        if(dataSessionSt != null && dataSessionSt !== "undefined"){
           const bookInStorage:Book = JSON.parse(dataSessionSt)
           if(bookInStorage.id == this.id){
             this.currentBook = bookInStorage
-          return of(null)
+            this.intiComment();
+            return of(null)
           }else
             return this.bookService.getBuId(this.id!)
-        }return of(null)
+        }
+        return this.bookService.getBuId(this.id!)
       })
     ).subscribe(
             (data:any)=>{
-              if(data)
+              if(data){
                 this.currentBook = data
                 sessionStorage.setItem("currentBook",JSON.stringify(this.currentBook))
-            },
+                this.intiComment();
+                }
+             },
             (error)=> {
               this.showErrorMessage(error)
             })
   }
-  id?: string
-  private subscription: Subscription
   public currentBook: Book;
-  public dateService : FormatDataStringService = inject(FormatDataStringService);
-  private activateRouter = inject(ActivatedRoute)
-  private bookService = inject(BookPostService)
-  private downloadService = inject(FileBookDownloadServiceService)
+  public commentCollection:Comment[];
+
+  public readonly dateService : FormatDataStringService = inject(FormatDataStringService);
+
+  private readonly activateRouter = inject(ActivatedRoute)
+  private readonly bookService = inject(BookPostService)
+  private readonly fileCheck = inject(FileBookDownloadServiceService)
+  private readonly downloadService = inject(FileBookDownloadServiceService)
+  private readonly commentService = inject(CommentService);
+  private readonly route = inject(Router)
+  private readonly dialog = inject(MatDialog)
+
+  private id?: string
+  private subscription: Subscription
+
   protected readonly serverAddress = serverAddress;
-  private dioalog = inject(MatDialog)
+
+
+intiComment(){
+  this.commentService.initCommentCollection(this.currentBook.id)
+  this.commentService.getCollectionAsObserver().subscribe(
+    (data)=>{
+      this.commentCollection = data;
+
+    }
+  )
+}
   download(id: string,extension:string) {
     this.downloadService.downloadBookFile(id,extension).subscribe(
       (response:any)=>{
@@ -62,7 +86,6 @@ export class DetailInfoComponent implements OnInit{
           a.click()
         }
       },error =>{
-
         this.showErrorMessage(error)
       }
     )
@@ -71,20 +94,48 @@ export class DetailInfoComponent implements OnInit{
     const reader = new FileReader();
     reader.onload = () => {
       const dataAsString = reader.result as string;
-      this.dioalog.open(InfoPopUpComponent, {
-        width: "auto",
-        enterAnimationDuration: 100,
-        exitAnimationDuration: 300,
-        data: {
-          title: "Сообщение",
-          message: dataAsString,
-          isSuccess : false
-        }
-      });
+      this.openDialog(dataAsString)
     };
     reader.readAsText(data.error)
   }
+ private openDialog(dataAsString:string){
+    this.dialog.open(InfoPopUpComponent, {
+    width: "auto",
+    enterAnimationDuration: 100,
+    exitAnimationDuration: 300,
+    data: {
+      title: "Сообщение",
+      message: dataAsString,
+      isSuccess : false
+    }
+  });
 
+  }
+  checkExitBook() {
+    this.fileCheck.checkFileExist(this.currentBook.filePath).subscribe(
+      (data)=>{
+        if (data){
+          this.route.navigateByUrl("/reader",
+            {state:
+                {path: this.currentBook.filePath,
+                  title: this.currentBook.title,
+                  author: this.currentBook.author,
+                  id: this.currentBook.id
+                }
+            })
+        }
+
+          },error => this.openDialog(error.error)
+    )
+  }
+
+  @HostListener("window:beforeunload", ["$event"])
+    reinit(){
+
+   }
+  ngOnDestroy(): void {
+    this.commentService.Destroy();
+  }
 }
 
 //085a6fef-5195-4fd2-aba2-aecf04e400e4

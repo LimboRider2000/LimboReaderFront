@@ -13,4 +13,7 @@ export class FileBookDownloadServiceService {
   downloadBookFile(id: string,extension:string) {
    return  this.http.get(this.serverUrl+"/?book_id="+id+"&extension="+extension,{observe:"response",responseType:"blob"})
   }
+  checkFileExist(filePath:string){
+      return this.http.get(this.serverUrl+"/ExistFile/?path="+filePath)
+  }
 }

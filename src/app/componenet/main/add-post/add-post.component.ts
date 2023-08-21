@@ -16,7 +16,7 @@ import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.compone
 export class AddPostComponent implements OnInit {
   failValidationService = inject(FileValidationService)
 
-  @ViewChild("avatarUpload") avatarUpload: ElementRef
+  @ViewChild("titleBook") titleBook: ElementRef
   @ViewChild("bookUpload") bookUpload: ElementRef
 
   title: string;
@@ -28,6 +28,7 @@ export class AddPostComponent implements OnInit {
   private dialog = inject(MatDialog)
   GenreAndSubGenreCollection: GenreSubgenreItem[];
   subGenreSelectList: SubGenre[];
+
 
   ngOnInit(): void {
     this.genreSubgenreService.getGenreCollectionObservable().subscribe(
@@ -45,7 +46,7 @@ export class AddPostComponent implements OnInit {
         authorLastName:[""],
         authorName:[""],
         extensionTitleImg: [""],
-        tittle: ["", [Validators.required]],
+        tittle: ["", [Validators.required],],
         description: ["", [Validators.required]],
         genre: [null, [Validators.required]],
         subGenre: [null, [Validators.required]],
@@ -72,7 +73,7 @@ export class AddPostComponent implements OnInit {
     reader.readAsDataURL(file)
   }
 
-  submit() {
+  submit($event:Event) {
     let  userid = sessionStorage.getItem("Id");
     if(userid === null){
       userid = localStorage.getItem("Id");
@@ -88,6 +89,7 @@ export class AddPostComponent implements OnInit {
       let value :any= null;
       if(key!== "bookFileList"){
            value = this.addNewPostForm.get(key)?.value
+          value = value.trim()  as String
       }else{
         const fileArr = this.addNewPostForm.get(key) as FormArray;
         fileArr.controls.forEach((fileArr)=>{
@@ -101,6 +103,7 @@ export class AddPostComponent implements OnInit {
      this.bookService.newPostAdd(formData).subscribe(
        (data: any) => {
          this.bookService.addToCollection(data)
+         this.formReset($event)
          this.dialog.open(InfoPopUpComponent, {
            width: "auto",
            enterAnimationDuration: 100,
@@ -143,10 +146,20 @@ export class AddPostComponent implements OnInit {
     }
   }
 
-  formReset() {
-    this.avatarUpload.nativeElement.value = null;
-    this.bookUpload.nativeElement.value = null
-    this.addNewPostForm.reset();
+  formReset($event: Event) {
+    $event.preventDefault()
+    this.titleBook.nativeElement.value =null;
+    this.bookUpload.nativeElement.value = null;
+    this.previewTittleImg = null;
+    this.addNewPostForm.reset(
+      {authorLastName: [""],
+        authorName:[""],
+        extensionTitleImg:[""],
+        tittle:[""],
+        description:[""],
+        bookFileList:this.fb.array([]),
+        titleImgFile:[null],
+        userId:[""]});
   }
 
   SelectGenre($event: Event) {

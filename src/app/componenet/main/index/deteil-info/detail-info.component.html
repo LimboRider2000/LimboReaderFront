@@ -1,4 +1,4 @@
-<div *ngIf="currentBook"  class="container col-12 content">
+<div *ngIf="currentBook"  class="container mb-5 col-12 pb-3 content">
  <div class="row">
    <div class="image col-3">
      <img  [src]=" currentBook.titleImgPath != null ?serverAddress + currentBook.titleImgPath:'./assets/img/No-Cover-Image-01.webp'" alt="{{currentBook.title}}">
@@ -19,7 +19,7 @@
        <button class="btn btn-primary ms-1 me-1" (click)="download(currentBook.id,'fb2')">fb2</button>
        </div>
        <div class="col-6 pt-3">
-          <button class="btn btn-warning h-100">Читать онлайн</button>
+          <button class="btn btn-warning h-100" (click)="checkExitBook()">Читать онлайн</button>
        </div>
      </div>
    </div>
@@ -28,4 +28,9 @@
     <p class="col-6 text-center"><span class="fst-italic fw-bold">Добавлено пользователем: </span>{{currentBook.user_name}}</p>
     <p class="col-6 text-end"><span class="fst-italic fw-bold">Дата добавления: </span>{{dateService.formatData(currentBook.createdDate)}}</p>
 </div>
+  <app-comment-form [bookId]="currentBook.id"/>
 </div>
+  <div *ngFor="let comment of commentCollection" >
+    <app-comment-item [comment]="comment" class="container"/>
+</div>
+

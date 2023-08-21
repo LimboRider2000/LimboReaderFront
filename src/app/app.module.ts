@@ -46,6 +46,11 @@ import {FormatDataStringService} from "./Servises/format-data-string.service";
 import { DetailInfoComponent } from './componenet/main/index/deteil-info/detail-info.component';
 import {FileBookDownloadServiceService} from "./Servises/FileService/file-book-download-service.service";
 import { InfoPopUpComponent } from './componenet/allPopUp/info-pop-up/info-pop-up.component';
+import { PdfViewerModule} from "ng2-pdf-viewer";
+import { OnlineReaderComponent } from './componenet/main/index/online-reader/online-reader.component';
+import { CommentFormComponent } from './componenet/main/index/deteil-info/comment-form/comment-form.component';
+import {CommentService} from "./Servises/DataService/comment.service";
+import { CommentItemComponent } from './componenet/main/index/deteil-info/comment-item/comment-item.component';
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -66,7 +71,9 @@ const appRoutes : Routes=[
   {path:"editUser",component:UserEditComponent},
   {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
   {path:"addPost",component:AddPostComponent},
-  {path: "detail/:id",component: DetailInfoComponent}
+  {path: "detail/:id",component: DetailInfoComponent},
+  {path: "reader", component: OnlineReaderComponent}
+
 ]
 @NgModule({
   declarations: [
@@ -96,7 +103,9 @@ const appRoutes : Routes=[
     BookPostSmallComponent,
     DetailInfoComponent,
     InfoPopUpComponent,
-
+    OnlineReaderComponent,
+    CommentFormComponent,
+    CommentItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,7 +118,8 @@ const appRoutes : Routes=[
     MaterialModule,
     CodeInputModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PdfViewerModule,
   ],
   providers:
     [ModalService,
@@ -121,7 +131,8 @@ const appRoutes : Routes=[
     GenreSubGenreCollectionService,
     BookPostService,
     FormatDataStringService,
-    FileBookDownloadServiceService
+    FileBookDownloadServiceService,
+    CommentService
     ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 <div class="content container col-10 p-3">
-  <form [formGroup]="addNewPostForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+  <form [formGroup]="addNewPostForm" (ngSubmit)="submit($event)" enctype="multipart/form-data">
     <div>
       <div class="input-group mb-3">
         <span class="input-group-text">T</span>
@@ -17,12 +17,12 @@
       </div>
       <div class="input-group mb-3">
         <label class="input-group-text" for="inputGroupFile01">Обложка</label>
-        <input type="file"  class="form-control" id="inputGroupFile01" formControlName="titleImgFile" (change)="TitleFileInput($event)"
+        <input type="file"  class="form-control" #titleBook id="inputGroupFile01" formControlName="titleImgFile" (change)="TitleFileInput($event)"
                accept="image/*">
       </div>
       <div class="row g-2">
         <div class="col-2">
-        <img [src]="previewTittleImg!== undefined?previewTittleImg:'../assets/img/No-Cover-Image-01.webp'"     alt="previewTittleImg">
+        <img [src]="previewTittleImg!= undefined?previewTittleImg:'../assets/img/No-Cover-Image-01.webp'"     alt="previewTittleImg">
         </div>
         <div class="col-10">
           <textarea class="form-control" rows="8" placeholder="Аннотация книги..." formControlName="description"></textarea>
@@ -65,7 +65,7 @@
     </div>
     <div class="text-center mt-3">
     <button class="btn btn-outline-primary" type="submit" [disabled]="addNewPostForm.invalid"><i class="bi bi-plus-circle-fill me-1"> Добавить</i></button>
-    <button class="btn btn-danger ms-1" (click)="formReset()" type="submit"><i class="bi bi-arrow-clockwise ms-1"> Сбросить</i></button>
+    <button class="btn btn-danger ms-1" (click)="formReset($event)" type="submit"><i class="bi bi-arrow-clockwise ms-1"> Сбросить</i></button>
       <div class="alert alert-danger"
            *ngIf="this.message !== ''">
         {{this.message}}
