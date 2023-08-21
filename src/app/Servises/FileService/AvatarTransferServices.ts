@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
-import {serverAddress} from "../ServerAddress";
+import {serverAddress} from "../DataService/ServerAddress";
 import {HttpClient} from "@angular/common/http";
-import {UserFormModel} from "../../../model/UserFormModel";
+import {UserFormModel} from "../../model/User/UserFormModel";
 
 @Injectable()
 export class AvatarTransferServices{
-  urlServer : string = serverAddress+"api/avatarFile"
+  urlServer : string = serverAddress+"api/File"
 
   constructor(private http:HttpClient) {}
   DataSend(file:File){

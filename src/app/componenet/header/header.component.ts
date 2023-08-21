@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalService} from "../../Servises/ModalService/Modalservice";
-import {User} from "../../model/User";
+import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
 
 @Component({
@@ -11,10 +11,9 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit{
   constructor(private modalService: ModalService,private routh:Router) { }
   ngOnInit() {
-
     if(localStorage.getItem("Login")!= null){
       sessionStorage.setItem("Login", localStorage.getItem("Login")!)
-      if(localStorage.getItem("Avatar") != null){
+      if(localStorage.getItem("Avatar") !== null|| true){
         sessionStorage.setItem("Avatar",localStorage.getItem('Avatar')!)
       }else {
         sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")

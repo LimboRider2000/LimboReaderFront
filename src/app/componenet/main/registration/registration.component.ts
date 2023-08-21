@@ -1,8 +1,9 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {User} from "../../../model/User";
+import {Component, ElementRef, inject, Input, ViewChild} from '@angular/core';
+import {User} from "../../../model/User/User";
 import {NgForm} from "@angular/forms";
 import {RegistrationServices} from "../../../Servises/DataService/User/RegistrationServisce";
-import {UserFormModel} from "../../../model/UserFormModel";
+import {UserFormModel} from "../../../model/User/UserFormModel";
+import {FileValidationService} from "../../../Servises/FileService/file-validation.service";
 
 
 
@@ -20,6 +21,7 @@ export class RegistrationComponent {
   @Input() fileError: string = '';
   avatarFile: File| null = null;
 @ViewChild("myForm") form:ElementRef<NgForm>;
+  fileValidService = inject(FileValidationService)
    constructor(private regSer:RegistrationServices) {}
   FromSubmit(myForm:NgForm){
     const user: UserFormModel =  new UserFormModel();
@@ -40,17 +42,7 @@ export class RegistrationComponent {
     if(this.avatarFile === null ) return;
 
     const maxSize = 51200;
-    if (this.avatarFile.size > maxSize) {
-      this.fileError = 'Размер файла превышает максимальный предел (50 кб).';
-      //this.form.nativeElement.valid = false;
-      return;
-    }
-    const allowedExtensions = ['.jpg', '.jpeg', '.png'];
-    const fileExtension = this.avatarFile.name.toLowerCase().split('.').pop();
-    if (!allowedExtensions.includes(`.${fileExtension}`)) {
-      this.fileError = 'Недопустимое расширение файла. Загрузите файл в формате JPG, JPEG или PNG.';
-      return;
-    }
-    this.fileError = '';
+    this.fileError = this.fileValidService.isFileValid(this.avatarFile,maxSize);
+
   }
 }

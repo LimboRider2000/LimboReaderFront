@@ -1,9 +1,5 @@
-<div class="container">
-<div id="page-content-wrapper" class="col-12 myBagColor4" >
-  <div class="container-fluid">
-    <div>
-      <p>Name</p>
-    </div>
+<app-global-search ></app-global-search>
+    <div *ngFor="let item of bookCollection" >
+       <app-book-post-small [bookData]="item"/>
   </div>
-</div>
-</div>
+

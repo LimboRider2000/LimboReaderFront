@@ -1,6 +1,6 @@
-export  class User{
+export  class  User{
   get avatarPath(): string {
-    return this._AvatarPath;
+    return <string>this._AvatarPath;
   }
 
   set avatarPath(value: string) {
@@ -61,9 +61,7 @@ export  class User{
   private _Password:string;
   private _UserRole:string;
   private _Avatar:File|null;
-  private _AvatarPath :string;
+  private _AvatarPath? :string;
   private _Name:string|null;
-
-
 }
 

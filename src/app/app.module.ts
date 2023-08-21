@@ -21,7 +21,7 @@ import { MyButtonComponent } from './componenet/my-button/my-button.component';
 import { AdminPanelComponent } from './componenet/main/admin-panel/admin-panel.component';
 import { UserEditComponent } from './componenet/main/user-edit/user-edit.component';
 import {RegistrationServices} from "./Servises/DataService/User/RegistrationServisce";
-import {AvatarTransferServices} from "./Servises/DataService/FilesTransferServices/AvatarTransferServices";
+import {AvatarTransferServices} from "./Servises/FileService/AvatarTransferServices";
 import { UsersComponent } from './componenet/main/admin-panel/users/users.component';
 import { GenresComponent } from './componenet/main/admin-panel/genres/genres.component';
 import { TagsComponent } from './componenet/main/admin-panel/tags/tags.component';
@@ -37,6 +37,14 @@ import { MyConfirmPageComponent } from './componenet/main/registration/confirm-p
 import {CodeInputModule} from "angular-code-input";
 import {RedirectService} from "./Servises/RedirectService/redirectService";
 import {GenreSubGenreCollectionService} from "./Servises/DataService/GenreServices/GenreSubGenreCollectionService";
+import { UserEditPopupComponent } from './componenet/allPopUp/user-edit-popup/user-edit-popup.component';
+import { AddPostComponent } from './componenet/main/add-post/add-post.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {BookPostService} from "./Servises/DataService/Book-post/book-post.service";
+import { BookPostSmallComponent } from './componenet/main/index/book-post-small/book-post-small.component';
+import {FormatDataStringService} from "./Servises/format-data-string.service";
+import { DetailInfoComponent } from './componenet/main/index/deteil-info/detail-info.component';
+import {FileBookDownloadServiceService} from "./Servises/FileService/file-book-download-service.service";
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -47,6 +55,7 @@ const adminAPanelRoutes: Routes=[
 
 
 
+
 ]
 
 const appRoutes : Routes=[
@@ -54,10 +63,9 @@ const appRoutes : Routes=[
   {path:"registration",component:RegistrationComponent},
   {path:"confirmCode",component:MyConfirmPageComponent},
   {path:"editUser",component:UserEditComponent},
-  {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes}
-
-
-
+  {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
+  {path:"addPost",component:AddPostComponent},
+  {path: "detail/:id",component: DetailInfoComponent}
 ]
 @NgModule({
   declarations: [
@@ -82,6 +90,10 @@ const appRoutes : Routes=[
     PopupComponent,
     ConfirmPopupComponent,
     MyConfirmPageComponent,
+    UserEditPopupComponent,
+    AddPostComponent,
+    BookPostSmallComponent,
+    DetailInfoComponent,
 
   ],
   imports: [
@@ -94,7 +106,8 @@ const appRoutes : Routes=[
     BrowserAnimationsModule,
     MaterialModule,
     CodeInputModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers:
     [ModalService,
@@ -103,7 +116,10 @@ const appRoutes : Routes=[
     AvatarTransferServices,
     GenreServices,
     RedirectService,
-    GenreSubGenreCollectionService
+    GenreSubGenreCollectionService,
+    BookPostService,
+    FormatDataStringService,
+    FileBookDownloadServiceService
     ],
   bootstrap: [AppComponent]
 })

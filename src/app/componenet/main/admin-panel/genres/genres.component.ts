@@ -121,7 +121,7 @@ export class GenresComponent implements OnInit {
   public changeGenre(event: any) {
     if (this.currentSelectGenre === undefined) return
     const popupData = this.dialog.open(PopupComponent, {
-      width: " 30%",
+      width: "auto",
       enterAnimationDuration: 300,
       exitAnimationDuration: 300,
       data: {

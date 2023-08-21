@@ -1,5 +1,5 @@
 
-<div id="sidebar" class="myBagColor2 pb-4 " >
+<div id="sidebar" class="myBagColor2 pb-4" >
  <div class="Logo mt-3 text-center" >
    <div >
    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
@@ -14,7 +14,7 @@
 </div>
 <div class="container col-12">
   <div class="dropdown dropend" *ngFor="let genre of genreSubGenreCollection">
-    <button class="btn btn-secondary dropdown-toggle col-12 mb-1"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-secondary dropdown-toggle col-12 mb-1 text-wrap"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
       {{genre.genre.genreName}}
     </button>
     <ul class="dropdown-menu dropdown-menu-dark">

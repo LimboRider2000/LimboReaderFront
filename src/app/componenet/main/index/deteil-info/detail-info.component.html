@@ -1,0 +1,31 @@
+<div *ngIf="currentBook"  class="container col-12 content">
+ <div class="row">
+   <div class="image col-3">
+     <img  [src]=" currentBook.titleImgPath != null ?serverAddress + currentBook.titleImgPath:'./assets/img/No-Cover-Image-01.webp'" alt="{{currentBook.title}}">
+   </div>
+   <div class="col-8 mt-2">
+     <h1 class="fs-1 text-center">{{currentBook.title}}</h1>
+     <h2 class="f-2 text-center"> <span class="fst-italic fw-bold">Автор:</span> {{currentBook.author.name}} {{currentBook.author.lastName}}</h2>
+     <p class="text-end"><span class="fst-italic fw-bold">Жанр: </span>{{currentBook.genre_name}} - {{currentBook.subGenre_name}}</p>
+     <div>
+       <span class="fst-italic fw-bold fs-5">Описание: </span>
+       <p  class="ms-5 fs-6">{{currentBook.description}}</p>
+     </div>
+     <div class="row">
+       <div class="col-6">
+       <p class="fst-italic fw-bold fs-5" >Скачать книгу в : </p>
+       <button class="btn btn-success ms-1 me-1" (click)="download(currentBook.id,'.epub')">Epub</button>
+       <button mat-raised-button color="warn" (click)="download(currentBook.id,'.pdf')">PDF</button>
+       <button class="btn btn-primary ms-1 me-1" (click)="download(currentBook.id,'fb2')">fb2</button>
+       </div>
+       <div class="col-6 pt-3">
+          <button class="btn btn-warning h-100">Читать онлайн</button>
+       </div>
+     </div>
+   </div>
+ </div>
+  <div class="row ">
+    <p class="col-6 text-center"><span class="fst-italic fw-bold">Добавлено пользователем: </span>{{currentBook.user_name}}</p>
+    <p class="col-6 text-end"><span class="fst-italic fw-bold">Дата добавления: </span>{{dateService.formatData(currentBook.createdDate)}}</p>
+</div>
+</div>

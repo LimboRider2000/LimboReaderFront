@@ -2,9 +2,10 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ModalService} from "../../../Servises/ModalService/Modalservice";
 import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.service";
-import {User} from "../../../model/User";
+import {User} from "../../../model/User/User";
 import {RegistrationServices} from "../../../Servises/DataService/User/RegistrationServisce";
 import {RedirectService} from "../../../Servises/RedirectService/redirectService";
+import {serverAddress} from '../../../Servises/DataService/ServerAddress';
 
 @Component({
   selector: 'app-auth-modal',
@@ -62,13 +63,12 @@ export class AuthenticationModalComponent implements OnInit {
     if (!errorMessageHTML) throw 'Element "error-message" not found'
     this.signInService.SingInDataTooServer(this.Login, this.Password).subscribe(
       (data: any) =>{
-
         if(data.success){
           this.isAuntSuccess = true;
           errorMessageHTML.style.display = "block"
           this.errorMessage = "Успешно"
           this.MessageHide(errorMessageHTML,3000)
-          this.WriteToStorage(data.currUser);
+          this.WriteToStorage(data.currUser,data.avatarPath);
           this.modalService.dismissAll()
           this.isSendDisable =false;
         }else {
@@ -107,15 +107,15 @@ export class AuthenticationModalComponent implements OnInit {
       htmlElement.style.display = "none"
     },time)
   }
-  private WriteToStorage(user:User){
+  private WriteToStorage(user:User,avatarPath:string ){
 
     if(user.name != null){
       localStorage.setItem("Name", user.name)
       sessionStorage.setItem("Name", user.name)
     }
-    if(user.avatar != null){
-      localStorage.setItem("Avatar", user.avatarPath)
-      sessionStorage.setItem("Avatar", user.avatarPath)
+    if(avatarPath !== null){
+      localStorage.setItem("Avatar",serverAddress+avatarPath)
+      sessionStorage.setItem("Avatar", serverAddress+avatarPath)
     }else{
       sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
     }

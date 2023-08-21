@@ -16,8 +16,7 @@ export class MyConfirmPageComponent {
   onCodeCompleted(code: string) {
 
    let id = sessionStorage.getItem("idRegisteredUser")
-    //sessionStorage.removeItem("idRegisteredUser");
-   id = "c496f979-9f3b-489a-b4e8-001b717b5145"
+    sessionStorage.removeItem("idRegisteredUser");
     if(id !== null) {
       this.registrationService.CodeCheck(code,id).subscribe(
         (data:any)=>{

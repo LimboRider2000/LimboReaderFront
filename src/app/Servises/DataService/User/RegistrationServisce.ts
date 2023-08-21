@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {serverAddress} from "../ServerAddress";
 import {HttpClient} from "@angular/common/http";
-import {UserFormModel} from "../../../model/UserFormModel";
-import {AvatarTransferServices} from "../FilesTransferServices/AvatarTransferServices";
+import {UserFormModel} from "../../../model/User/UserFormModel";
+import {AvatarTransferServices} from "../../FileService/AvatarTransferServices";
 import {map, mergeMap, retry} from "rxjs";
 import {Router} from "@angular/router";
 
@@ -24,7 +24,7 @@ export class RegistrationServices{
     if (file !== null) {
      return  this.fileServ.DataSend(file).pipe(
         map((path:any) => {
-        body.avatar = path.dbPath
+        body.avatar =path.dbPath
         })).subscribe(pathStr =>
          this.http.post(this.urlServer, body).subscribe( (data:any) =>{
              if(data.success === true){
