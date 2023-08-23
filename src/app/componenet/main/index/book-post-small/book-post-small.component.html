@@ -1,4 +1,5 @@
-<a  *ngIf="bookData" id="page-content-wrapper m-1" class="col-10  container content rounded" [routerLink]="['detail',bookData.id]">
+<a  *ngIf="bookData" id="page-content-wrapper m-1" class="col-10  container content rounded"
+    [routerLink]="['detail',bookData.id]">
   <div class="container-fluid input-group">
     <div class="p-2 col-2 coverImg ">
       <img [src]="serverAddress + bookData.titleImgPath">

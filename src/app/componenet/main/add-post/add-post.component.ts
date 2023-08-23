@@ -1,10 +1,13 @@
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {FileValidationService} from "../../../Servises/FileService/file-validation.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
 import {SubGenre} from "../../../model/Genres/SubGenre";
 import {  GenreSubGenreCollectionService} from "../../../Servises/DataService/GenreServices/GenreSubGenreCollectionService";
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
+import {PopupComponent} from "../../allPopUp/popup/popup.component";
+import {MatDialog} from "@angular/material/dialog";
+import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
 
 @Component({
   selector: 'app-add-post',
@@ -23,7 +26,7 @@ export class AddPostComponent implements OnInit {
   addNewPostForm: FormGroup;
   private genreSubgenreService = inject(GenreSubGenreCollectionService)
   private bookService = inject(BookPostService)
-
+  private dialog = inject(MatDialog)
   GenreAndSubGenreCollection: GenreSubgenreItem[];
   subGenreSelectList: SubGenre[];
 
@@ -47,11 +50,11 @@ export class AddPostComponent implements OnInit {
         description: ["", [Validators.required]],
         genre: [null, [Validators.required]],
         subGenre: [null, [Validators.required]],
-        bookFile: [null, [Validators.required]],
-        extensionBook: [""],
+        bookFileList :this.fb.array([]),
         userId:[""]
       }
     )
+
   }
 
   TitleFileInput(event: any) {
@@ -83,28 +86,62 @@ export class AddPostComponent implements OnInit {
     this.addNewPostForm.patchValue({userId : userid})
     const formData = new FormData()
     for (let key  of Object.keys( this.addNewPostForm.controls) ) {
-          const value = this.addNewPostForm.get(key)?.value
+      let value :any= null;
+      if(key!== "bookFileList"){
+           value = this.addNewPostForm.get(key)?.value
+      }else{
+        const fileArr = this.addNewPostForm.get(key) as FormArray;
+        fileArr.controls.forEach((fileArr)=>{
+          formData.append(key, fileArr.value);
+        })
+
+      }
         formData.append(key,value);
     }
 
-    this.bookService.newPostAdd(formData).subscribe(
-      (data: any) => {
-        this.bookService.addToCollection(data)
-      },
-      (error) => console.log(error)
-    )
+     this.bookService.newPostAdd(formData).subscribe(
+       (data: any) => {
+         this.bookService.addToCollection(data)
+         this.dialog.open(InfoPopUpComponent, {
+           width: "auto",
+           enterAnimationDuration: 100,
+           exitAnimationDuration: 300,
+           data: {
+             title: "Сообщение",
+             message: "Книга добавлена успешно",
+             isSuccess : true
+           }
+         });
+       },
+       (error) => {
+         this.dialog.open(InfoPopUpComponent, {
+           width: "auto",
+           enterAnimationDuration: 300,
+           exitAnimationDuration: 300,
+           data: {
+             title: "Сообщение",
+             message: "Проблемы с добавлением файла",
+             isSuccess : false
+           }
+         });
+       }
+     )
   }
 
   BookFileInput($event: Event) {
-    const bookFile = ($event.target as HTMLInputElement).files![0];
-    const fileExtension = bookFile.name.split('.').pop();
-    this.addNewPostForm.patchValue({extensionBook: fileExtension})
-    const reader = new FileReader();
-    reader.onload = () => {
-
-      this.addNewPostForm.patchValue({bookFile: reader.result});
+    const bookFileList = ($event.target as HTMLInputElement).files;
+    const fileControls = this.addNewPostForm.get("bookFileList") as FormArray;
+    if(bookFileList) {
+      for (let i = 0; i < bookFileList.length; i++) {
+       fileControls.push(this.fb.control(bookFileList[i]))
+      }
+      console.log(this.addNewPostForm)
+      // const reader = new FileReader();
+      // reader.onload = () => {
+      //   this.addNewPostForm.setValue(bookFileLit.bookFileList);
+      // }
+      //
     }
-    reader.readAsDataURL(bookFile)
   }
 
   formReset() {

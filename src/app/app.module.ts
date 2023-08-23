@@ -45,6 +45,7 @@ import { BookPostSmallComponent } from './componenet/main/index/book-post-small/
 import {FormatDataStringService} from "./Servises/format-data-string.service";
 import { DetailInfoComponent } from './componenet/main/index/deteil-info/detail-info.component';
 import {FileBookDownloadServiceService} from "./Servises/FileService/file-book-download-service.service";
+import { InfoPopUpComponent } from './componenet/allPopUp/info-pop-up/info-pop-up.component';
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -94,6 +95,7 @@ const appRoutes : Routes=[
     AddPostComponent,
     BookPostSmallComponent,
     DetailInfoComponent,
+    InfoPopUpComponent,
 
   ],
   imports: [
