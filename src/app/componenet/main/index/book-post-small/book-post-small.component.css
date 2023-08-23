@@ -23,6 +23,7 @@ img{
   -webkit-box-orient: vertical;
 }
 a{
+  margin: 10px 0  10px 0 ;
   display: block;
   text-decoration: none;
   color: black;

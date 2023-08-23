@@ -6,6 +6,8 @@ import {Book} from "../../../../model/Book/Book";
 import {serverAddress} from "../../../../Servises/DataService/ServerAddress";
 import {FormatDataStringService} from "../../../../Servises/format-data-string.service";
 import {FileBookDownloadServiceService} from "../../../../Servises/FileService/file-book-download-service.service";
+import {MatDialog} from "@angular/material/dialog";
+import {InfoPopUpComponent} from "../../../allPopUp/info-pop-up/info-pop-up.component";
 
 @Component({
   selector: 'app-detail-info',
@@ -19,10 +21,13 @@ export class DetailInfoComponent implements OnInit{
       {this.id = param['id']
         const dataSessionSt = sessionStorage.getItem('currentBook')
         if(dataSessionSt){
-          this.currentBook = JSON.parse(dataSessionSt)
+          const bookInStorage:Book = JSON.parse(dataSessionSt)
+          if(bookInStorage.id == this.id){
+            this.currentBook = bookInStorage
           return of(null)
-        }else
+          }else
             return this.bookService.getBuId(this.id!)
+        }return of(null)
       })
     ).subscribe(
             (data:any)=>{
@@ -30,7 +35,9 @@ export class DetailInfoComponent implements OnInit{
                 this.currentBook = data
                 sessionStorage.setItem("currentBook",JSON.stringify(this.currentBook))
             },
-            (error)=> console.log(error))
+            (error)=> {
+              this.showErrorMessage(error)
+            })
   }
   id?: string
   private subscription: Subscription
@@ -39,14 +46,12 @@ export class DetailInfoComponent implements OnInit{
   private activateRouter = inject(ActivatedRoute)
   private bookService = inject(BookPostService)
   private downloadService = inject(FileBookDownloadServiceService)
-
   protected readonly serverAddress = serverAddress;
-  protected readonly console = console;
-
+  private dioalog = inject(MatDialog)
   download(id: string,extension:string) {
     this.downloadService.downloadBookFile(id,extension).subscribe(
       (response:any)=>{
-        let filename = response.headers.get("content-disposition")?.split(";")[1].split("=")[1]
+         let filename = response.headers.get("content-disposition")?.split(";")[1].split("=")[1]
         let blob : Blob = response.body as Blob
         let a = document.createElement("a");
 
@@ -56,9 +61,30 @@ export class DetailInfoComponent implements OnInit{
             a.href = window.URL.createObjectURL(blob)
           a.click()
         }
-      },error =>  console.error(error)
+      },error =>{
+
+        this.showErrorMessage(error)
+      }
     )
   }
+  showErrorMessage(data:any){
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataAsString = reader.result as string;
+      this.dioalog.open(InfoPopUpComponent, {
+        width: "auto",
+        enterAnimationDuration: 100,
+        exitAnimationDuration: 300,
+        data: {
+          title: "Сообщение",
+          message: dataAsString,
+          isSuccess : false
+        }
+      });
+    };
+    reader.readAsText(data.error)
+  }
+
 }
 
 //085a6fef-5195-4fd2-aba2-aecf04e400e4
