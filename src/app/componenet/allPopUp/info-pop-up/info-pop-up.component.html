@@ -1,0 +1,9 @@
+<div mat-dialog-actions class="d-flex flex-row justify-content-end">
+    <button mat-raised-button color="accent" mat-dialog-close><i class="bi bi-x-circle"></i></button>
+</div>
+<h1 mat-dialog-title class="text-center">{{inputData.title}}</h1>
+<div mat-dialog-content>
+  <div [ngClass]=" inputData.isSuccess? 'alert-success text-success':'alert alert-danger text-danger' ">
+      {{inputString}}
+  </div>
+</div>
