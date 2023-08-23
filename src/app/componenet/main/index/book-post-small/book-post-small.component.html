@@ -2,7 +2,7 @@
     [routerLink]="['detail',bookData.id]">
   <div class="container-fluid input-group">
     <div class="p-2 col-2 coverImg ">
-      <img [src]="serverAddress + bookData.titleImgPath">
+      <img [src]="serverAddress + bookData.titleImgPath" alt="bookData.titleImgPath">
     </div>
     <div class="col-8">
       <h1 class="text-center fs-5">{{bookData.title}}</h1>

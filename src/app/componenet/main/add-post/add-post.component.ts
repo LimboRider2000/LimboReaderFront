@@ -5,7 +5,6 @@ import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
 import {SubGenre} from "../../../model/Genres/SubGenre";
 import {  GenreSubGenreCollectionService} from "../../../Servises/DataService/GenreServices/GenreSubGenreCollectionService";
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
-import {PopupComponent} from "../../allPopUp/popup/popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
 
