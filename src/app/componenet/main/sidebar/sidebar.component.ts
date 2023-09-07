@@ -23,22 +23,6 @@ export class SidebarComponent implements OnInit{
  genreSubGenreCollection:GenreSubgenreItem[];
   private  genreSubGenreService = inject(GenreSubGenreCollectionService)
   ngOnInit(): void {
-    // this.genreService.getInitialDate().subscribe(
-    //   (data: any) => {
-    //     for (const item of data) {
-    //       const currGenre: Genre = new Genre()
-    //       currGenre.id = item.genre.id;
-    //       currGenre.genreName = item.genre.genreName;
-    //
-    //       const genreSubGenre = new GenreSubgenreItem();
-    //       genreSubGenre.genre = item.genre;
-    //       if (item.subGenreList !== null && item.subGenreList.length > 0)
-    //         genreSubGenre.subGenreCollection = item.subGenreList
-    //       this.genreSubGenreCollection.push(genreSubGenre)
-    //     }
-    //   },
-    //   error => console.log(error)
-    // )
     this.genreSubGenreService.initGenreCollection()
     this.genreSubGenreService.getGenreCollectionObservable().subscribe(
       (collection) => this.genreSubGenreCollection = collection
