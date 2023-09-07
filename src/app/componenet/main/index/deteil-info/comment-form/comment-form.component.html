@@ -1,0 +1,9 @@
+<div class="mt-2  content container col-10 p-2">
+  <form [formGroup]="commentForm" (ngSubmit)="Submit($event)">
+  <div class="form-floating">
+    <textarea class="form-control" formControlName="comment" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" ></textarea>
+    <label for="floatingTextarea2">Комментарий</label>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="commentForm.invalid"><i class="bi bi-send-fill"></i> Отправить</button>
+    </form>
+</div>
