@@ -1,0 +1,14 @@
+.content {
+  display: block;
+  position: relative;
+  background-color: #FFB8CC;
+  border-radius: 15px;
+
+}
+.commentText{
+  min-height: 100px;
+  padding: 10px;
+  background-color: #E7D2CC;
+  border-radius: 10px;
+  border: 1px solid rebeccapurple;
+}
