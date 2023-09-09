@@ -129,10 +129,7 @@ intiComment(){
     )
   }
 
-  @HostListener("window:beforeunload", ["$event"])
-    reinit(){
 
-   }
   ngOnDestroy(): void {
     this.commentService.Destroy();
   }
