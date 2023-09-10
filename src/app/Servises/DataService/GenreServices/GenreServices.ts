@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {serverAddress} from "../ServerAddress";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, Subscription} from "rxjs";
+import {Genre} from "../../../model/Genres/Genre";
 
 
 @Injectable()
@@ -9,8 +10,8 @@ export class GenreServices {
 
   urlServer:string = serverAddress + "api/Genre";
   constructor(private http: HttpClient) { }
- addGenre(genreName:string):Observable<Object>{
-    return  this.http.get(this.urlServer +"?genreName="+ genreName)
+ addGenre(genreName:string):Observable<Genre>{
+    return  this.http.get<Genre>(this.urlServer +"?genreName="+ genreName)
   }
   getInitialDate():Observable<object>{
     return this.http.get(this.urlServer+"/GetAll");

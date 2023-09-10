@@ -17,7 +17,7 @@ export class GenreSubGenreCollectionService{
       if(sessionVar === null|| sessionVar === undefined || sessionVar === "undefined" )
       this.initGenreCollection();
       else {
-        this.genreSubjectCollection = JSON.parse(sessionVar, ) as GenreSubgenreItem[]
+        this.genreSubjectCollection = JSON.parse(sessionVar,(key, value)=>value as GenreSubgenreItem) as GenreSubgenreItem[]
         this.collectionSubject.next(this.genreSubjectCollection.slice())
         sessionStorage.removeItem("genreSubGenreCollection");
       }

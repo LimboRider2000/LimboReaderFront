@@ -10,44 +10,46 @@ import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../../allPopUp/info-pop-up/info-pop-up.component";
 import {Comment} from "../../../../model/Comment"
 import {CommentService} from "../../../../Servises/DataService/comment.service";
+
 @Component({
   selector: 'app-detail-info',
   templateUrl: './detail-info.component.html',
   styleUrls: ['./detail-info.component.css']
 })
-export class DetailInfoComponent implements OnInit, OnDestroy{
+export class DetailInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.activateRouter.params.pipe(
-      switchMap(param=>
-      {this.id = param['id']
+      switchMap(param => {
+        this.id = param['id']
         const dataSessionSt = sessionStorage.getItem('currentBook')
-        if(dataSessionSt != null && dataSessionSt !== "undefined"){
-          const bookInStorage:Book = JSON.parse(dataSessionSt)
-          if(bookInStorage.id == this.id){
+        if (dataSessionSt != null && dataSessionSt !== "undefined") {
+          const bookInStorage: Book = JSON.parse(dataSessionSt)
+          if (bookInStorage.id == this.id) {
             this.currentBook = bookInStorage
             this.intiComment();
             return of(null)
-          }else
+          } else
             return this.bookService.getBuId(this.id!)
         }
         return this.bookService.getBuId(this.id!)
       })
     ).subscribe(
-            (data:any)=>{
-              if(data){
-                this.currentBook = data
-                sessionStorage.setItem("currentBook",JSON.stringify(this.currentBook))
-                this.intiComment();
-                }
-             },
-            (error)=> {
-              this.showErrorMessage(error)
-            })
+      (data: any) => {
+        if (data) {
+          this.currentBook = data
+          sessionStorage.setItem("currentBook", JSON.stringify(this.currentBook))
+          this.intiComment();
+        }
+      },
+      (error) => {
+        this.showErrorMessage(error)
+      })
   }
-  public currentBook: Book;
-  public commentCollection:Comment[];
 
-  public readonly dateService : FormatDataStringService = inject(FormatDataStringService);
+  public currentBook: Book;
+  public commentCollection: Comment[];
+
+  public readonly dateService: FormatDataStringService = inject(FormatDataStringService);
 
   private readonly activateRouter = inject(ActivatedRoute)
   private readonly bookService = inject(BookPostService)
@@ -63,34 +65,36 @@ export class DetailInfoComponent implements OnInit, OnDestroy{
   protected readonly serverAddress = serverAddress;
 
 
-intiComment(){
-  this.commentService.initCommentCollection(this.currentBook.id)
-  this.commentService.getCollectionAsObserver().subscribe(
-    (data)=>{
-      this.commentCollection = data;
+  intiComment() {
+    this.commentService.initCommentCollection(this.currentBook.id)
+    this.commentService.getCollectionAsObserver().subscribe(
+      (data) => {
+        this.commentCollection = data;
 
-    }
-  )
-}
-  download(id: string,extension:string) {
-    this.downloadService.downloadBookFile(id,extension).subscribe(
-      (response:any)=>{
-         let filename = response.headers.get("content-disposition")?.split(";")[1].split("=")[1]
-        let blob : Blob = response.body as Blob
+      }
+    )
+  }
+
+  download(id: string, extension: string) {
+    this.downloadService.downloadBookFile(id, extension).subscribe(
+      (response: any) => {
+        let filename = response.headers.get("content-disposition")?.split(";")[1].split("=")[1]
+        let blob: Blob = response.body as Blob
         let a = document.createElement("a");
 
         filename = new TextDecoder().decode(new Uint8Array([...atob(decodeURIComponent(filename))].map(char => char.charCodeAt(0))));
-        if(filename != "") {
-          a.download =filename
-            a.href = window.URL.createObjectURL(blob)
+        if (filename != "") {
+          a.download = filename
+          a.href = window.URL.createObjectURL(blob)
           a.click()
         }
-      },error =>{
+      }, error => {
         this.showErrorMessage(error)
       }
     )
   }
-  showErrorMessage(data:any){
+
+  showErrorMessage(data: any) {
     const reader = new FileReader();
     reader.onload = () => {
       const dataAsString = reader.result as string;
@@ -98,26 +102,30 @@ intiComment(){
     };
     reader.readAsText(data.error)
   }
- private openDialog(dataAsString:string){
+
+  private openDialog(dataAsString: string) {
     this.dialog.open(InfoPopUpComponent, {
-    width: "auto",
-    enterAnimationDuration: 100,
-    exitAnimationDuration: 300,
-    data: {
-      title: "Сообщение",
-      message: dataAsString,
-      isSuccess : false
-    }
-  });
+      width: "auto",
+      enterAnimationDuration: 100,
+      exitAnimationDuration: 300,
+      data: {
+        title: "Сообщение",
+        message: dataAsString,
+        isSuccess: false
+      }
+    });
 
   }
+
   checkExitBook() {
     this.fileCheck.checkFileExist(this.currentBook.filePath).subscribe(
-      (data)=>{
-        if (data){
+      (data) => {
+        if (data) {
           this.route.navigateByUrl("/reader",
-            {state:
-                {path: this.currentBook.filePath,
+            {
+              state:
+                {
+                  path: this.currentBook.filePath,
                   title: this.currentBook.title,
                   author: this.currentBook.author,
                   id: this.currentBook.id
@@ -125,13 +133,21 @@ intiComment(){
             })
         }
 
-          },error => this.openDialog(error.error)
+      }, error => this.openDialog(error.error)
     )
   }
 
 
   ngOnDestroy(): void {
     this.commentService.Destroy();
+  }
+
+  @HostListener('window:scroll')
+  public onViewportScroll() {
+    if(this.commentCollection.length > 0) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const bottomOfPage = document.documentElement.scrollHeight;
+    }
   }
 }
 
