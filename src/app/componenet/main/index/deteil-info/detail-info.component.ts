@@ -18,6 +18,7 @@ import {CommentService} from "../../../../Servises/DataService/comment.service";
 })
 export class DetailInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
+    this.commentService.number$.subscribe((number)=> this.commentCount = number)
     this.subscription = this.activateRouter.params.pipe(
       switchMap(param => {
         this.id = param['id']
@@ -61,16 +62,18 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
 
   private id?: string
   private subscription: Subscription
+  private commentCount:number;
+  private commentSlice:number = 0;
+  private eventScroll = true;
 
   protected readonly serverAddress = serverAddress;
 
 
   intiComment() {
-    this.commentService.initCommentCollection(this.currentBook.id)
+    this.commentService.getCommentCollection(this.currentBook.id, this.commentSlice)
     this.commentService.getCollectionAsObserver().subscribe(
       (data) => {
         this.commentCollection = data;
-
       }
     )
   }
@@ -139,15 +142,31 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.commentService.Destroy();
+    this.commentService.Destroy()
   }
 
-  @HostListener('window:scroll')
-  public onViewportScroll() {
-    if(this.commentCollection.length > 0) {
+  @HostListener('window:scroll',['$event'])
+  public onViewportScroll(event:Event) {
+    event.preventDefault()
+
+    if(this.commentCollection.length > 0 && this.commentCollection.length < this.commentCount) {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const bottomOfPage = document.documentElement.scrollHeight;
+      let ancore = bottomOfPage - 1000;
+      if( scrollTop>= ancore){
+
+        if(this.eventScroll){
+        this.commentService.getCommentCollection(this.currentBook.id, (this.commentSlice+= 10))
+        this.commentService.getCollectionAsObserver().subscribe(
+          (data) => {
+            this.commentCollection = data
+            setTimeout(()=>this.eventScroll = true,2000)
+          }
+        )
+      }
+        this.eventScroll = false;
     }
+  }
   }
 }
 

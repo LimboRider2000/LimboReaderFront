@@ -16,12 +16,16 @@ export class CommentService {
   getCollectionAsObserver(){
       return this.commentsCollectionObserver.asObservable()
   }
-  initCommentCollection(book_id:string){
-    this.http.get<Comment[]>(this.endpoint+"/?book_id="+book_id).subscribe(
-      (data:Comment[])=>{
-          this.commentsCollection = []
-          data.forEach(item=> this.commentsCollection.push(item))
+  private commentCount = new BehaviorSubject<number>(0)
+  number$ = this.commentCount.asObservable()
+
+  getCommentCollection(book_id: string, slice: number){
+    this.http.get(this.endpoint+"/?book_id="+book_id+"&slice="+slice).subscribe(
+      (data:any)=>{
+          let commentCollectionTemp:Comment[] = data.commentCollection
+          commentCollectionTemp.forEach(item=> this.commentsCollection.push(item))
           this.commentsCollectionObserver.next(this.commentsCollection.slice())
+          this.commentCount.next(data.commentCount)
       },
       error => console.error(error.error)
     )
