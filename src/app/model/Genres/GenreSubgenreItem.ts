@@ -20,5 +20,10 @@ export class GenreSubgenreItem {
   }
 
   private _genre: Genre;
-   private _subGenreCollection:SubGenre[] = [];
+  private _subGenreCollection:SubGenre[] = [];
+
+  toJSON(){return{
+  genre : this._genre,
+  subGenreCollection:this.subGenreCollection}
+ }
 }

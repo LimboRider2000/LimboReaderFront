@@ -30,7 +30,7 @@
 </div>
   <app-comment-form [bookId]="currentBook.id"/>
 </div>
-  <div *ngFor="let comment of commentCollection" >
+  <ng-container *ngFor="let comment of commentCollection">
     <app-comment-item [comment]="comment" class="container"/>
-</div>
+</ng-container>
 

@@ -79,10 +79,10 @@ export class GenresComponent implements OnInit {
       return;
     }
     this.genreServices.addGenre(this.genre).subscribe(
-      (data: any) => {
-        let newGenre = new Genre;
-        newGenre.id = data.id;
-        newGenre.genreName = data.genreName;
+      (data: Genre) => {
+        let newGenre: Genre;
+        newGenre = data;
+       // newGenre.genreName = data.genreName;
         this.genreSubGenreService.addToCollection(newGenre)
         this.genre = "";
       },

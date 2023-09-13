@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, HostListener, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Genre} from "../../../model/Genres/Genre";
 import {SubGenre} from "../../../model/Genres/SubGenre";
 import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
@@ -16,34 +16,26 @@ import {
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit{
-// private  genreService = inject(GenreServices)
-
-
+export class SidebarComponent implements OnInit,OnDestroy{
  genreSubGenreCollection:GenreSubgenreItem[];
-  private  genreSubGenreService = inject(GenreSubGenreCollectionService)
+ constructor(private genreSubGenreService:GenreSubGenreCollectionService) {
+ }
+
   ngOnInit(): void {
-    // this.genreService.getInitialDate().subscribe(
-    //   (data: any) => {
-    //     for (const item of data) {
-    //       const currGenre: Genre = new Genre()
-    //       currGenre.id = item.genre.id;
-    //       currGenre.genreName = item.genre.genreName;
-    //
-    //       const genreSubGenre = new GenreSubgenreItem();
-    //       genreSubGenre.genre = item.genre;
-    //       if (item.subGenreList !== null && item.subGenreList.length > 0)
-    //         genreSubGenre.subGenreCollection = item.subGenreList
-    //       this.genreSubGenreCollection.push(genreSubGenre)
-    //     }
-    //   },
-    //   error => console.log(error)
-    // )
-    this.genreSubGenreService.initGenreCollection()
     this.genreSubGenreService.getGenreCollectionObservable().subscribe(
       (collection) => this.genreSubGenreCollection = collection
     )
   }
 
   protected readonly SubGenre = SubGenre;
+  @HostListener("window:beforeunload", ["$event"])
+  ngOnDestroy(): void {
+    if(this.genreSubGenreCollection.length > 0 )
+      sessionStorage.setItem("genreSubGenreCollection",JSON.stringify(this.genreSubGenreCollection,
+        (key, value)=>{
+       return  value as GenreSubgenreItem;
+      }))}
+
+
+
 }

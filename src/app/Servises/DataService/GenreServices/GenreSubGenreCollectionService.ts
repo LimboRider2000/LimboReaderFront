@@ -11,6 +11,20 @@ export class GenreSubGenreCollectionService{
  private collectionSubject : BehaviorSubject<GenreSubgenreItem[]> = new BehaviorSubject<GenreSubgenreItem[]>(this.genreSubjectCollection)
 
  private genreService = inject(GenreServices)
+  constructor() {
+    if(this.genreSubjectCollection.length === 0){
+     const sessionVar =  sessionStorage.getItem("genreSubGenreCollection");
+      if(sessionVar === null|| sessionVar === undefined || sessionVar === "undefined" )
+      this.initGenreCollection();
+      else {
+        this.genreSubjectCollection = JSON.parse(sessionVar,(key, value)=>value as GenreSubgenreItem) as GenreSubgenreItem[]
+        this.collectionSubject.next(this.genreSubjectCollection.slice())
+        sessionStorage.removeItem("genreSubGenreCollection");
+      }
+    }
+  }
+
+
   getGenreCollectionObservable(){
    return this.collectionSubject.asObservable()
   }
@@ -67,7 +81,9 @@ export class GenreSubGenreCollectionService{
       }
     }
   }
-  initGenreCollection(){
+
+  initGenreCollection()
+  {
     this.genreService.getInitialDate().subscribe(
       (data: any) => {
         for (const item of data) {

@@ -7,7 +7,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-
+import {ScrollingModule} from '@angular/cdk/scrolling';
 @NgModule({
   exports:[
     MatDialogModule,
@@ -17,7 +17,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    ScrollingModule
   ]
 
 })

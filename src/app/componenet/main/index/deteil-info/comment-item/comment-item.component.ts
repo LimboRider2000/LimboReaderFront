@@ -18,4 +18,5 @@ export class CommentItemComponent {
   deleteComment() {
     this.commentService.deleteComment(this.comment.id)
   }
+
 }
