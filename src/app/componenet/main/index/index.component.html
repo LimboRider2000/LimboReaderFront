@@ -1,5 +1,5 @@
 <app-global-search ></app-global-search>
-    <div *ngFor="let item of bookCollection" >
+    <div *ngFor="let item of bookCollection$ | async" >
        <app-book-post-small [bookData]="item"/>
   </div>
 <div>

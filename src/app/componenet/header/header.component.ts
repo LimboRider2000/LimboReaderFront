@@ -1,18 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ModalService} from "../../Servises/ModalService/Modalservice";
 import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
 import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-headerTop',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit{
-
+export class HeaderComponent implements OnInit,OnDestroy{
+  bookCountSub :Subscription;
   constructor(private modalService: ModalService,private routh:Router, private bookService:BookPostService ) {
-    bookService.getGlobalBookCountObservable().subscribe(
+   this.bookCountSub =  bookService.getGlobalBookCountObservable().subscribe(
       (data)=>{
         this.bookCount = data;
       }
@@ -33,7 +34,7 @@ export class HeaderComponent implements OnInit{
   }
   @Input() user:User;
 
-  @Input() bookCount: number = 0;
+  @Input() bookCount: number  = 0;
   @Input() performerCount: number =0;
   @Input() userCount: number=0;
 
@@ -45,4 +46,8 @@ export class HeaderComponent implements OnInit{
     this.routh.navigateByUrl("")
   }
   protected readonly sessionStorage = sessionStorage;
+
+  ngOnDestroy(): void {
+    this.bookCountSub.unsubscribe()
+  }
 }
