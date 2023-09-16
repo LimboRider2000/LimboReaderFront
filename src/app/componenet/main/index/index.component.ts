@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
 import {Book} from "../../../model/Book/Book";
-import {Observable, Subscription} from "rxjs";
+import {map, Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-index',
@@ -15,16 +15,18 @@ export class IndexComponent implements OnInit,OnDestroy{
   public pageCount: number;
 
   public pageStock : number[] = [];
-  private filterBookById:string ="";
-  private filterBookIdSub: Subscription;
+  private filterBookBySubGenreId:string ="";
+  private filterBookIdSub:Subscription;
   private BookCountSubscription: Subscription;
   private bookService = inject(BookPostService)
   ngOnInit(): void {
     this.bookCollection$ =this.bookService.getBookCollection()
 
-  this.filterBookIdSub =this.bookService.getFilterSybGenreById().subscribe(
-      (data:string)=>this.filterBookById = data
-    )
+this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
+    (data:string)=>this.filterBookBySubGenreId = data
+  )
+
+
    this.BookCountSubscription= this.bookService.bookCountObservable().subscribe(
       (data)=>{
         let bookCount = data
@@ -47,10 +49,10 @@ export class IndexComponent implements OnInit,OnDestroy{
   NextPage() {
     this.currentPage++;
 
-    if(this.filterBookById === "" || this.filterBookById == null)
+    if(this.filterBookBySubGenreId === "" || this.filterBookBySubGenreId == null)
       this.bookService.getSliceBook(this.currentPage)
     else
-      this.bookService.getBookSliceBySybGenreFilter(this.filterBookById,this.currentPage)
+      this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
 
     this.pageStockCalculation()
 
@@ -59,10 +61,10 @@ export class IndexComponent implements OnInit,OnDestroy{
   PreviousPage() {
     this.currentPage--;
 
-    if(this.filterBookById === "" || this.filterBookById == null)
+    if(this.filterBookBySubGenreId === "" || this.filterBookBySubGenreId == null)
       this.bookService.getSliceBook(this.currentPage)
     else
-      this.bookService.getBookSliceBySybGenreFilter(this.filterBookById,this.currentPage)
+      this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
 
     this.pageStockCalculation()
     this.bookCollection$ =this.bookService.getBookCollection()
@@ -71,10 +73,10 @@ export class IndexComponent implements OnInit,OnDestroy{
   SelectPage(page:number) {
     this.currentPage = page
 
-    if(this.filterBookById === "" || this.filterBookById == null)
+    if(this.filterBookBySubGenreId === "" || this.filterBookBySubGenreId == null)
       this.bookService.getSliceBook(this.currentPage)
     else
-      this.bookService.getBookSliceBySybGenreFilter(this.filterBookById,this.currentPage)
+      this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
 
     this.pageStockCalculation()
      this.bookCollection$ =this.bookService.getBookCollection()
@@ -85,4 +87,6 @@ export class IndexComponent implements OnInit,OnDestroy{
     this.filterBookIdSub.unsubscribe()
     this.BookCountSubscription.unsubscribe()
   }
+
+  protected readonly console = console;
 }

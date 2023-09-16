@@ -30,8 +30,7 @@ export class Authors {
   set secondName(value: string) {
     this._secondName = value;
   }
-
-  private _id :string
+private _id :string
 private _name  :string
 private _lastName :string
 private _secondName :string

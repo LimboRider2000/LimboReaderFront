@@ -150,9 +150,10 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
     event.preventDefault()
 
     if(this.commentCollection!= null && this.commentCollection.length > 0 && this.commentCollection.length < this.commentCount) {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const bottomOfPage = document.documentElement.scrollHeight;
-      let ancore = bottomOfPage - 1000;
+      const scrollTop =  window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      let body = document.body
+      const bottomOfPage = Math.max( body.scrollHeight, body.offsetHeight);
+      let ancore = bottomOfPage - 1100;
       if( scrollTop>= ancore){
 
         if(this.eventScroll){
