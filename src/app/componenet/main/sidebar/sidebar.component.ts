@@ -1,8 +1,6 @@
-import {Component, HostListener, Injectable, OnDestroy, OnInit} from '@angular/core';
-import {Genre} from "../../../model/Genres/Genre";
+import {Component, HostListener,  OnDestroy, OnInit} from '@angular/core';
 import {SubGenre} from "../../../model/Genres/SubGenre";
 import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
-import {GenreServices} from "../../../Servises/DataService/GenreServices/GenreServices";
 import {inject} from "@angular/core";
 import {
   GenreSubGenreCollectionService

@@ -1,7 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
 import {Book} from "../../../model/Book/Book";
-import {dateComparator} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools";
 
 @Component({
   selector: 'app-index',
