@@ -3,7 +3,7 @@ import {ModalService} from "../../Servises/ModalService/Modalservice";
 import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
 import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-headerTop',
