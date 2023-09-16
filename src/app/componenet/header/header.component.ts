@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ModalService} from "../../Servises/ModalService/Modalservice";
 import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
+import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
 
 @Component({
   selector: 'app-headerTop',
@@ -9,7 +10,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit{
-  constructor(private modalService: ModalService,private routh:Router) { }
+
+  constructor(private modalService: ModalService,private routh:Router, private bookService:BookPostService ) {
+    bookService.getGlobalBookCountObservable().subscribe(
+      (data)=>{
+        this.bookCount = data;
+      }
+    )
+  }
   ngOnInit() {
     if(localStorage.getItem("Login")!= null){
       sessionStorage.setItem("Login", localStorage.getItem("Login")!)
@@ -19,7 +27,6 @@ export class HeaderComponent implements OnInit{
         sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
       }
     }
-
   }
   callOpenModal(){
     this.modalService.openModal();
@@ -31,8 +38,7 @@ export class HeaderComponent implements OnInit{
   @Input() userCount: number=0;
 
 
-  //protected readonly sessionStorage = sessionStorage;
-  //protected readonly localStorage = localStorage;
+
   Exit(){
     sessionStorage.clear();
     localStorage.clear();

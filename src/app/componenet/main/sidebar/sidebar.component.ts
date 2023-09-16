@@ -7,6 +7,7 @@ import {inject} from "@angular/core";
 import {
   GenreSubGenreCollectionService
 } from "../../../Servises/DataService/GenreServices/GenreSubGenreCollectionService";
+import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
 
 
 
@@ -18,9 +19,8 @@ import {
 })
 export class SidebarComponent implements OnInit,OnDestroy{
  genreSubGenreCollection:GenreSubgenreItem[];
- constructor(private genreSubGenreService:GenreSubGenreCollectionService) {
- }
-
+ private readonly genreSubGenreService : GenreSubGenreCollectionService = inject(GenreSubGenreCollectionService)
+ private readonly bookService : BookPostService = inject(BookPostService)
   ngOnInit(): void {
     this.genreSubGenreService.getGenreCollectionObservable().subscribe(
       (collection) => this.genreSubGenreCollection = collection
@@ -37,5 +37,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
       }))}
 
 
-
+  FilterBookBySubGenre(id: string) {
+    this.bookService.getBookSliceBySybGenreFilter(id);
+  }
 }

@@ -149,7 +149,7 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
   public onViewportScroll(event:Event) {
     event.preventDefault()
 
-    if(this.commentCollection.length > 0 && this.commentCollection.length < this.commentCount) {
+    if(this.commentCollection!= null && this.commentCollection.length > 0 && this.commentCollection.length < this.commentCount) {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const bottomOfPage = document.documentElement.scrollHeight;
       let ancore = bottomOfPage - 1000;

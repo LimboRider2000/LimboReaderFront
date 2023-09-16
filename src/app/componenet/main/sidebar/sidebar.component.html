@@ -18,7 +18,7 @@
       {{genre.genre.genreName}}
     </button>
     <ul class="dropdown-menu dropdown-menu-dark">
-      <li  *ngFor="let subGenre of genre.subGenreCollection"><a class="dropdown-item" href="#">{{subGenre.subGenreName}}</a></li>
+      <li  *ngFor="let subGenre of genre.subGenreCollection"><button class="dropdown-item" (click)="FilterBookBySubGenre(subGenre.id)">{{subGenre.subGenreName}}</button></li>
     </ul>
   </div>
 </div>

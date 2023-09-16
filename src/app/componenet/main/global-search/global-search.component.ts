@@ -6,6 +6,6 @@ import {Component} from '@angular/core';
   styleUrls: ['./global-search.component.css']
 })
 export class GlobalSearch {
-
+  public searchString:string ="";
 
 }

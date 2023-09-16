@@ -1,4 +1,3 @@
-
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {serverAddress} from "../ServerAddress";
@@ -10,44 +9,105 @@ import {BehaviorSubject} from "rxjs";
 })
 export class BookPostService {
   serverUrl = serverAddress + "api/Book"
-  private http = inject(HttpClient)
   private bookCollection: Book[] = [];
-  private collectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.bookCollection)
+  private bookNumber: number = 0;
+  private globalBookNumber: number = 0;
+  private filterSubGenreId: string="";
+  private readonly http = inject(HttpClient)
+  private readonly collectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.bookCollection)
+  private readonly bookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.bookNumber)
+  private readonly globalBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.globalBookNumber)
+  private readonly filterSubGenreIdSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.filterSubGenreId)
 
   newPostAdd(data: any) {
     return this.http.post(this.serverUrl, data)
   }
-  addToCollection(data:Book){
+
+  addToCollection(data: Book) {
     this.bookCollection.push(data);
     this.collectionSubject.next(this.bookCollection.slice());
+  }
+
+  bookCountObservable() {
+    return this.bookCountSubject.asObservable()
+  }
+
+  getGlobalBookCountObservable() {
+    return this.globalBookCountSubject.asObservable()
   }
 
   BookCollectionObservable() {
     return this.collectionSubject.asObservable()
   }
- private initBookCollection() {
-   let  count:number = 0;
-    this.http.get<Book[]>(this.serverUrl).subscribe(
-      (data:Book[])=>{
-        data.forEach(item=>this.bookCollection.push(item))
+  getFilterSybGenreById(){
+    return this.filterSubGenreIdSubject.asObservable()
+  }
+  private initBookCollection() {
+    let count: number = 0;
+    this.http.get(this.serverUrl).subscribe(
+      (data: any) => {
+        let bookCol: Book[] = data.listTransfer;
+        bookCol.forEach(item => this.bookCollection.push(item))
+        this.bookNumber = data.bookCount;
+        this.bookCountSubject.next(this.bookNumber)
+        this.globalBookNumber = this.bookNumber;
+        this.globalBookCountSubject.next(this.bookNumber)
       },
-      error => {console.log(error)
+      error => {
+        console.log(error)
         ++count
-        if(count<3)
-        setTimeout(()=>{
-          this.initBookCollection()
-        },2000)
+        if (count < 3)
+          setTimeout(() => {
+            this.initBookCollection()
+          }, 2000)
       }
     )
   }
 
-
+  getSliceBook(page: number) {
+    this.http.get(this.serverUrl + "/?page=" + page)
+      .subscribe(
+        (data: any) => {
+          let bookCol: Book[] = data.listTransfer;
+          this.bookCollectionInit(bookCol)
+          this.bookCountInit(data.bookCount);
+        },
+        error => {
+          console.log(error.error)
+        }
+      )
+  }
   getBookCollection() {
-    if(this.bookCollection.length === 0) this.initBookCollection()
-  return  this.BookCollectionObservable()
+    if (this.bookCollection.length === 0){
+      this.initBookCollection()
+      this.filterSubGenreIdSubject.next((this.filterSubGenreId = ""))
+    }
+    return this.BookCollectionObservable()
+  }
+  getBuId(id: string) {
+    return this.http.get<Book>(this.serverUrl + "/" + id)
+  }
+  getBookSliceBySybGenreFilter(id: string, currentPage:number = 1) {
+    this.http.get(this.serverUrl +"/filterBySubGenre"+"/?subGenreId=" + id+"&page="+currentPage).subscribe(
+      (data: any) => {
+        let bookCol: Book[] = data.listTransfer;
+        this.bookCollectionInit(bookCol)
+        this.bookCountInit(data.bookCount);
+        this.filterSubGenreIdSubject.next((this.filterSubGenreId = id))
+      },
+      error => {
+        console.log(error.error)
+      }
+    )
   }
 
-  getBuId(id: string ) {
-        return this.http.get<Book>(this.serverUrl+"/"+id)
+  private bookCollectionInit(collection: Book[]) {
+    this.bookCollection = []
+    collection.forEach(item => this.bookCollection.push(item))
+    this.collectionSubject.next(this.bookCollection)
+  }
+
+  private bookCountInit(count: number) {
+    this.bookCountSubject.next(this.bookNumber = count)
   }
 }
