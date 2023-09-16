@@ -1,9 +1,8 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ModalService} from "../../Servises/ModalService/Modalservice";
 import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
 import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
-import {of, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-headerTop',

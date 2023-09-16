@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
 import {Book} from "../../../model/Book/Book";
-import {map, Observable, Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-index',
