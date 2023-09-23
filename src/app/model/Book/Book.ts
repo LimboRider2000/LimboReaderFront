@@ -82,7 +82,7 @@ export class Book{
   set rating(value: number) {
     this._rating = value;
   }
- private _id :string
+private _id :string
 private _user_name:string;
 private _titleImgPath:string
 private _title:string ;

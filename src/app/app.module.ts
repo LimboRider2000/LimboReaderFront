@@ -58,10 +58,6 @@ const adminAPanelRoutes: Routes=[
   {path: "genre", component:GenresComponent },
   {path: "tags", component:TagsComponent },
   {path: "authors", component:AuthorsComponent },
-
-
-
-
 ]
 
 const appRoutes : Routes=[

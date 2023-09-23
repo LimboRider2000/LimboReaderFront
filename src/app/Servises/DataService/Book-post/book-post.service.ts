@@ -88,9 +88,9 @@ export class BookPostService {
     )
   }
   getBookCollectionBySearchString(searchString: string) {
-    this.http.get(this.serverUrl+"/bySearchSting/?search="+searchString).subscribe(
-      (data)=>{
-        this.bookCollectionInit(data as Book[])
+    this.http.get<Book[]>(this.serverUrl+"/bySearchSting/?search="+searchString).subscribe(
+      (data:Book[])=>{
+        this.bookCollectionInit(data)
       },
       error => {console.error(error)}
     )
