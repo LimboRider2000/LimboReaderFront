@@ -67,7 +67,6 @@ export class OnlineReaderComponent implements OnInit, OnDestroy{
   unreadBookCollection :UnreadBookCollection | null;
   protected readonly serverAddress = serverAddress;
 
-  private router = inject(Router);
   ngOnInit(): void {
   if (this.isAuthorizeUser){
     this.unreadBookCollection = this.getCollectionFromLocalStorage()
@@ -136,7 +135,7 @@ callBackFn(pdf:PDFDocumentProxy){
     return null;
   }
   @HostListener('window:beforeunload', ["$event"])
-    saveToLocalStorage($event:any){
+    saveToLocalStorage(){
     if(this.isAuthorizeUser)
       localStorage.setItem("UnreadBookCollection", JSON.stringify(this.unreadBookCollection))
   }

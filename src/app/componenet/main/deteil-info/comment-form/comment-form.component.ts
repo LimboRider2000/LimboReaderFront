@@ -19,7 +19,7 @@ private commentService = inject(CommentService)
 
   protected readonly event = event;
 
-  Submit($event: Event) {
+  Submit() {
     const formData:FormData = new FormData();
     const user_id= localStorage.getItem("Id")
     if(user_id){
