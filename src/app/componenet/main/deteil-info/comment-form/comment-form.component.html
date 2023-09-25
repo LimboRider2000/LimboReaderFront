@@ -1,5 +1,5 @@
 <div class="mt-2  content container col-10 p-2">
-  <form [formGroup]="commentForm" (ngSubmit)="Submit($event)">
+  <form [formGroup]="commentForm" (ngSubmit)="Submit()">
   <div class="form-floating">
     <textarea class="form-control" formControlName="comment" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" ></textarea>
     <label for="floatingTextarea2">Комментарий</label>
