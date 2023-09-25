@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './componenet/header/header.component';
-import { GlobalSearch } from './componenet/main/global-search/global-search.component';
-import { SidebarComponent } from './componenet/main/sidebar/sidebar.component';
+import { GlobalSearch } from './componenet/main/index/global-search/global-search.component';
+import { SidebarComponent } from './componenet/main/index/sidebar/sidebar.component';
 import { MainComponent } from './componenet/main/main.component';
 import { FooterComponent } from './componenet/footer/footer/footer.component';
 import {RouterModule, Routes} from "@angular/router";
@@ -17,9 +17,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ModalService} from "./Servises/ModalService/Modalservice";
 import { AuthenticationModalComponent } from './componenet/allPopUp/auntification-modal/authentication-modal.component';
 import {SingInService} from "./Servises/DataService/User/sin-in-srvice.service";
-import { MyButtonComponent } from './componenet/my-button/my-button.component';
+//import { MyButtonComponent } from './componenet/my-button/my-button.component';
 import { AdminPanelComponent } from './componenet/main/admin-panel/admin-panel.component';
-import { UserEditComponent } from './componenet/main/user-edit/user-edit.component';
+import { UserPanelComponent } from './componenet/main/user-panel/user-panel.component';
 import {RegistrationServices} from "./Servises/DataService/User/RegistrationServisce";
 import {AvatarTransferServices} from "./Servises/FileService/AvatarTransferServices";
 import { UsersComponent } from './componenet/main/admin-panel/users/users.component';
@@ -27,7 +27,7 @@ import { GenresComponent } from './componenet/main/admin-panel/genres/genres.com
 import { TagsComponent } from './componenet/main/admin-panel/tags/tags.component';
 import { BooksComponent } from './componenet/main/admin-panel/books/books.component';
 import { AuthorsComponent } from './componenet/main/admin-panel/authors/authors.component';
-import {ChildNavbarComponent} from "./componenet/childNavbar/childNavbar.component";
+import {ChildNavbarComponent} from "./componenet/main/admin-panel/childNavbar/childNavbar.component";
 import {GenreServices} from "./Servises/DataService/GenreServices/GenreServices";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "../MaterialModule";
@@ -43,14 +43,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {BookPostService} from "./Servises/DataService/Book-post/book-post.service";
 import { BookPostSmallComponent } from './componenet/main/index/book-post-small/book-post-small.component';
 import {FormatDataStringService} from "./Servises/format-data-string.service";
-import { DetailInfoComponent } from './componenet/main/index/deteil-info/detail-info.component';
+import { DetailInfoComponent } from './componenet/main/deteil-info/detail-info.component';
 import {FileBookDownloadServiceService} from "./Servises/FileService/file-book-download-service.service";
 import { InfoPopUpComponent } from './componenet/allPopUp/info-pop-up/info-pop-up.component';
 import { PdfViewerModule} from "ng2-pdf-viewer";
-import { OnlineReaderComponent } from './componenet/main/index/online-reader/online-reader.component';
-import { CommentFormComponent } from './componenet/main/index/deteil-info/comment-form/comment-form.component';
+import { OnlineReaderComponent } from './componenet/main/online-reader/online-reader.component';
+import { CommentFormComponent } from './componenet/main/deteil-info/comment-form/comment-form.component';
 import {CommentService} from "./Servises/DataService/comment.service";
-import { CommentItemComponent } from './componenet/main/index/deteil-info/comment-item/comment-item.component';
+import { CommentItemComponent } from './componenet/main/deteil-info/comment-item/comment-item.component';
+import { UserInfoEditComponent } from './componenet/main/user-panel/user-info-edit/user-info-edit.component';
+import { ForReadComponent } from './componenet/main/user-panel/for-read/for-read.component';
+import { UserBookComponent } from './componenet/main/user-panel/user-book/user-book.component';
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -60,17 +63,28 @@ const adminAPanelRoutes: Routes=[
   {path: "authors", component:AuthorsComponent },
 ]
 
-const appRoutes : Routes=[
+const userPage : Routes=[
+  {path:"editUser",component:UserInfoEditComponent},
+  {path:"userBook",component:UserBookComponent},
+  {path:"forRead",component:ForReadComponent},
+//
+//  {path:"confirmCode",component:MyConfirmPageComponent},
+//  {path:"editUser",component:UserEditComponent},
+  //{path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
+ // {path:"addPost",component:AddPostComponent},
+
+]
+const MainPageRouth : Routes =[
   {path:"",component:IndexComponent},
   {path:"registration",component:RegistrationComponent},
   {path:"confirmCode",component:MyConfirmPageComponent},
-  {path:"editUser",component:UserEditComponent},
+  {path:"userPanel",component:UserPanelComponent,children:userPage},
   {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
   {path:"addPost",component:AddPostComponent},
   {path: "detail/:id",component: DetailInfoComponent},
   {path: "reader", component: OnlineReaderComponent}
-
 ]
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,9 +97,9 @@ const appRoutes : Routes=[
     RegistrationComponent,
     IndexComponent,
     AuthenticationModalComponent,
-    MyButtonComponent,
+   // MyButtonComponent,
     AdminPanelComponent,
-    UserEditComponent,
+    UserPanelComponent,
     UsersComponent,
     GenresComponent,
     TagsComponent,
@@ -102,10 +116,13 @@ const appRoutes : Routes=[
     OnlineReaderComponent,
     CommentFormComponent,
     CommentItemComponent,
+    UserInfoEditComponent,
+    ForReadComponent,
+    UserBookComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(MainPageRouth),
     FormsModule,
     HttpClientModule,
     NgOptimizedImage,

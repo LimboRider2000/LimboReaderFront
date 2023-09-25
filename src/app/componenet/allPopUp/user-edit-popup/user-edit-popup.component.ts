@@ -4,7 +4,7 @@ import {PopupComponent} from "../popup/popup.component";
 import {UserService} from "../../../Servises/DataService/User/user.service";
 
 @Component({
-  selector: 'app-user-edit-popup',
+  selector: 'app-user-panel-popup',
   templateUrl: './user-edit-popup.component.html',
   styleUrls: ['./user-edit-popup.component.css']
 })

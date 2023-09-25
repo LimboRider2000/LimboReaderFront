@@ -1,6 +1,6 @@
 import {Component, inject, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CommentService} from "../../../../../Servises/DataService/comment.service";
+import {CommentService} from "../../../../Servises/DataService/comment.service";
 
 @Component({
   selector: 'app-comment-form',

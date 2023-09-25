@@ -1,11 +1,11 @@
 import {Component, HostListener,  OnDestroy, OnInit} from '@angular/core';
-import {SubGenre} from "../../../model/Genres/SubGenre";
-import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
+import {SubGenre} from "../../../../model/Genres/SubGenre";
+import {GenreSubgenreItem} from "../../../../model/Genres/GenreSubgenreItem";
 import {inject} from "@angular/core";
 import {
   GenreSubGenreCollectionService
-} from "../../../Servises/DataService/GenreServices/GenreSubGenreCollectionService";
-import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
+} from "../../../../Servises/DataService/GenreServices/GenreSubGenreCollectionService";
+import {BookPostService} from "../../../../Servises/DataService/Book-post/book-post.service";
 
 
 

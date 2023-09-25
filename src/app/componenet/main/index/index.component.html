@@ -1,4 +1,7 @@
-<app-global-search ></app-global-search>
+<div class="w-100 row">
+  <app-sidebar  class="col-3"/>
+  <div class="col-9 mt-3 d-inline">
+    <app-global-search ></app-global-search>
     <div *ngFor="let item of bookCollection$ | async" >
        <app-book-post-small [bookData]="item"/>
   </div>
@@ -18,3 +21,5 @@
   </ul>
 </div>
 
+  </div>
+</div>

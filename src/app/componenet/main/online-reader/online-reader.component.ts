@@ -1,6 +1,6 @@
 import {Component, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
 import { Router} from "@angular/router";
-import {serverAddress} from "../../../../Servises/DataService/ServerAddress";
+import {serverAddress} from "../../../Servises/DataService/ServerAddress";
 import {PDFDocumentProxy} from "ng2-pdf-viewer";
 
 class UnreadBook {
@@ -62,6 +62,7 @@ export class OnlineReaderComponent implements OnInit, OnDestroy{
   totalPages: number;
   page:number = 1;
   isLoaded:boolean = true;
+  riderHeight:number= window.innerHeight - 240;
   isAuthorizeUser:boolean = (sessionStorage.getItem("Login") !== null);
   unreadBookCollection :UnreadBookCollection | null;
   protected readonly serverAddress = serverAddress;

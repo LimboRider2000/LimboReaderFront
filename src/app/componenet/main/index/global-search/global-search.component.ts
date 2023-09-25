@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
+import {BookPostService} from "../../../../Servises/DataService/Book-post/book-post.service";
 
 @Component({
   selector: 'app-global-search',

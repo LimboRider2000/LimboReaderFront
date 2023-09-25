@@ -16,7 +16,15 @@ html, body{
 body{
   background-color: #868B8E;
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
+.wrapper{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.main{
+  flex: 1 1 auto;
 }
 .myBagColor1{
   background-color: #868B8E;

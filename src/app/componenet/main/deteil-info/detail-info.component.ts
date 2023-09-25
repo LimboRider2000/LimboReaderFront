@@ -1,15 +1,15 @@
 import {Component, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {of, Subscription, switchMap} from "rxjs";
-import {BookPostService} from "../../../../Servises/DataService/Book-post/book-post.service";
-import {Book} from "../../../../model/Book/Book";
-import {serverAddress} from "../../../../Servises/DataService/ServerAddress";
-import {FormatDataStringService} from "../../../../Servises/format-data-string.service";
-import {FileBookDownloadServiceService} from "../../../../Servises/FileService/file-book-download-service.service";
+import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
+import {Book} from "../../../model/Book/Book";
+import {serverAddress} from "../../../Servises/DataService/ServerAddress";
+import {FormatDataStringService} from "../../../Servises/format-data-string.service";
+import {FileBookDownloadServiceService} from "../../../Servises/FileService/file-book-download-service.service";
 import {MatDialog} from "@angular/material/dialog";
-import {InfoPopUpComponent} from "../../../allPopUp/info-pop-up/info-pop-up.component";
-import {Comment} from "../../../../model/Comment"
-import {CommentService} from "../../../../Servises/DataService/comment.service";
+import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
+import {Comment} from "../../../model/Comment"
+import {CommentService} from "../../../Servises/DataService/comment.service";
 
 @Component({
   selector: 'app-detail-info',
@@ -131,7 +131,8 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
                   path: this.currentBook.filePath,
                   title: this.currentBook.title,
                   author: this.currentBook.author,
-                  id: this.currentBook.id
+                  id: this.currentBook.id,
+
                 }
             })
         }

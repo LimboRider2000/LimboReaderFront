@@ -1,7 +1,7 @@
 import {Component, inject, Input} from '@angular/core';
-import {Comment} from "../../../../../model/Comment";
-import {FormatDataStringService} from "../../../../../Servises/format-data-string.service";
-import {CommentService} from "../../../../../Servises/DataService/comment.service";
+import {Comment} from "../../../../model/Comment";
+import {FormatDataStringService} from "../../../../Servises/format-data-string.service";
+import {CommentService} from "../../../../Servises/DataService/comment.service";
 
 @Component({
   selector: 'app-comment-item',

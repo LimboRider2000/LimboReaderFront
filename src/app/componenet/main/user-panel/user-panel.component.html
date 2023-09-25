@@ -1,0 +1,23 @@
+<div class="row w-100">
+  <div class="col-3 myBagColor2 pb-4" >
+      <div class="container-fluid pt-3">
+        <div class="rounded overflow-hidden">
+        <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+           class="nav-link rounded" aria-current="page" routerLink="">
+          <img src="../../../../../assets/img/upscale_2.png" alt="Logo" />
+        </a>
+          </div>
+        <div class="fs-4 hovered">
+          <a  class="nav-link "  routerLink="/userPanel/editUser"><i class="bi bi-info-square-fill ms-4 me-3"></i> Данные пользователя </a>
+        </div>
+        <div class="fs-4 hovered ">
+          <a class="nav-link "  routerLink="/userPanel/userBook"> <i class="bi bi-journal ms-4 me-3"></i> Добавленные книги</a>
+        </div>
+        <div class="fs-4 hovered">
+          <a class="nav-link "  routerLink="/userPanel/forRead"><i class="bi bi-book-half ms-4 me-3"></i>Дочитать</a>
+        </div>
+      </div>
+  </div>
+  <div class="col-9"><router-outlet></router-outlet></div>
+</div>
+
