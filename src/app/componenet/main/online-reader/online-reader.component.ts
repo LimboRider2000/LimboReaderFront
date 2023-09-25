@@ -1,5 +1,4 @@
-import {Component, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
-import { Router} from "@angular/router";
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {serverAddress} from "../../../Servises/DataService/ServerAddress";
 import {PDFDocumentProxy} from "ng2-pdf-viewer";
 
