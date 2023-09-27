@@ -18,7 +18,8 @@
       </ul>
       <div *ngIf="sessionStorage.getItem('Login') == null; else authUser" class="col-6 justify-content-end text-end">
         <i role="button" class="col-2 bi bi-box-arrow-in-right mx-3 btn btn-outline-success"
-           data-bs-toggle="modal" data-bs-target="#authModal"  title="Вход" (click)="callOpenModal()"></i>
+          (click)="callOpenModal()"></i>
+
           <a class="btn btn-outline-success col-2" routerLink="/registration" title="Регистрация"><i
           class="bi bi-person-add"></i></a>
       </div>

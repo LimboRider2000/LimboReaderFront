@@ -1,24 +1,28 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {serverAddress} from "../ServerAddress";
 import {Book} from "../../../model/Book/Book";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+import {dateComparator} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookPostService {
+export class BookPostService{
 
   serverUrl = serverAddress + "api/Book"
   private bookCollection: Book[] = [];
+  private userBooksCollection: Book[] =[];
   private bookNumber: number = 0;
   private globalBookNumber: number = 0;
   private filterSubGenreId: string="";
+
   private readonly http = inject(HttpClient)
   private readonly collectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.bookCollection)
   private readonly bookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.bookNumber)
   private readonly globalBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.globalBookNumber)
   private readonly filterSubGenreIdSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.filterSubGenreId)
+  private readonly BookByUserIdObservable: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.userBooksCollection)
   //region Observable
   bookCountObservable() {
     return this.bookCountSubject.asObservable()
@@ -34,9 +38,13 @@ export class BookPostService {
   getFilterSybGenreByIdObservable(){
     return this.filterSubGenreIdSubject.asObservable()
   }
+  getBookByUserIdObservable(){
+    return
+  }
   private bookCountInitObservable(count: number) {
     this.bookCountSubject.next(this.bookNumber = count)
   }
+
   //endregion
 
   //region AddMethod
@@ -95,12 +103,25 @@ export class BookPostService {
       error => {console.error(error)}
     )
   }
+  getBookCollectionByUserId(userId:string){
+    this.http.get<Book[]>(this.serverUrl+"/getBookByUserId/?userId="+userId)
+      .subscribe(
+        (data:Book[])=>{
+          this.userBooksCollection = []
+          if(data.length != null) {
+            data.map(book=>this.userBooksCollection.push(book))
+          }
+        },
+        error => console.error(error.error)
+      )
+  }
+
   //endregion
 
   //region HelpPrivateFunc
   private bookCollectionInit(collection: Book[]) {
     this.bookCollection = []
-    collection.forEach((item:Book) => this.bookCollection.push(item))
+    collection.map((item:Book) => this.bookCollection.push(item))
     this.collectionSubject.next(this.bookCollection)
   }
 
@@ -109,7 +130,7 @@ export class BookPostService {
     this.http.get(this.serverUrl).subscribe(
       (data: any) => {
         let bookCol: Book[] = data.listTransfer;
-        bookCol.forEach(item => this.bookCollection.push(item))
+        bookCol.map(item => this.bookCollection.push(item))
         this.bookNumber = data.bookCount;
         this.bookCountSubject.next(this.bookNumber)
         this.globalBookNumber = this.bookNumber;

@@ -19,7 +19,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatInputModule,
     MatSlideToggleModule,
     ScrollingModule
+
   ]
 
 })
-export  class MaterialModule{};
+export  class MaterialModule{}

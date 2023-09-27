@@ -21,7 +21,6 @@ export class GenresComponent implements OnInit {
   @Input() genre: string;
   @Input() subGenre: string;
   @Input() message: string;
-  //@Input() genreSelectList: Genre[] = [];
   @Input() subGenreSelectList: SubGenre[] = [];
   @Input() collectionGenreSubGenre: GenreSubgenreItem[];
   private currentSelectGenre?: Genre = new Genre();
@@ -82,7 +81,7 @@ export class GenresComponent implements OnInit {
       (data: Genre) => {
         let newGenre: Genre;
         newGenre = data;
-       // newGenre.genreName = data.genreName;
+        // newGenre.genreName = data.genreName;
         this.genreSubGenreService.addToCollection(newGenre)
         this.genre = "";
       },
@@ -134,7 +133,7 @@ export class GenresComponent implements OnInit {
       if (this.currentSelectGenre === undefined) return
       this.genreServices.editGenre(item, this.currentSelectGenre.id).subscribe(
         (data: any) => {
-              this.genreSubGenreService.editGenre(data)
+          this.genreSubGenreService.editGenre(data)
         },
         (error) => this.message = error
       )
@@ -142,10 +141,10 @@ export class GenresComponent implements OnInit {
   }
   public changeSubGenre(event: any) {
     //if (this.currentSelectSubGenre === undefined) return
-   // const subGenreSelectObject = document.getElementById("subGenre")
-   // if (subGenreSelectObject)
+    // const subGenreSelectObject = document.getElementById("subGenre")
+    // if (subGenreSelectObject)
     //  subGenreSelectObject.querySelectorAll("option[selected]")
-     //   .forEach(option => option.removeAttribute("selected"));
+    //   .forEach(option => option.removeAttribute("selected"));
     const popupData = this.dialog.open(PopupComponent, {
       width: " 30%",
       enterAnimationDuration: 300,
@@ -171,10 +170,10 @@ export class GenresComponent implements OnInit {
   }
   public deleteGenreOrSubGenre() {
     if (this.isGenreSelected) {
-          this.deleteGenre()
+      this.deleteGenre()
     }
     if (this.isSubGenreSelected) {
-     this.deleteSubGenre()
+      this.deleteSubGenre()
     }
   }
   private deleteGenre(){
@@ -193,11 +192,11 @@ export class GenresComponent implements OnInit {
       if (item == "ok") {
         this.genreServices.deleteGenre(this.currentSelectGenre!.id).subscribe(
           (data: any) => {
-              this.genreSubGenreService.removeGenreFromCollection(this.currentSelectGenre!.id)
-              this.currentSelectGenre = undefined;
-              this.isSubGenreSelected = false;
-              this.isGenreSelected =false
-              this.subGenreSelectList = []
+            this.genreSubGenreService.removeGenreFromCollection(this.currentSelectGenre!.id)
+            this.currentSelectGenre = undefined;
+            this.isSubGenreSelected = false;
+            this.isGenreSelected =false
+            this.subGenreSelectList = []
           },
           (error) => console.log(error));
       }
@@ -219,7 +218,7 @@ export class GenresComponent implements OnInit {
           (data: any) => {
             this.genreSubGenreService.removeSubGenreFromCollection(this.currentSelectGenre!.id,this.currentSelectSubGenre!.id)
             const index =   this.subGenreSelectList
-                                    .findIndex((item)=> item.id === this.currentSelectSubGenre!.id)
+              .findIndex((item)=> item.id === this.currentSelectSubGenre!.id)
             this.subGenreSelectList.splice(index,1)
             this.isSubGenreSelected =false;
             this.currentSelectSubGenre = undefined;

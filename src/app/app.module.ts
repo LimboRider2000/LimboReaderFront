@@ -13,11 +13,9 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { IndexComponent } from './componenet/main/index/index.component';
 import {NgOptimizedImage} from "@angular/common";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ModalService} from "./Servises/ModalService/Modalservice";
 import { AuthenticationModalComponent } from './componenet/allPopUp/auntification-modal/authentication-modal.component';
 import {SingInService} from "./Servises/DataService/User/sin-in-srvice.service";
-//import { MyButtonComponent } from './componenet/my-button/my-button.component';
 import { AdminPanelComponent } from './componenet/main/admin-panel/admin-panel.component';
 import { UserPanelComponent } from './componenet/main/user-panel/user-panel.component';
 import {RegistrationServices} from "./Servises/DataService/User/RegistrationServisce";
@@ -54,6 +52,7 @@ import { CommentItemComponent } from './componenet/main/deteil-info/comment-item
 import { UserInfoEditComponent } from './componenet/main/user-panel/user-info-edit/user-info-edit.component';
 import { ForReadComponent } from './componenet/main/user-panel/for-read/for-read.component';
 import { UserBookComponent } from './componenet/main/user-panel/user-book/user-book.component';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -67,11 +66,7 @@ const userPage : Routes=[
   {path:"editUser",component:UserInfoEditComponent},
   {path:"userBook",component:UserBookComponent},
   {path:"forRead",component:ForReadComponent},
-//
-//  {path:"confirmCode",component:MyConfirmPageComponent},
-//  {path:"editUser",component:UserEditComponent},
-  //{path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
- // {path:"addPost",component:AddPostComponent},
+
 
 ]
 const MainPageRouth : Routes =[
@@ -97,7 +92,6 @@ const MainPageRouth : Routes =[
     RegistrationComponent,
     IndexComponent,
     AuthenticationModalComponent,
-   // MyButtonComponent,
     AdminPanelComponent,
     UserPanelComponent,
     UsersComponent,
@@ -126,11 +120,9 @@ const MainPageRouth : Routes =[
     FormsModule,
     HttpClientModule,
     NgOptimizedImage,
-    NgbModule,
     BrowserAnimationsModule,
     MaterialModule,
     CodeInputModule,
-    NgbModule,
     ReactiveFormsModule,
     PdfViewerModule,
   ],
@@ -145,7 +137,9 @@ const MainPageRouth : Routes =[
     BookPostService,
     FormatDataStringService,
     FileBookDownloadServiceService,
-    CommentService
+    CommentService,
+     { provide: MAT_DIALOG_DATA, useValue: {} },
+     { provide: MatDialogRef, useValue: {} }
     ],
   bootstrap: [AppComponent]
 })

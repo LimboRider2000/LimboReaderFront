@@ -1,28 +1,49 @@
-<ng-template #myModal let-modal>
-      <div class="modal-content bg-light text-black" id="authModal">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-center" id="authModalLabel">Аутентификация</h1>
-        </div>
-        <div class="modal-body">
-          <div class="input-group mb-3">
+<!--<ng-template #myModal let-modal>-->
+<!--      <div class="modal-content bg-light text-black" id="authModal">-->
+<!--        <div class="modal-header">-->
+<!--          <h1 class="modal-title fs-5 text-center" id="authModalLabel">Аутентификация</h1>-->
+<!--        </div>-->
+<!--        <div class="modal-body">-->
+<!--          <div class="input-group mb-3">-->
+<!--            <span class="input-group-text" id="login-addon"><i class="bi bi-person-add"></i></span>-->
+<!--            <input type="text" class="form-control" name="login" [(ngModel)]="Login" placeholder="Введите логи" required aria-label="Логин"-->
+<!--                   aria-describedby="login-addon"-->
+<!--                   id="auth-login" name="auth-login">-->
+<!--          </div>-->
+<!--          <div class="input-group mb-3">-->
+<!--            <span class="input-group-text" id="password-addon"><i class="bi bi-key"></i></span>-->
+<!--            <input type="password" class="form-control" required name="password" [(ngModel)]="Password"  placeholder="Введите пароль" aria-label="Пароль"-->
+<!--                   aria-describedby="login-addon"-->
+<!--                   id="auth-password" name="auth-password">-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--        <div class="modal-footer">-->
+<!--          <div *ngIf="errorMessage!= ''" class="alert"  [ngClass]=" isAuntSuccess? 'alert-success text-success':'alert alert-danger text-danger' "-->
+<!--          >{{errorMessage}}</div>-->
+<!--          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрыть</button>-->
+<!--          <button type="button" class="btn btn-primary" [disabled]="isSendDisable" id="auth-button" (click)="AuthButtonClick()">Вход</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--</ng-template>-->
+
+<h1 mat-dialog-title >Аутентификация</h1>
+<div mat-dialog-content>
+  <div class="input-group mb-3">
             <span class="input-group-text" id="login-addon"><i class="bi bi-person-add"></i></span>
-            <input type="text" class="form-control" name="login" [(ngModel)]="Login" placeholder="Введите логи" required aria-label="Логин"
-                   aria-describedby="login-addon"
-                   id="auth-login" name="auth-login">
+            <input type="text" class="form-control" [(ngModel)]="Login" placeholder="Введите логи" required>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="password-addon"><i class="bi bi-key"></i></span>
-            <input type="password" class="form-control" required name="password" [(ngModel)]="Password"  placeholder="Введите пароль" aria-label="Пароль"
-                   aria-describedby="login-addon"
-                   id="auth-password" name="auth-password">
+            <input type="password" class="form-control" required [(ngModel)]="Password"  placeholder="Введите пароль">
           </div>
+      <div *ngIf="errorMessage!= ''"
+       class="alert"
+       [ngClass]=" isAuntSuccess? 'alert-success text-success':'alert alert-danger text-danger' "
+       >{{errorMessage}}</div>
+    </div>
+    <div mat-dialog-actions>
+       <button  mat-stroked-button color="warn" (click)="Close()">Закрыть</button>
+       <button mat-stroked-button color="primary" [disabled]="isSendDisable" (click)="AuthButtonClick()">Вход</button>
+    </div>
 
-        </div>
-        <div class="modal-footer">
-          <div class="alert"  [ngClass]=" isAuntSuccess? 'alert-success text-success':'alert alert-danger text-danger' "
-               style="display: none" id="error-message">{{errorMessage}}</div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Закрыть</button>
-          <button type="button" class="btn btn-primary" [disabled]="isSendDisable" id="auth-button" (click)="AuthButtonClick()">Вход</button>
-        </div>
-      </div>
-</ng-template>

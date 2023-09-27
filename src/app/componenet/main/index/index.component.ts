@@ -8,24 +8,23 @@ import {Observable, Subscription} from "rxjs";
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class IndexComponent implements OnInit,OnDestroy{
-  public bookCollection$: Observable<Book[]>
+export class IndexComponent implements OnInit, OnDestroy{
   public perPage : number = 5;
   public currentPage : number = 1;
   public pageCount: number;
-
   public pageStock : number[] = [];
+
   private filterBookBySubGenreId:string ="";
   private filterBookIdSub:Subscription;
   private BookCountSubscription: Subscription;
   private bookService = inject(BookPostService)
-  ngOnInit(): void {
-    this.bookCollection$ =this.bookService.getBookCollection()
 
-this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
+  public bookCollection$: Observable<Book[]> = this.bookService.getBookCollection()
+
+    ngOnInit(): void {
+     this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
     (data:string)=>this.filterBookBySubGenreId = data
   )
-
 
    this.BookCountSubscription= this.bookService.bookCountObservable().subscribe(
       (data)=>{

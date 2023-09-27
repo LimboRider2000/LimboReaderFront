@@ -1,8 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {ModalService} from "../../Servises/ModalService/Modalservice";
 import {User} from "../../model/User/User";
 import {Router} from "@angular/router";
 import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
+import {MatDialog} from "@angular/material/dialog";
+import {AuthenticationModalComponent} from "../allPopUp/auntification-modal/authentication-modal.component";
+
 
 @Component({
   selector: 'app-headerTop',
@@ -10,6 +13,7 @@ import {BookPostService} from "../../Servises/DataService/Book-post/book-post.se
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit{
+  public auntDialog = inject(MatDialog)
   constructor(private modalService: ModalService,private routh:Router, private bookService:BookPostService ) {
   }
   ngOnInit() {
@@ -23,7 +27,14 @@ export class HeaderComponent implements OnInit{
     }
   }
   callOpenModal(){
-    this.modalService.openModal();
+    const popupData = this.auntDialog.open(AuthenticationModalComponent, {
+      width: "30%",
+      enterAnimationDuration: 300,
+      exitAnimationDuration: 300,
+      data : {
+        title: "Авторизация"
+      }
+    });
   }
   @Input() user:User;
 
