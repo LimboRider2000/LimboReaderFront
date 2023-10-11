@@ -1,1 +1,3 @@
-<p>user-book works!</p>
+<div *ngFor="let item of userBookCollection$ | async" >
+  <app-book-post-small [bookData]="item" [routerLink]="'/editPost/'+item.id"/>
+</div>

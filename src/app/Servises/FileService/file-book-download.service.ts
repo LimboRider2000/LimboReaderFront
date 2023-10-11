@@ -5,7 +5,7 @@ import {serverAddress} from "../DataService/ServerAddress";
 @Injectable({
   providedIn: 'root'
 })
-export class FileBookDownloadServiceService {
+export class FileBookDownloadService {
 
   private  http = inject(HttpClient)
   private serverUrl = serverAddress + "api/File"
@@ -15,5 +15,9 @@ export class FileBookDownloadServiceService {
   }
   checkFileExist(filePath:string){
       return this.http.get(this.serverUrl+"/ExistFile/?path="+filePath)
+  }
+
+  checkFilesForExtension(filePath: string) {
+  return  this.http.get(this.serverUrl+"/CheckExtensions/?filePath="+filePath)
   }
 }

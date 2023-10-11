@@ -3,7 +3,7 @@
   <div class="col-9 mt-3 d-inline">
     <app-global-search ></app-global-search>
     <div *ngFor="let item of bookCollection$ | async" >
-       <app-book-post-small [bookData]="item"/>
+       <app-book-post-small [bookData]="item" [routerLink]="['detail',item.id]"/>
   </div>
 <div>
   <ul class="pagination">

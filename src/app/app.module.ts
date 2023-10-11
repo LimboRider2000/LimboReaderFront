@@ -42,7 +42,7 @@ import {BookPostService} from "./Servises/DataService/Book-post/book-post.servic
 import { BookPostSmallComponent } from './componenet/main/index/book-post-small/book-post-small.component';
 import {FormatDataStringService} from "./Servises/format-data-string.service";
 import { DetailInfoComponent } from './componenet/main/deteil-info/detail-info.component';
-import {FileBookDownloadServiceService} from "./Servises/FileService/file-book-download-service.service";
+import {FileBookDownloadService} from "./Servises/FileService/file-book-download.service";
 import { InfoPopUpComponent } from './componenet/allPopUp/info-pop-up/info-pop-up.component';
 import { PdfViewerModule} from "ng2-pdf-viewer";
 import { OnlineReaderComponent } from './componenet/main/online-reader/online-reader.component';
@@ -53,6 +53,7 @@ import { UserInfoEditComponent } from './componenet/main/user-panel/user-info-ed
 import { ForReadComponent } from './componenet/main/user-panel/for-read/for-read.component';
 import { UserBookComponent } from './componenet/main/user-panel/user-book/user-book.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { EditBookComponent } from './componenet/main/edit-book/edit-book.component';
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -76,6 +77,7 @@ const MainPageRouth : Routes =[
   {path:"userPanel",component:UserPanelComponent,children:userPage},
   {path:"adminPanel",component:AdminPanelComponent,children:adminAPanelRoutes},
   {path:"addPost",component:AddPostComponent},
+  {path:"editPost/:id",component:EditBookComponent},
   {path: "detail/:id",component: DetailInfoComponent},
   {path: "reader", component: OnlineReaderComponent}
 ]
@@ -113,6 +115,7 @@ const MainPageRouth : Routes =[
     UserInfoEditComponent,
     ForReadComponent,
     UserBookComponent,
+    EditBookComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,7 +139,7 @@ const MainPageRouth : Routes =[
     GenreSubGenreCollectionService,
     BookPostService,
     FormatDataStringService,
-    FileBookDownloadServiceService,
+    FileBookDownloadService,
     CommentService,
      { provide: MAT_DIALOG_DATA, useValue: {} },
      { provide: MatDialogRef, useValue: {} }

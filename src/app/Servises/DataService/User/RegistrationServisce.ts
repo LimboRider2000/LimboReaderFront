@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
+  import {Injectable} from "@angular/core";
 import {serverAddress} from "../ServerAddress";
 import {HttpClient} from "@angular/common/http";
 import {UserFormModel} from "../../../model/User/UserFormModel";
 import {AvatarTransferServices} from "../../FileService/AvatarTransferServices";
-import {map, mergeMap, retry} from "rxjs";
+import {map} from "rxjs";
 import {Router} from "@angular/router";
 
 @Injectable()
@@ -25,7 +25,7 @@ export class RegistrationServices{
      return  this.fileServ.DataSend(file).pipe(
         map((path:any) => {
         body.avatar =path.dbPath
-        })).subscribe(pathStr =>
+        })).subscribe(() =>
          this.http.post(this.urlServer, body).subscribe( (data:any) =>{
              if(data.success === true){
                sessionStorage.setItem("idRegisteredUser",data.id)

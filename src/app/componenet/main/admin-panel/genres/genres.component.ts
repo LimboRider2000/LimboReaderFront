@@ -117,7 +117,7 @@ export class GenresComponent implements OnInit {
     )
 
   }
-  public changeGenre(event: any) {
+  public changeGenre() {
     if (this.currentSelectGenre === undefined) return
     const popupData = this.dialog.open(PopupComponent, {
       width: "auto",
@@ -139,12 +139,7 @@ export class GenresComponent implements OnInit {
       )
     })
   }
-  public changeSubGenre(event: any) {
-    //if (this.currentSelectSubGenre === undefined) return
-    // const subGenreSelectObject = document.getElementById("subGenre")
-    // if (subGenreSelectObject)
-    //  subGenreSelectObject.querySelectorAll("option[selected]")
-    //   .forEach(option => option.removeAttribute("selected"));
+  public changeSubGenre() {
     const popupData = this.dialog.open(PopupComponent, {
       width: " 30%",
       enterAnimationDuration: 300,
@@ -159,7 +154,7 @@ export class GenresComponent implements OnInit {
 
         this.genreServices.editSubGenre(this.currentSelectSubGenre!.id, item, this.currentSelectGenre!.id)
           .subscribe(
-            (data: any) => {
+            () => {
               this.genreSubGenreService.editSubGenre(this.currentSelectGenre!.id,this.currentSelectSubGenre!.id,item)
             },
             (error) => this.message = error
@@ -185,13 +180,15 @@ export class GenresComponent implements OnInit {
       data: {
         title: "Удаление",
         message: "Вы действительно хотите удалить жанр " + this.currentSelectGenre!.genreName +
-          "? Все поджанры также будут удалены!"
+          "? Все поджанры также будут удалены!",
+        buttonAction: "Удалить"
+
       }
     })
     popup.afterClosed().subscribe(item => {
       if (item == "ok") {
         this.genreServices.deleteGenre(this.currentSelectGenre!.id).subscribe(
-          (data: any) => {
+          () => {
             this.genreSubGenreService.removeGenreFromCollection(this.currentSelectGenre!.id)
             this.currentSelectGenre = undefined;
             this.isSubGenreSelected = false;
@@ -209,13 +206,14 @@ export class GenresComponent implements OnInit {
       exitAnimationDuration: 300,
       data: {
         title: "Удаление",
-        message: "Вы действительно хотите удалить поджанр " + this.currentSelectSubGenre!.subGenreName
+        message: "Вы действительно хотите удалить поджанр " + this.currentSelectSubGenre!.subGenreName,
+        buttonAction:'Удалить'
       }
     })
     popup.afterClosed().subscribe(item => {
       if (item === "ok") {
         this.genreServices.deleteSubGenre(this.currentSelectSubGenre!.id).subscribe(
-          (data: any) => {
+          () => {
             this.genreSubGenreService.removeSubGenreFromCollection(this.currentSelectGenre!.id,this.currentSelectSubGenre!.id)
             const index =   this.subGenreSelectList
               .findIndex((item)=> item.id === this.currentSelectSubGenre!.id)

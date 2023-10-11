@@ -14,7 +14,7 @@ export class ConfirmPopupComponent implements OnInit{
   }
   constructor(@Inject(MAT_DIALOG_DATA) public data:any,  private ref:MatDialogRef<ConfirmPopupComponent>) {
   }
-  deleteData() {
+  confororm() {
     this.ref.close("ok")
   }
 

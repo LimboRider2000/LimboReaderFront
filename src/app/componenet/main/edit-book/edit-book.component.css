@@ -1,0 +1,60 @@
+textarea{resize: none}
+
+.file-input{
+  display: none;
+}
+
+#epub-file+label{
+  font-size: 1rem ;
+  min-width:75px;
+  text-align: center;
+  background-color: rgba(0, 100, 0, 0.55);
+  padding: 8px;
+  border: 2px solid #9ec3ff;
+  border-radius: 9px ;
+  color: whitesmoke ;
+}
+#pdf-file+label{
+  font-size: 1rem ;
+  margin: 0 5px 0 5px ;
+  min-width:75px;
+  text-align: center;
+  background-color: red;
+  padding: 8px;
+  border: 2px solid #9ec3ff;
+  border-radius: 9px ;
+  color: whitesmoke ;
+}
+#fb2-file+label{
+  font-size: 1rem ;
+  min-width:75px;
+  text-align: center;
+  background-color: #0033ff;
+  padding: 8px;
+  border: 2px solid #9ec3ff;
+  border-radius: 9px ;
+  color: whitesmoke ;
+
+}
+#epub-file+label:hover{
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: #5151ca;
+  border: 2px solid black;
+}
+#pdf-file+label:hover{
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: #5151ca;
+  border: 2px solid black;
+
+}#fb2-file+label:hover{
+   cursor: pointer;
+   color: rgba(0, 0, 0, 0.6);
+   background-color: #5151ca;
+   border: 2px solid black;
+ }
+ p{
+   width: 100px;
+   overflow-wrap: anywhere;
+ }

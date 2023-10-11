@@ -1,9 +1,8 @@
-import {inject, Injectable, OnDestroy} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {serverAddress} from "../ServerAddress";
 import {Book} from "../../../model/Book/Book";
 import {BehaviorSubject, Observable} from "rxjs";
-import {dateComparator} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools";
 
 @Injectable({
   providedIn: 'root'
@@ -22,29 +21,27 @@ export class BookPostService{
   private readonly bookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.bookNumber)
   private readonly globalBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.globalBookNumber)
   private readonly filterSubGenreIdSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.filterSubGenreId)
-  private readonly BookByUserIdObservable: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.userBooksCollection)
+  private readonly userBookCollectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.userBooksCollection)
+
   //region Observable
   bookCountObservable() {
     return this.bookCountSubject.asObservable()
   }
-
   getGlobalBookCountObservable() {
     return this.globalBookCountSubject.asObservable()
   }
-
   BookCollectionObservable() {
     return this.collectionSubject.asObservable()
   }
   getFilterSybGenreByIdObservable(){
     return this.filterSubGenreIdSubject.asObservable()
   }
-  getBookByUserIdObservable(){
-    return
-  }
   private bookCountInitObservable(count: number) {
     this.bookCountSubject.next(this.bookNumber = count)
   }
-
+ getUserBookCollectionObservable():Observable<Book[]>{
+    return this.userBookCollectionSubject.asObservable()
+ }
   //endregion
 
   //region AddMethod
@@ -110,6 +107,7 @@ export class BookPostService{
           this.userBooksCollection = []
           if(data.length != null) {
             data.map(book=>this.userBooksCollection.push(book))
+            this.userBookCollectionSubject.next(this.userBooksCollection.slice())
           }
         },
         error => console.error(error.error)

@@ -115,7 +115,7 @@ export class AddPostComponent implements OnInit {
            }
          });
        },
-       (error) => {
+       () => {
          this.dialog.open(InfoPopUpComponent, {
            width: "auto",
            enterAnimationDuration: 300,
@@ -138,11 +138,6 @@ export class AddPostComponent implements OnInit {
        fileControls.push(this.fb.control(bookFileList[i]))
       }
       console.log(this.addNewPostForm)
-      // const reader = new FileReader();
-      // reader.onload = () => {
-      //   this.addNewPostForm.setValue(bookFileLit.bookFileList);
-      // }
-      //
     }
   }
 

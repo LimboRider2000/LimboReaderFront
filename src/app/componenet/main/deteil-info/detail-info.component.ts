@@ -5,7 +5,7 @@ import {BookPostService} from "../../../Servises/DataService/Book-post/book-post
 import {Book} from "../../../model/Book/Book";
 import {serverAddress} from "../../../Servises/DataService/ServerAddress";
 import {FormatDataStringService} from "../../../Servises/format-data-string.service";
-import {FileBookDownloadServiceService} from "../../../Servises/FileService/file-book-download-service.service";
+import {FileBookDownloadService} from "../../../Servises/FileService/file-book-download.service";
 import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
 import {Comment} from "../../../model/Comment"
@@ -54,8 +54,8 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
 
   private readonly activateRouter = inject(ActivatedRoute)
   private readonly bookService = inject(BookPostService)
-  private readonly fileCheck = inject(FileBookDownloadServiceService)
-  private readonly downloadService = inject(FileBookDownloadServiceService)
+  private readonly fileCheck = inject(FileBookDownloadService)
+  private readonly downloadService = inject(FileBookDownloadService)
   private readonly commentService = inject(CommentService);
   private readonly route = inject(Router)
   private readonly dialog = inject(MatDialog)

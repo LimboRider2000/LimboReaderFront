@@ -12,5 +12,4 @@ export class BookPostSmallComponent {
   @Input() bookData : Book;
   protected readonly serverAddress = serverAddress;
   public dateService = inject(FormatDataStringService)
-
 }

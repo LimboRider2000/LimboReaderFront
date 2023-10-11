@@ -17,8 +17,9 @@ export class HeaderComponent implements OnInit{
   constructor(private modalService: ModalService,private routh:Router, private bookService:BookPostService ) {
   }
   ngOnInit() {
-    if(localStorage.getItem("Login")!= null){
+    if(localStorage.getItem("Id")!= null){
       sessionStorage.setItem("Login", localStorage.getItem("Login")!)
+      sessionStorage.setItem("id", localStorage.getItem("Id")!)
       if(localStorage.getItem("Avatar") !== null|| true){
         sessionStorage.setItem("Avatar",localStorage.getItem('Avatar')!)
       }else {
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit{
     }
   }
   callOpenModal(){
-    const popupData = this.auntDialog.open(AuthenticationModalComponent, {
+   this.auntDialog.open(AuthenticationModalComponent, {
       width: "30%",
       enterAnimationDuration: 300,
       exitAnimationDuration: 300,

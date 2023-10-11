@@ -1,4 +1,4 @@
-import {Component,  Inject, OnInit, Optional} from '@angular/core';
+import {Component,  Inject, OnInit} from '@angular/core';
 import {ModalService} from "../../../Servises/ModalService/Modalservice";
 import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.service";
 import {User} from "../../../model/User/User";
@@ -57,7 +57,7 @@ export class AuthenticationModalComponent implements OnInit{
           this.isSendDisable =false;
         }else {
           if(data.notVerifi){
-            sessionStorage.setItem("idRegisteredUser", data.id)
+            sessionStorage.setItem("id", data.id)
             this.redirectService.redirectToPageAfterDelay(2,"/confirmCode")
             return
           }
