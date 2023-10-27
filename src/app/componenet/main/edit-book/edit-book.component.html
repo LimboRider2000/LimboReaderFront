@@ -1,13 +1,15 @@
 <div class="content container col-10 p-3">
+  <a class="btn btn-secondary" [routerLink]="['/userPanel/userBook']">Назад</a>
   <form [formGroup]="editBookFormGroup"
-        (ngSubmit)="submit()" enctype="multipart/form-data">
+        (ngSubmit)="submit($event)"
+        enctype="multipart/form-data">
     <div>
       <div class="input-group mb-3">
         <span class="input-group-text">T</span>
         <input type="text" class="form-control"
                placeholder="Название книги"
                aria-label="bookTittle"
-               formControlName="tittle">
+               formControlName="title">
       </div>
       <div class="input-group mb-3">
         <span class="input-group-text">Фамилия</span>
@@ -20,8 +22,8 @@
                formControlName="authorName">
       </div>
       <div class="alert alert-danger"
-           *ngIf="editBookFormGroup.controls['tittle'].invalid
-           && editBookFormGroup.controls['tittle'].touched">
+           *ngIf="editBookFormGroup.controls['title'].invalid
+           && editBookFormGroup.controls['title'].touched">
         Укажите автора
       </div>
       <div class="input-group mb-3">
@@ -29,12 +31,12 @@
           Обложка</label>
         <input type="file" class="form-control" #titleBook
                id="inputGroupFile01" formControlName="titleImgFile"
-               (change)="TitleFileInputChange()"
+               (change)="TitleFileInputChange($event)"
                accept="image/*">
       </div>
       <div class="row g-2">
         <div class="col-2">
-          <img [src]="previewTittleImg!= undefined?previewTittleImg
+          <img [src]="previewTittleImg != undefined ? previewTittleImg
           :'../assets/img/No-Cover-Image-01.webp'"
                alt="previewTittleImg">
         </div>
@@ -115,9 +117,9 @@
       </div>
     </div>
     <div class="text-center mt-3">
-      <button class="btn btn-success" (click)="submit()" type="submit"
+      <button class="btn btn-success" #btnDis type="submit"
               [disabled]="editBookFormGroup.invalid">
-        <i class="bi bi-pencil-square me-2"></i>Редактировать
+        <i class="bi bi-pencil-square me-2" ></i>Редактировать
       </button>
       <div class="alert alert-danger"
            *ngIf="this.message !== ''">

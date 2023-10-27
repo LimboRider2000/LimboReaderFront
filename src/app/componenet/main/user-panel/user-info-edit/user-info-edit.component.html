@@ -1,1 +1,135 @@
-<p>user-info-edit works!</p>
+<div class="alert alert-danger"
+     style="display: none">{{serverValidationError}}</div>
+<div class="row">
+  <div class="col col-6 container fs-6">
+    <form [formGroup]="formBuilderData"
+          (ngSubmit)="submit($event)"
+          enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="user-login" class="form-label">
+          Логин
+        </label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"
+                id="login-addon">
+            <i class="bi bi-person-add"></i>
+          </span>
+          <input
+            autocomplete="off"
+            type="text"
+            class="form-control"
+            formControlName="login"
+            placeholder="Логин"
+            id="user-login">
+        </div>
+        <div>
+          <div *ngIf="formBuilderData.controls['login'].errors?.['required']
+                    && formBuilderData.controls['login'].touched"
+               class="alert alert-danger">
+            Логин обязателен
+          </div>
+
+        </div>
+
+      </div>
+      <div class="mb-3">
+        <label for="user-name" class="form-label">
+          Введите Имя
+        </label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="name-addon">
+            <i class="bi bi-person-add"></i></span>
+          <input type="text"
+                 class="form-control"
+                 placeholder="Петренко В.В."
+                 autocomplete="off"
+                 id="user-name"
+                 formControlName="name">
+        </div>
+        <div>
+          <div *ngIf="formBuilderData.controls['name'].errors?.['required']
+          && formBuilderData.controls['name'].touched"
+               class="alert alert-danger">
+            Имя обязательно
+          </div>
+
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">
+          Введите Почту
+        </label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="Email-addon">
+            <i class="bi bi-envelope"></i></span>
+          <input type="email"
+                 class="form-control"
+                 placeholder="name@example.com"
+                 id="user-email"
+                 formControlName="mail" >
+        </div>
+        <div>
+          <div *ngIf="formBuilderData.controls['mail']?.errors?.['required'] && formBuilderData.controls['mail']?.touched"
+               class="alert alert-danger">
+            Почта обязательна
+          </div>
+          <div *ngIf="formBuilderData.controls['mail'].errors?.['pattern']"
+               class="alert alert-danger">
+             Не валидная почта
+          </div>
+          <div>
+            <label for="user-avatar" class="form-label">
+              Смена пароля:
+            </label>
+            <button class="btn btn-danger ms-2"
+            (click)="passwordChange()">Сменить</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="user-avatar" class="form-label">
+          Выберите Аватар
+        </label>
+        <div class="container row">
+        <div class="col-6 input-group mb-3">
+          <span class="input-group-text" id="avatar-addon">
+            <i class="bi bi-person-bounding-box"></i></span>
+          <input type="file"
+                 #avatarInput
+                 aria-label="Выберете Аватар"
+                 accept=".jpg, .jpeg, .png"
+                 aria-describedby="avatar-addon"
+                 class="form-control" id="user-avatar"
+                 (change)="setAvatar($event)"/>
+          <button *ngIf="avatarInput.value !=''" class="btn btn-danger"
+                  (click)="resetAvatarFile($event)">
+            Сбросить</button>
+        </div>
+          <div class="col-6">
+            <img [src]="previewAvatarImg != undefined ?
+             previewAvatarImg
+               : sessionStorage.getItem('Avatar')"
+                 alt="previewTittleImg">
+          </div>
+        </div>
+        <div *ngIf="fileError"  class="alert alert-danger">
+          {{fileError}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="container col col-3">
+          <button class="btn btn-success" #regBtn
+                  [disabled]="formBuilderData.invalid"
+                  type="submit">Редактировать</button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="message!== '' && isSuccess;"
+         class="alert alert-success mt-3 ">
+      {{message}}</div>
+    <div *ngIf="message!== '' && !isSuccess"
+         class="alert alert-danger mt-3 "
+    >{{message}}</div>
+  </div>
+
+</div>

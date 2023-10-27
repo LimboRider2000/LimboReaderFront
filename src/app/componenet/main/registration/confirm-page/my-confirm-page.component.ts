@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {RegistrationServices} from "../../../../Servises/DataService/User/RegistrationServisce";
-import {Router} from "@angular/router";
 import {RedirectService} from "../../../../Servises/RedirectService/redirectService";
 
 @Component({
@@ -14,7 +12,6 @@ export class MyConfirmPageComponent {
 @Input()message:string = "";
 @Input()isSuccess:boolean;
   onCodeCompleted(code: string) {
-
    let id = sessionStorage.getItem("idRegisteredUser")
     sessionStorage.removeItem("idRegisteredUser");
     if(id !== null) {

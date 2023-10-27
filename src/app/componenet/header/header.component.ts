@@ -47,7 +47,6 @@ export class HeaderComponent implements OnInit{
 
   Exit(){
     sessionStorage.clear();
-    localStorage.clear();
     this.routh.navigateByUrl("")
   }
   protected readonly sessionStorage = sessionStorage;

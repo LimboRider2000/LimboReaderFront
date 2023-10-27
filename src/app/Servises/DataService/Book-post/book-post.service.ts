@@ -145,4 +145,8 @@ export class BookPostService{
     )
   }
   //endregion
+  editService(formData: FormData) {
+  return   this.http.put(this.serverUrl,formData)
+
+  }
 }

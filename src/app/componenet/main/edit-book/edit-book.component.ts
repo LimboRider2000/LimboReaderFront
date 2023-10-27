@@ -1,4 +1,4 @@
-import {Component,  inject, OnDestroy, OnInit } from '@angular/core';
+import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { map, Observable, Subscription} from "rxjs";
 import {GenreSubgenreItem} from "../../../model/Genres/GenreSubgenreItem";
@@ -13,6 +13,7 @@ import {FileBookDownloadService} from "../../../Servises/FileService/file-book-d
 import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
 import {ConfirmPopupComponent} from "../../allPopUp/comform-popup/confirm-popup.component";
+import {FileValidationService} from "../../../Servises/FileService/file-validation.service";
 
 @Component({
   selector: 'app-edit-book',
@@ -23,17 +24,18 @@ export class EditBookComponent implements OnInit,OnDestroy {
 
   private readonly fileService: FileBookDownloadService = inject(FileBookDownloadService)
   private readonly activeRouter: ActivatedRoute = inject(ActivatedRoute)
-  private readonly userService = inject(BookPostService)
+  private readonly bookService = inject(BookPostService)
   private readonly genreService = inject(GenreSubGenreCollectionService);
-  private readonly modal = inject(MatDialog);
+  private readonly modal = inject(MatDialog)
+  private readonly TitleValidation = inject(FileValidationService)
 
   genreAndSubGenreCollection$: Observable<GenreSubgenreItem[]> = this.genreService.getGenreCollectionObservable();
-  userBookCollection$: Observable<Book[]> = this.userService.getUserBookCollectionObservable();
+  userBookCollection$: Observable<Book[]> = this.bookService.getUserBookCollectionObservable();
 
   editBook: Book;
   editBookFormGroup: FormGroup;
   message: string = "";
-  previewTittleImg: string;
+  previewTittleImg: any;
   subGenreCollection: SubGenre[] = [];
   public selectedGenre: Genre;
   public selectedSubGenre: SubGenre;
@@ -44,27 +46,31 @@ export class EditBookComponent implements OnInit,OnDestroy {
     ["fb2", false],
   ])
 
-
+  @ViewChild("btnDis") btnDis :ElementRef<HTMLButtonElement>;
   private subs: Subscription;
   private genreSubs: Subscription;
   pdfFileName: string;
   epubFileName: string;
   fb2FileName: string;
-  fileControl: FormArray<any>
+  fileControl: FormArray
 
   constructor(private readonly fb: FormBuilder) {
-    this.editBookFormGroup = this.fb.group({
-      titleImgFile: [""],
-      authorLastName: [""],
-      authorName: [""],
-      extensionTitleImg: [""],
-      tittle: ["", [Validators.required],],
-      description: ["", [Validators.required]],
-      genre: new FormControl(''),
-      subGenre: ['', [Validators.required]],
-      bookFileList: this.fb.array([]),
-      userId: ['']
-    })
+    this.editBookFormGroup = this.fb.group(
+      {
+        authorLastName: ["", [Validators.required]],
+        authorName: ["", [Validators.required]],
+        authorId:[""],
+        bookFileList: this.fb.array([]),
+        description: ["", [Validators.required]],
+        extensionTitleImg: ["", [Validators.required]],
+        genre: new FormControl(''),
+        idBook: [""],
+        isTitleImgChange: ["false"],
+        subGenre: ['', [Validators.required]],
+        titleImgFile: [""],
+        title: ["", [Validators.required],],
+        userId: [""]
+      })
   }
 
   ngOnInit(): void {
@@ -114,16 +120,20 @@ export class EditBookComponent implements OnInit,OnDestroy {
             this.previewTittleImg = serverAddress + this.editBook.titleImgPath
 
             this.editBookFormGroup
+              .get("idBook")?.setValue(this.editBook.id)
+            this.editBookFormGroup
               .get("titleImgFile")?.setValue(this.previewTittleImg)
             this.editBookFormGroup
               .get("authorLastName")?.setValue(this.editBook.author.lastName)
             this.editBookFormGroup
               .get("authorName")?.setValue(this.editBook.author.name)
             this.editBookFormGroup
+              .get("authorId")?.setValue(this.editBook.author.id)
+            this.editBookFormGroup
               .get("extensionTitleImg")
               ?.setValue(serverAddress + this.editBook.titleImgPath)
             this.editBookFormGroup
-              .get("tittle")?.setValue(this.editBook.title)
+              .get("title")?.setValue(this.editBook.title)
             this.editBookFormGroup
               .get("description")?.setValue(this.editBook.description)
             this.editBookFormGroup
@@ -139,14 +149,18 @@ export class EditBookComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if(this.subs)
     this.subs.unsubscribe()
+    if(this.genreSubs)
     this.genreSubs.unsubscribe()
   }
 
-  submit() {
+  submit(event:any) {
+    event.preventDefault();
+    this.btnDis.nativeElement.disabled=true;
     const formData = new FormData()
     for (let key  of Object.keys( this.editBookFormGroup.controls) ) {
-      let value :any= null;
+      let value :any=  null;
       if(key!== "bookFileList"){
         value = this.editBookFormGroup.get(key)?.value
         value = value.trim()  as String
@@ -159,12 +173,43 @@ export class EditBookComponent implements OnInit,OnDestroy {
       }
       formData.append(key,value);
     }
-    //ToDO: Оправка формы на сервер через сервис
+    this.bookService.editService(formData).subscribe({
+      next: ()=>this.modalInfoMessage("Редактирование успешно",true),
+      error:()=>this.modalInfoMessage("Ошибка: на сервере",false),
+      complete:()=> this.btnDis.nativeElement.disabled = false
+    })
   }
 
-  TitleFileInputChange() {
-  }
+  TitleFileInputChange(event:any) {
+    const file =
+      (event.target as HTMLInputElement).files;
 
+    if(file != null){
+      const fileExtension =
+        file[0].name.split('.').pop();
+
+      const message =this.TitleValidation
+        .isFileValid(file[0],1024*100)
+
+      if(message !== ""){
+        const treed =
+          this.modalInfoMessage(
+            "Ошибка валидации файла",
+            false)
+        treed.afterClosed().subscribe()
+      }
+
+      this.editBookFormGroup
+      .get("extensionTitleImg")?.setValue(fileExtension)
+      this.editBookFormGroup.get("isTitleImgChange")?.setValue("true")
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewTittleImg = reader.result;
+        this.editBookFormGroup.patchValue({titleImgFile: reader.result});
+      }
+      reader.readAsDataURL(file[0])
+    }
+  }
   setSubGenreList(event: any) {
     let genreId = (event.target as HTMLInputElement).value
 
@@ -204,24 +249,16 @@ export class EditBookComponent implements OnInit,OnDestroy {
           )
         }
       }
-
         event.target.click()
-
   }
   setFileName(fileTooSet: string, event: any) {
     const fileName = (event.target as HTMLInputElement).files![0].name
     const ext= fileName.substring(fileName.lastIndexOf(".")+1)
     if(!this.fileExtExist.has(ext)){
-      const treed = this.modal.open(InfoPopUpComponent, {
-        width: "auto",
-        enterAnimationDuration: 100,
-        exitAnimationDuration: 300,
-        data: {
-          title: "Ошибка!",
-          message: "Не правильное расширение файла",
-          isSuccess: false
-        }
-      })
+      const treed =
+        this.modalInfoMessage(
+          "Не правильное расширение файла",
+          false)
       treed.afterClosed().subscribe()
     }else {
       switch (fileTooSet) {
@@ -245,4 +282,18 @@ export class EditBookComponent implements OnInit,OnDestroy {
       this.editBookFormGroup.get("bookFileList")?.setValue(this.fileControl);
     }
   }
+  modalInfoMessage(message:String,isPositive:boolean){
+  return  this.modal.open(InfoPopUpComponent, {
+      width: "auto",
+      enterAnimationDuration: 100,
+      exitAnimationDuration: 300,
+      data: {
+        title: isPositive?"Успех":"Ошибка!",
+        message: message,
+        isSuccess: isPositive
+      }
+    })
+  }
+
+
 }

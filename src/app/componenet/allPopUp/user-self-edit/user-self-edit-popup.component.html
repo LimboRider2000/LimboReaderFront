@@ -1,0 +1,58 @@
+<form [formGroup]="passwordChangeForm"
+     (ngSubmit)="Submit($event)"
+  class="p-2"
+>
+  <div class="input-group mb-3 d-flex  justify-content-between">
+    <label for="old-password" class="me-2">Старый пароль</label>
+    <div class="flex-row input-group">
+    <span class="input-group-text"><i class="bi bi-key"></i></span>
+    <input type="password" id="old-password" class="form-control"
+           formControlName="oldPassword">
+    </div>
+    <div *ngIf="passwordChangeForm.controls['oldPassword'].invalid &&
+     passwordChangeForm.controls['oldPassword'].touched"
+         class="alert alert-danger">
+      Старый пароль обязателен
+    </div>
+  </div>
+  <div class="input-group mb-3 flex-row  d-flex justify-content-between">
+
+    <label for="new-password" class="me-2">Новый пароль</label>
+    <div class="flex-row input-group">
+    <span class="input-group-text">
+      <i class="bi bi-key"></i></span>
+    <input type="password" id="new-password" class="form-control"
+           formControlName="newPassword">
+    </div>
+    <div *ngIf="passwordChangeForm.controls['newPassword'].errors?.['pattern']"
+         class="alert alert-danger">
+      Пароль не валидный
+    </div>
+    <div *ngIf="passwordChangeForm.controls['newPassword'].errors?.['required']&&
+     passwordChangeForm.controls['newPassword'].touched"
+    class="alert alert-danger">
+      Введите новый пароль
+    </div>
+  </div>
+  <div class="input-group mb-3 flex-row  d-flex justify-content-between">
+    <label for="repeat-new-password" class="me-2">Повтор пароля</label>
+    <div class="flex-row input-group">
+    <span class="input-group-text"><i class="bi bi-key"></i></span>
+    <input type="password" id="repeat-new-password" class="form-control"
+           #repeatNewPassInput required>
+    </div>
+
+  </div>
+  <div>
+  <button class="btn btn-success me-3" #btnEdit
+          type="submit" [disabled]="passwordChangeForm.invalid">Изменить</button>
+  <button class="btn btn-danger"
+          mat-dialog-close>Отмена</button>
+  </div>
+  <div *ngIf="message!== '' && isSuccess;"
+       class="alert alert-success mt-3 ">
+    {{message}}</div>
+  <div *ngIf="message!== '' && !isSuccess"
+       class="alert alert-danger mt-3 "
+  >{{message}}</div>
+</form>

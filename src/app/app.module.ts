@@ -54,6 +54,7 @@ import { ForReadComponent } from './componenet/main/user-panel/for-read/for-read
 import { UserBookComponent } from './componenet/main/user-panel/user-book/user-book.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { EditBookComponent } from './componenet/main/edit-book/edit-book.component';
+import { UserSelfEditPopupComponent } from './componenet/allPopUp/user-self-edit/user-self-edit-popup.component';
 
 const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
@@ -116,6 +117,7 @@ const MainPageRouth : Routes =[
     ForReadComponent,
     UserBookComponent,
     EditBookComponent,
+    UserSelfEditPopupComponent,
   ],
   imports: [
     BrowserModule,

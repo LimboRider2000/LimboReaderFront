@@ -32,7 +32,6 @@ export class RegistrationComponent {
     if(this.avatarFile !== null){
         user.avatar = this.avatarFile
      }
-
    this.regSer.DataSend(user,this.avatarFile)
   }
   handleFileInput(event:any) {

@@ -62,7 +62,8 @@ export class AddPostComponent implements OnInit {
     const fileExtension = file.name.split('.').pop();
     this.addNewPostForm.patchValue({extensionTitleImg: fileExtension})
 
-    this.message = this.failValidationService.isFileValid(file, 12000000)
+    this.message = this.failValidationService.isFileValid(
+      file, 1024*50)
     if (this.message !== "") return
 
     const reader = new FileReader();
