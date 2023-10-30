@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {BookPostService} from "../../Servises/DataService/Book-post/book-post.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthenticationModalComponent} from "../allPopUp/auntification-modal/authentication-modal.component";
+import {AuthenticationUserService} from "../../Servises/authentication-user.service";
 
 
 @Component({
@@ -16,21 +17,13 @@ export class HeaderComponent implements OnInit {
     private routh: Router = inject(Router)
     private bookService: BookPostService = inject(BookPostService)
     public user: User | null = null;
+    private auntService = inject(AuthenticationUserService)
 
     ngOnInit() {
         if (localStorage.getItem("user") != null) {
             sessionStorage.setItem("user", localStorage.getItem("user")!);
             this.user = JSON.parse(sessionStorage.getItem("user")!)
         }
-        // if(localStorage.getItem("Id")!= null){
-        //   sessionStorage.setItem("Login", localStorage.getItem("Login")!)
-        //   sessionStorage.setItem("id", localStorage.getItem("Id")!)
-        //   if(localStorage.getItem("Avatar") !== null|| true){
-        //     sessionStorage.setItem("Avatar",localStorage.getItem('Avatar')!)
-        //   }else {
-        //     sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
-        //   }
-        // }
     }
 
     callOpenModal() {
@@ -55,12 +48,12 @@ export class HeaderComponent implements OnInit {
     // @Input() user:User;
 
     @Input() bookCount$ = this.bookService.getGlobalBookCountObservable();
-    @Input() userCount: number = 0;
-
+    // @Input() userCount$: = this.;
 
     Exit() {
         sessionStorage.clear();
         localStorage.removeItem("user")
+        this.auntService.setUser(null)
         this.user = null;
         this.routh.navigateByUrl("")
     }

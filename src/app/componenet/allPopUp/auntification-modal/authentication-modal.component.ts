@@ -1,4 +1,4 @@
-import {Component,  Inject, OnInit} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {ModalService} from "../../../Servises/ModalService/Modalservice";
 import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.service";
 import {User} from "../../../model/User/User";
@@ -6,6 +6,7 @@ import {RegistrationServices} from "../../../Servises/DataService/User/Registrat
 import {RedirectService} from "../../../Servises/RedirectService/redirectService";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {serverAddress} from "../../../Servises/DataService/ServerAddress";
+import {AuthenticationUserService} from "../../../Servises/authentication-user.service";
 
 @Component({
   selector: 'app-auth-modal',
@@ -19,7 +20,9 @@ export class AuthenticationModalComponent implements OnInit{
   errorMessage : string = "";
   isAuntSuccess :boolean;
   isSendDisable: boolean = false;
-  ngOnInit(): void { this.dialogData = this.data
+  private auntUserService = inject(AuthenticationUserService)
+  ngOnInit(): void {
+    this.dialogData = this.data
   }
   constructor(private myModalService:ModalService,
               private signInService:SingInService,private registrationService:RegistrationServices,
@@ -74,33 +77,16 @@ export class AuthenticationModalComponent implements OnInit{
       })}
 
   private WriteToStorage(user:User){
-
-//if(user.name != null){
-  //    localStorage.setItem("Name", user.name)
-  //    sessionStorage.setItem("Name", user.name)
-   // }
     if(user.avatar ==null){
       user.avatar = "../assets/img/img_avatar.png"
     }else {
       user.avatar = serverAddress+user.avatar
     }
+
     const userJson =JSON.stringify(user);
+    this.auntUserService.setUser(user);
     localStorage.setItem("user",userJson )
     sessionStorage.setItem("user",userJson)
-    // if(avatarPath !== null){
-    //   localStorage.setItem("Avatar",serverAddress+avatarPath)
-    //   sessionStorage.setItem("Avatar", serverAddress+avatarPath)
-    // }else{
-    //   sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
-    // }
-   // localStorage.setItem("Email",user.email)
-   // localStorage.setItem("Login",user.login)
-   // localStorage.setItem("Id",user.id)
-   // localStorage.setItem("UserRole",user.userRole)
-   // sessionStorage.setItem("Email",user.email)
-   // sessionStorage.setItem("Login",user.login)
-   // sessionStorage.setItem("Id",user.id)
-   // sessionStorage.setItem("UserRole",user.userRole)
   }
 
 

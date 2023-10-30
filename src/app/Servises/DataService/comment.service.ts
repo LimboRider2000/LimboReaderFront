@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {serverAddress} from "./ServerAddress";
 import {Comment} from "../../model/Comment";
-import {BehaviorSubject, connect} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class CommentService {
   getCollectionAsObserver(){
       return this.commentsCollectionObserver.asObservable()
   }
+
   private commentCount = new BehaviorSubject<number>(0)
   number$ = this.commentCount.asObservable()
 
@@ -48,7 +49,7 @@ export class CommentService {
 
   deleteComment(id: string) {
     this.http.delete(this.endpoint+"/"+id).subscribe(
-      (data)=>
+      ()=>
       {
         this.commentsCollection = this.commentsCollection.filter(item=>item.id !== id)
         this.commentsCollectionObserver.next(this.commentsCollection.slice())

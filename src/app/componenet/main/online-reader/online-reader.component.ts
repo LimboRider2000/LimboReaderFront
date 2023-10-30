@@ -22,9 +22,11 @@ export class OnlineReaderComponent implements OnInit, OnDestroy{
   isAuthorizeUser:boolean = (sessionStorage.getItem("user") !== null);
   unreadBookCollection :UnreadBookCollection | null;
   protected readonly serverAddress = serverAddress;
+  public bookId:string;
   private user: User;
   ngOnInit(): void {
-  if (this.isAuthorizeUser){
+    this.bookId = history.state.id;
+    if (this.isAuthorizeUser){
       this.user =JSON.parse( sessionStorage.getItem("user")! );
     this.unreadBookCollection = this.getCollectionFromLocalStorage()
     if(this.unreadBookCollection !== null) {
@@ -76,6 +78,7 @@ callBackFn(pdf:PDFDocumentProxy){
   private initUnreadBook(): UnreadBook{
     const unreadBook = new UnreadBook()
     unreadBook.bookId = history.state.id
+
     unreadBook.page =this.page
     unreadBook.path = history.state.path
     unreadBook.tittle = history.state.title

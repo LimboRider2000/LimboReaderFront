@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {UserFullModel} from "../../../model/User/userFullModel";
 import {serverAddress} from "../ServerAddress";
+import {User} from "../../../model/User/User";
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ export class UserService {
 
     private userCollection: UserFullModel[] = []
     private userCollectionSubject: BehaviorSubject<UserFullModel[]> = new BehaviorSubject<UserFullModel[]>(this.userCollection)
+    private userCountSubject: User
 
     private http = inject(HttpClient);
     private urlServer: string = serverAddress + "api/User"

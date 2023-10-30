@@ -68,7 +68,6 @@ export class IndexComponent implements OnInit, OnDestroy{
     this.pageStockCalculation()
     this.bookCollection$ =this.bookService.getBookCollection()
   }
-
   SelectPage(page:number) {
     this.currentPage = page
 
@@ -81,11 +80,9 @@ export class IndexComponent implements OnInit, OnDestroy{
      this.bookCollection$ =this.bookService.getBookCollection()
 
   }
-
   ngOnDestroy(): void {
     this.filterBookIdSub.unsubscribe()
     this.BookCountSubscription.unsubscribe()
   }
 
-  protected readonly console = console;
 }
