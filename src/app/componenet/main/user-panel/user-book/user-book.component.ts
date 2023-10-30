@@ -11,8 +11,13 @@ import {Book} from "../../../../model/Book/Book";
 export class UserBookComponent implements OnInit {
   private bookService = inject(BookPostService)
   public  userBookCollection$ : Observable<Book[]>  = this.bookService.getUserBookCollectionObservable()
-  private userId = sessionStorage.getItem('id')
+  private userId:string;
   ngOnInit(): void {
+      if(sessionStorage.getItem('user')!= null){
+        const user = JSON.parse( sessionStorage.getItem('user')!)
+        this.userId = user.id
+      }
+
     if(this.userId != null)
     this.bookService.getBookCollectionByUserId(this.userId)
   }

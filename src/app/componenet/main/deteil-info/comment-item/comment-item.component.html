@@ -3,7 +3,7 @@
     <p class="fs-5 fw-bold mb-2 ms-4">{{comment.userObj.login}}</p>
     <div class="commentText ms-3 me-3">{{comment.comment}}</div>
     <p class="text-end me-3 mt-3 fst-italic">{{dateSer.formatData(comment.dateTime)}}</p>
-    <div *ngIf="comment.userObj.userRole==='admin'|| localStorage.getItem('Id') === comment.userObj.id">
+    <div *ngIf="comment.userObj.userRole==='admin'|| user?.id === comment.userObj.id">
       <button class="btn btn-danger" (click)="deleteComment()">Удалить</button>
     </div>
   </div>

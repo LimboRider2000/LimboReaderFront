@@ -1,55 +1,12 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {serverAddress} from "../../../Servises/DataService/ServerAddress";
 import {PDFDocumentProxy} from "ng2-pdf-viewer";
+import {UnreadBookCollection} from "../../../model/Book/UnreadBookCollection";
+import {UnreadBook} from "../../../model/Book/UnreadBook";
+import {User} from "../../../model/User/User";
 
-class UnreadBook {
-  get path(): string {
-    return this._path;
-  }
 
-  set path(value: string) {
-    this._path = value;
-  }
 
-  get bookId(): string {
-    return this._bookId;
-  }
-
-  set bookId(value: string) {
-    this._bookId = value;
-  }
-
-  get page(): number {
-    return this._page;
-  }
-
-  set page(value: number) {
-    this._page = value;
-  }
-
-  private _bookId:string;
-   private _page:number;
-   private _path:string;
-   toJSON() {
-     return {bookId: this._bookId,
-     page : this._page,
-     path : this._path}
-   }
-}
-
-class UnreadBookCollection{
-  private _collection: UnreadBook[];
-  get collection(): UnreadBook[] {
-    return this._collection;
-  }
-
-  set collection(value: UnreadBook[]) {
-    this._collection = value;
-  }
-  toJSON(){
-    return {collection:this._collection}
-  }
-}
 
 @Component({
   selector: 'app-online-reader',
@@ -62,12 +19,13 @@ export class OnlineReaderComponent implements OnInit, OnDestroy{
   page:number = 1;
   isLoaded:boolean = true;
   riderHeight:number= window.innerHeight - 240;
-  isAuthorizeUser:boolean = (sessionStorage.getItem("Login") !== null);
+  isAuthorizeUser:boolean = (sessionStorage.getItem("user") !== null);
   unreadBookCollection :UnreadBookCollection | null;
   protected readonly serverAddress = serverAddress;
-
+  private user: User;
   ngOnInit(): void {
   if (this.isAuthorizeUser){
+      this.user =JSON.parse( sessionStorage.getItem("user")! );
     this.unreadBookCollection = this.getCollectionFromLocalStorage()
     if(this.unreadBookCollection !== null) {
       if (this.unreadBookCollection.collection
@@ -98,13 +56,12 @@ callBackFn(pdf:PDFDocumentProxy){
     if(this.unreadBookCollection === null){
       this.unreadBookCollection = new  UnreadBookCollection();
         this.unreadBookCollection.collection = []
-
+        this.user = JSON.parse( sessionStorage.getItem("user")!)
         this.unreadBookCollection.collection.push(this.initUnreadBook());
     }
     // если на local есть начатые книги меняем страницу
     else if(this.unreadBookCollection.collection
       .find((element)=> element.bookId === history.state.id)){
-
       const index =  this.unreadBookCollection.collection.
       findIndex((element)=> element.bookId === history.state.id)
 
@@ -121,27 +78,31 @@ callBackFn(pdf:PDFDocumentProxy){
     unreadBook.bookId = history.state.id
     unreadBook.page =this.page
     unreadBook.path = history.state.path
+    unreadBook.tittle = history.state.title
+    unreadBook.author = history.state.author
     return unreadBook;
   }
 
   private getCollectionFromLocalStorage():UnreadBookCollection | null{
-   const localString:string|null = localStorage.getItem("UnreadBookCollection") as string;
-    if(localString && localString !== "undefined"&&localString!== "null"   ){
-      const collection = JSON.parse(localString) as UnreadBookCollection
-    if(collection === null || collection === undefined ) return null
-      return collection
-    }
+if(localStorage.getItem("UnreadBook" + this.user.id) != null) {
+  const localString: string | null = localStorage.getItem("UnreadBook" + this.user.id) as string;
+  if (localString) {
+    const collection = JSON.parse(localString) as UnreadBookCollection
+    if (collection === null || collection === undefined) return null
+    return collection
+  }
+}
     return null;
   }
   @HostListener('window:beforeunload', ["$event"])
     saveToLocalStorage(){
     if(this.isAuthorizeUser)
-      localStorage.setItem("UnreadBookCollection", JSON.stringify(this.unreadBookCollection))
+      localStorage.setItem("UnreadBook" + this.user.id, JSON.stringify(this.unreadBookCollection))
   }
 
   ngOnDestroy(): void {
     if(this.isAuthorizeUser)
-      localStorage.setItem("UnreadBookCollection", JSON.stringify(this.unreadBookCollection))
+      localStorage.setItem("UnreadBook" + this.user.id, JSON.stringify(this.unreadBookCollection))
   }
 
 }

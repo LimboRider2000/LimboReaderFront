@@ -4,9 +4,7 @@
     <input matInput placeholder="Поиск..." (keyup)="filterChange($event)" >
   </mat-form-field>
   <table mat-table matSort [dataSource]="dataSource">
-
-
-    'Логин', 'Имя', 'Поста', 'Роль', 'Активация', 'Дата регистрации', 'Дата п. входа ', 'Редактировать'
+    'Логин', 'Имя', 'Почта', 'Роль', 'Активация', 'Дата регистрации', 'Дата п. входа ', 'Редактировать'
   <ng-container matColumnDef="login">
     <th mat-header-cell mat-sort-header *matHeaderCellDef> Логин </th>
     <td mat-cell *matCellDef="let element"> {{element.login}} </td>

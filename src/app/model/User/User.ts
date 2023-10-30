@@ -1,10 +1,9 @@
 export  class  User{
-  get avatarPath(): string {
-    return <string>this._AvatarPath;
+  get avatar(): string {
+    return <string>this._avatar;
   }
-
-  set avatarPath(value: string) {
-    this._AvatarPath = value;
+  set avatar(value: string) {
+    this._avatar = value;
   }
   get name(): string | null {
     return this._Name;
@@ -12,13 +11,6 @@ export  class  User{
 
   set name(value: string | null) {
     this._Name = value;
-  }
-  get avatar(): File|null {
-    return this._Avatar;
-  }
-
-  set avatar(value: File|null) {
-    this._Avatar = value;
   }
   get userRole(): string{
     return this._UserRole;
@@ -60,8 +52,7 @@ export  class  User{
   private _Email:string;
   private _Password:string;
   private _UserRole:string;
-  private _Avatar:File|null;
-  private _AvatarPath? :string;
+  private _avatar? :string;
   private _Name:string|null;
 }
 

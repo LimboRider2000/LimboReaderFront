@@ -4,17 +4,14 @@ import {UserService} from "../../../../Servises/DataService/User/user.service";
 import {MatDialog} from "@angular/material/dialog";
 import {UserSelfEditPopupComponent} from "../../../allPopUp/user-self-edit/user-self-edit-popup.component";
 import {Subscription} from "rxjs";
+import {User} from "../../../../model/User/User";
 
-interface Answer {
-  isSuccess:boolean;
-  message:string
-}
 @Component({
   selector: 'app-user-info-edit',
   templateUrl: './user-info-edit.component.html',
   styleUrls: ['./user-info-edit.component.css']
 })
-export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
+export class UserInfoEditComponent implements OnInit, OnDestroy{
 
   protected readonly sessionStorage = sessionStorage;
   @ViewChild("regBtn") regBtn: ElementRef<HTMLButtonElement>
@@ -30,7 +27,10 @@ export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
   message:string = "";
   isSuccess:boolean;
   subscribe: Subscription;
+  user:User|null;
+
   ngOnInit(): void {
+
     this.formBuilderData = this.fb.group({
       userId:[""],
       name:["",[Validators.required,]],
@@ -41,17 +41,25 @@ export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
       login:["",[Validators.required]],
       avatar:[null],
     })
+
+    if(localStorage.getItem("user")!= null)
+      this.user =JSON.parse( localStorage.getItem("user")!)
+
     this.formBuilderData.get("userId")
-      ?.setValue(localStorage.getItem("Id"))
+      ?.setValue(this.user?.id)
     const tempName
-      =localStorage.getItem("Name");
+      = this.user?.name;
     if(tempName != null)
       this.formBuilderData.get("name")
         ?.setValue(tempName);
     this.formBuilderData.get("mail")
-      ?.setValue(localStorage.getItem("Email"))
+      ?.setValue(this.user?.email)
     this.formBuilderData.get("login")
-      ?.setValue(localStorage.getItem("Login"))
+      ?.setValue(this.user?.login)
+
+    if(this.user != null)
+      this.previewAvatarImg = this.user?.avatar
+
   }
   submit($event: any) {
     $event.preventDefault();
@@ -66,15 +74,15 @@ export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
     }
 
   this.subscribe =  this.userService.editUserSelf(formData).subscribe({
-      next: (data:object) =>{
-        const answer = data as Answer;
-        if(answer.isSuccess){
-          this.isSuccess = answer.isSuccess;
-          this.message ="Данные успешно изменены"
-        }else if(!answer.isSuccess){
-          this.isSuccess = answer.isSuccess;
-          this.message =answer.message;
+      next: (data:any) =>{
+        if(data.isSuccess){
+          this.isSuccess = data.isSuccess ;
+          this.message ="Изменения прошли успешно";
         }
+         else if(data.isSuccess){
+           this.isSuccess = data.isSuccess;
+           this.message =data.message;
+         }
       },
       error: (err)=> console.error(err),
       complete:()=>{
@@ -98,7 +106,7 @@ export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
     this.formBuilderData.get("avatar")?.setValue(file)
   }
   resetAvatarFile() {
-      const av = sessionStorage.getItem('Avatar');
+      const av = this.user?.avatar;
     if(av)
       this.previewAvatarImg = av;
     this.formBuilderData.get("avatar")?.setValue(null)
@@ -117,7 +125,8 @@ export class UserInfoEditComponent implements OnInit, OnDestroy,Answer{
   })
   }
 
-  ngOnDestroy(): void {
-    this.subscribe.unsubscribe();
+  ngOnDestroy(): void{
+  if(this.subscribe != undefined)
+      this.subscribe.unsubscribe();
   }
 }

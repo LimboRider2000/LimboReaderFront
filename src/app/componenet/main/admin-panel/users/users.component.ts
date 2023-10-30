@@ -1,5 +1,5 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTableDataSource} from '@angular/material/table';
 import {UserService} from "../../../../Servises/DataService/User/user.service";
 import {UserFullModel} from "../../../../model/User/userFullModel";
 import {MatPaginator} from "@angular/material/paginator";

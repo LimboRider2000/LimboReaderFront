@@ -4,8 +4,8 @@ import {SingInService} from "../../../Servises/DataService/User/sin-in-srvice.se
 import {User} from "../../../model/User/User";
 import {RegistrationServices} from "../../../Servises/DataService/User/RegistrationServisce";
 import {RedirectService} from "../../../Servises/RedirectService/redirectService";
-import {serverAddress} from '../../../Servises/DataService/ServerAddress';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {serverAddress} from "../../../Servises/DataService/ServerAddress";
 
 @Component({
   selector: 'app-auth-modal',
@@ -52,17 +52,15 @@ export class AuthenticationModalComponent implements OnInit{
         if(data.success){
           this.isAuntSuccess = true;
           this.errorMessage = "Успешно"
-          this.WriteToStorage(data.currUser,data.avatarPath);
+          this.WriteToStorage(data.currUser);
           this.Close();
           this.isSendDisable =false;
         }else {
           if(data.notVerifi){
-            sessionStorage.setItem("id", data.id)
+            sessionStorage.setItem("idRegisteredUser", data.id)
             this.redirectService.redirectToPageAfterDelay(2,"/confirmCode")
-            return
+            this.Close()
           }
-
-          this.isAuntSuccess = true;
           this.isAuntSuccess = false;
           if(data.notActive){
             this.errorMessage = "Ваш аккаунт не активный обратитесь к администрации сайта limboreader@gmail.com"
@@ -75,26 +73,34 @@ export class AuthenticationModalComponent implements OnInit{
         this.isSendDisable =false;
       })}
 
-  private WriteToStorage(user:User,avatarPath:string ){
+  private WriteToStorage(user:User){
 
-    if(user.name != null){
-      localStorage.setItem("Name", user.name)
-      sessionStorage.setItem("Name", user.name)
+//if(user.name != null){
+  //    localStorage.setItem("Name", user.name)
+  //    sessionStorage.setItem("Name", user.name)
+   // }
+    if(user.avatar ==null){
+      user.avatar = "../assets/img/img_avatar.png"
+    }else {
+      user.avatar = serverAddress+user.avatar
     }
-    if(avatarPath !== null){
-      localStorage.setItem("Avatar",serverAddress+avatarPath)
-      sessionStorage.setItem("Avatar", serverAddress+avatarPath)
-    }else{
-      sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
-    }
-    localStorage.setItem("Email",user.email)
-    localStorage.setItem("Login",user.login)
-    localStorage.setItem("Id",user.id)
-    localStorage.setItem("UserRole",user.userRole)
-    sessionStorage.setItem("Email",user.email)
-    sessionStorage.setItem("Login",user.login)
-    sessionStorage.setItem("Id",user.id)
-    sessionStorage.setItem("UserRole",user.userRole)
+    const userJson =JSON.stringify(user);
+    localStorage.setItem("user",userJson )
+    sessionStorage.setItem("user",userJson)
+    // if(avatarPath !== null){
+    //   localStorage.setItem("Avatar",serverAddress+avatarPath)
+    //   sessionStorage.setItem("Avatar", serverAddress+avatarPath)
+    // }else{
+    //   sessionStorage.setItem("Avatar","../assets/img/img_avatar.png")
+    // }
+   // localStorage.setItem("Email",user.email)
+   // localStorage.setItem("Login",user.login)
+   // localStorage.setItem("Id",user.id)
+   // localStorage.setItem("UserRole",user.userRole)
+   // sessionStorage.setItem("Email",user.email)
+   // sessionStorage.setItem("Login",user.login)
+   // sessionStorage.setItem("Id",user.id)
+   // sessionStorage.setItem("UserRole",user.userRole)
   }
 
 
