@@ -10,12 +10,17 @@ export class GlobalSearch {
   public searchString:string ="";
 
   private readonly BookService = inject(BookPostService)
-
+  private readonly bookService = inject(BookPostService)
 
   Submit() {
     this.searchString = this.searchString.trim()
     if(this.searchString.length >=2){
       this.BookService.getBookCollectionBySearchString(this.searchString)
     }else console.error("Client: no search data")
+  }
+
+  resetFilter() {
+    this.bookService.reInitBookCollection();
+    this.searchString ="";
   }
 }

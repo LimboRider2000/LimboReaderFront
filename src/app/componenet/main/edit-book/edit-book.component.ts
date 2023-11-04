@@ -141,7 +141,7 @@ export class EditBookComponent implements OnInit,OnDestroy {
             this.editBookFormGroup
               .get("subGenre")?.setValue(this.selectedSubGenre.id)
             this.editBookFormGroup
-              .get("userId")?.setValue(sessionStorage.getItem('id'))
+              .get("userId")?.setValue(JSON.parse( sessionStorage.getItem('user')!).id)
           }
         }
       )

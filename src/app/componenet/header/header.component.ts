@@ -5,6 +5,8 @@ import {BookPostService} from "../../Servises/DataService/Book-post/book-post.se
 import {MatDialog} from "@angular/material/dialog";
 import {AuthenticationModalComponent} from "../allPopUp/auntification-modal/authentication-modal.component";
 import {AuthenticationUserService} from "../../Servises/authentication-user.service";
+import {UserService} from "../../Servises/DataService/User/user.service";
+import {BehaviorSubject} from "rxjs";
 
 
 @Component({
@@ -13,17 +15,21 @@ import {AuthenticationUserService} from "../../Servises/authentication-user.serv
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-    public auntDialog = inject(MatDialog)
-    private routh: Router = inject(Router)
-    private bookService: BookPostService = inject(BookPostService)
-    public user: User | null = null;
-    private auntService = inject(AuthenticationUserService)
+    public readonly auntDialog = inject(MatDialog)
+    private readonly routh: Router = inject(Router)
+    private readonly bookService: BookPostService = inject(BookPostService)
+    private readonly userService = inject(UserService)
+    // public user: User | null = null;
+    private readonly auntService = inject(AuthenticationUserService)
+    public user$: BehaviorSubject<User|null>
 
     ngOnInit() {
-        if (localStorage.getItem("user") != null) {
-            sessionStorage.setItem("user", localStorage.getItem("user")!);
-            this.user = JSON.parse(sessionStorage.getItem("user")!)
-        }
+      if(localStorage.getItem("user")!= null){
+        this.auntService.setUser( JSON.parse(localStorage.getItem("user")!))
+      }
+        this.user$  = this.auntService.UserObservable;
+         sessionStorage.setItem("user", JSON.stringify(this.user$?.value));
+
     }
 
     callOpenModal() {
@@ -39,7 +45,7 @@ export class HeaderComponent implements OnInit {
             {
                 complete: () => {
                     if (sessionStorage.getItem("user") != null)
-                        this.user = JSON.parse(sessionStorage.getItem("user")!)
+                        this.auntService.setUser( JSON.parse(sessionStorage.getItem("user")!))
                 }
             }
         )
@@ -48,13 +54,13 @@ export class HeaderComponent implements OnInit {
     // @Input() user:User;
 
     @Input() bookCount$ = this.bookService.getGlobalBookCountObservable();
-    // @Input() userCount$: = this.;
+    @Input() userCount$ = this.userService.getUserCountObservable();
 
     Exit() {
         sessionStorage.clear();
         localStorage.removeItem("user")
         this.auntService.setUser(null)
-        this.user = null;
+        // this.user = null;
         this.routh.navigateByUrl("")
     }
 }

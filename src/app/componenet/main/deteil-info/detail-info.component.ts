@@ -85,9 +85,12 @@ export class DetailInfoComponent implements OnInit, OnDestroy {
         let blob: Blob = response.body as Blob
         let a = document.createElement("a");
 
-        filename = new TextDecoder().decode(new Uint8Array([...atob(decodeURIComponent(filename))].map(char => char.charCodeAt(0))));
-        if (filename != "") {
-          a.download = filename
+        filename = new TextDecoder().decode(new Uint8Array([...atob(decodeURIComponent(filename))]
+          .map(char => char.charCodeAt(0))));
+        if (filename != "")
+        {
+          const ext = filename.substring(filename.lastIndexOf(".")-1)
+          a.download = this.currentBook.title+"-"+this.currentBook.author.name+" "+this.currentBook.author.lastName+ext
           a.href = window.URL.createObjectURL(blob)
           a.click()
         }

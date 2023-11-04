@@ -7,8 +7,10 @@ import {SubGenre} from "../../../model/Genres/SubGenre";
 
 @Injectable()
 export class GenreSubGenreCollectionService{
- private  genreSubjectCollection : GenreSubgenreItem[]= [];
+ private readonly genreSubjectCollection : GenreSubgenreItem[]= [];
  private collectionSubject : BehaviorSubject<GenreSubgenreItem[]> = new BehaviorSubject<GenreSubgenreItem[]>(this.genreSubjectCollection)
+
+
 
  private genreService = inject(GenreServices)
   constructor() {
@@ -84,8 +86,9 @@ export class GenreSubGenreCollectionService{
 
   initGenreCollection()
   {
-    this.genreService.getInitialDate().subscribe(
-      (data: any) => {
+    let count:number = 0;
+    return  this.genreService.getInitialDate().subscribe(
+    (data: any) => {
         for (const item of data) {
           const currGenre: Genre = new Genre()
           currGenre.id = item.genre.id;
@@ -98,7 +101,15 @@ export class GenreSubGenreCollectionService{
           this.genreSubjectCollection.push(genreSubGenre)
         }
       },
-      error => console.log(error)
+      (error) =>{
+      if(count >4)
+        console.log(error)
+        ++count
+        if (count < 4)
+          setTimeout(() => {
+            this.initGenreCollection()
+          }, 2000)
+    }
     )
   }
 

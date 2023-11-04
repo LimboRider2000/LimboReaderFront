@@ -9,7 +9,7 @@ export class FileValidationService {
 
   isFileValid(file:File,fileMaxsize:number):string{
     if (file.size > fileMaxsize) {
-      return 'Размер файла превышает максимальный предел (50 кб).';
+      return 'Размер файла превышает максимальный предел (1мб).';
     }
     const allowedExtensions = ['.jpg', '.jpeg', '.png'];
     const fileExtension = file.name.toLowerCase().split('.').pop();

@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {UserFullModel} from "../../../model/User/userFullModel";
 import {serverAddress} from "../ServerAddress";
-import {User} from "../../../model/User/User";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +11,9 @@ export class UserService {
 
     private userCollection: UserFullModel[] = []
     private userCollectionSubject: BehaviorSubject<UserFullModel[]> = new BehaviorSubject<UserFullModel[]>(this.userCollection)
-    private userCountSubject: User
+    userCount:number = 0;
 
+    private userCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.userCount)
     private http = inject(HttpClient);
     private urlServer: string = serverAddress + "api/User"
 
@@ -25,7 +25,7 @@ export class UserService {
     }
 
     public async initUser(): Promise<UserFullModel[]> {
-        try {
+
             const data: UserFullModel[] | undefined = await this.http.get<UserFullModel[]>(this.urlServer).toPromise();
 
             if (data !== undefined) {
@@ -36,12 +36,9 @@ export class UserService {
                 }
                 this.userCollectionSubject.next(this.userCollection);
                 return this.userCollection;
-            } else
-                throw new Error("Ошибка данных")
-        } catch (error) {
-            console.log(error);
-            return [];
-        }
+            } else{
+              console.error("Ошибка данных")
+            return [];}
     }
 
     public editUser(data: UserFullModel): void {
@@ -91,4 +88,17 @@ export class UserService {
         return this.http.put(this.urlServer + "/passwordEdit", formDate)
 
     }
+
+  getUserCountObservable() {
+   return  this.userCountSubject.asObservable();
+  }
+
+  getUserCount() {
+    this.http.get(this.urlServer+"/userCount").subscribe({
+      next:(data:any)=>{
+        this.userCount = data.count;
+        this.userCountSubject.next(this.userCount);
+      }
+    })
+  }
 }

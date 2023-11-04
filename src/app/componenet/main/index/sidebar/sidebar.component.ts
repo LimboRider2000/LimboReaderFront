@@ -18,14 +18,15 @@ import {BookPostService} from "../../../../Servises/DataService/Book-post/book-p
 export class SidebarComponent implements OnInit,OnDestroy{
  genreSubGenreCollection:GenreSubgenreItem[];
  private readonly genreSubGenreService : GenreSubGenreCollectionService = inject(GenreSubGenreCollectionService)
- private readonly bookService : BookPostService = inject(BookPostService)
+  private readonly bookService : BookPostService = inject(BookPostService)
+  protected readonly SubGenre = SubGenre;
+  genreSubGenreCollection$ =this.genreSubGenreService.getGenreCollectionObservable()
+
   ngOnInit(): void {
-    this.genreSubGenreService.getGenreCollectionObservable().subscribe(
+    this.genreSubGenreCollection$.subscribe(
       (collection) => this.genreSubGenreCollection = collection
     )
   }
-
-  protected readonly SubGenre = SubGenre;
   @HostListener("window:beforeunload", ["$event"])
   ngOnDestroy(): void {
     if(this.genreSubGenreCollection.length > 0 )

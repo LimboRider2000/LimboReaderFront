@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserSelfEditPopupComponent} from "../../../allPopUp/user-self-edit/user-self-edit-popup.component";
 import {Subscription} from "rxjs";
 import {User} from "../../../../model/User/User";
+import {AuthenticationUserService} from "../../../../Servises/authentication-user.service";
 
 @Component({
   selector: 'app-user-info-edit',
@@ -17,6 +18,7 @@ export class UserInfoEditComponent implements OnInit, OnDestroy{
   @ViewChild("regBtn") regBtn: ElementRef<HTMLButtonElement>
   @ViewChild("avatarInput") avatarInput: ElementRef<HTMLInputElement>
   private readonly  fb = inject(FormBuilder)
+  private readonly auntUser = inject(AuthenticationUserService)
   private readonly  userService
     = inject(UserService)
   private readonly modal = inject(MatDialog);
@@ -30,7 +32,6 @@ export class UserInfoEditComponent implements OnInit, OnDestroy{
   user:User|null;
 
   ngOnInit(): void {
-
     this.formBuilderData = this.fb.group({
       userId:[""],
       name:["",[Validators.required,]],
@@ -78,6 +79,9 @@ export class UserInfoEditComponent implements OnInit, OnDestroy{
         if(data.isSuccess){
           this.isSuccess = data.isSuccess ;
           this.message ="Изменения прошли успешно";
+          this.auntUser.setUser(data.user)
+        sessionStorage.setItem("user",JSON.stringify(data.user))
+        localStorage.setItem("user",JSON.stringify(data.user))
         }
          else if(data.isSuccess){
            this.isSuccess = data.isSuccess;

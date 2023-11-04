@@ -7,6 +7,7 @@ import {  GenreSubGenreCollectionService} from "../../../Servises/DataService/Ge
 import {BookPostService} from "../../../Servises/DataService/Book-post/book-post.service";
 import {MatDialog} from "@angular/material/dialog";
 import {InfoPopUpComponent} from "../../allPopUp/info-pop-up/info-pop-up.component";
+import {User} from "../../../model/User/User";
 
 @Component({
   selector: 'app-add-post',
@@ -18,6 +19,7 @@ export class AddPostComponent implements OnInit {
 
   @ViewChild("titleBook") titleBook: ElementRef
   @ViewChild("bookUpload") bookUpload: ElementRef
+  @ViewChild("addBtb") addBtb: ElementRef<HTMLButtonElement>
 
   title: string;
   previewTittleImg: string | ArrayBuffer | null;
@@ -63,7 +65,7 @@ export class AddPostComponent implements OnInit {
     this.addNewPostForm.patchValue({extensionTitleImg: fileExtension})
 
     this.message = this.failValidationService.isFileValid(
-      file, 1024*50)
+      file, 10240*100)
     if (this.message !== "") return
 
     const reader = new FileReader();
@@ -75,16 +77,15 @@ export class AddPostComponent implements OnInit {
   }
 
   submit($event:Event) {
-    let  userid = sessionStorage.getItem("Id");
-    if(userid === null){
-      userid = localStorage.getItem("Id");
-    }
-    if(userid === null){
+    this.addBtb.nativeElement.disabled = true;
+    let  user:User = JSON.parse( sessionStorage.getItem("user")!);
+
+    if(user === null){
       this.message = "проблемы с данными пользователя пожалуйста выйдите и авторизируйтесь еще раз"
       return
     }
 
-    this.addNewPostForm.patchValue({userId : userid})
+    this.addNewPostForm.patchValue({userId : user.id})
     const formData = new FormData()
     for (let key  of Object.keys( this.addNewPostForm.controls) ) {
       let value :any= null;
@@ -115,6 +116,8 @@ export class AddPostComponent implements OnInit {
              isSuccess : true
            }
          });
+         this.addBtb.nativeElement.disabled = false;
+         this.bookService.addBookNumber();
        },
        () => {
          this.dialog.open(InfoPopUpComponent, {
@@ -127,6 +130,8 @@ export class AddPostComponent implements OnInit {
              isSuccess : false
            }
          });
+         this.addBtb.nativeElement.disabled = false;
+
        }
      )
   }

@@ -19,12 +19,13 @@ export class IndexComponent implements OnInit, OnDestroy{
   private BookCountSubscription: Subscription;
   private bookService = inject(BookPostService)
 
-  public bookCollection$: Observable<Book[]> = this.bookService.getBookCollection()
+  public bookCollection$: Observable<Book[]>;
 
     ngOnInit(): void {
      this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
     (data:string)=>this.filterBookBySubGenreId = data
   )
+    this.bookCollection$ = this.bookService.getBookCollection();
 
    this.BookCountSubscription= this.bookService.bookCountObservable().subscribe(
       (data)=>{

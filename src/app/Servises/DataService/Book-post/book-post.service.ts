@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {serverAddress} from "../ServerAddress";
 import {Book} from "../../../model/Book/Book";
 import {BehaviorSubject, Observable} from "rxjs";
+import {UserService} from "../User/user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class BookPostService{
   private readonly globalBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.globalBookNumber)
   private readonly filterSubGenreIdSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.filterSubGenreId)
   private readonly userBookCollectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.userBooksCollection)
+  private readonly userService = inject(UserService)
 
   //region Observable
   bookCountObservable() {
@@ -48,13 +50,14 @@ export class BookPostService{
   newPostAdd(data: any) {
     return this.http.post(this.serverUrl, data)
   }
-
   addToCollection(data: Book) {
     this.bookCollection.push(data);
     this.collectionSubject.next(this.bookCollection.slice());
   }
   //endregion
-
+addBookNumber(){
+  this.globalBookCountSubject.next(this.globalBookNumber++)
+}
   //region GetBOOK
   getSliceBook(page: number) {
     this.http.get(this.serverUrl + "/?page=" + page)
@@ -69,15 +72,43 @@ export class BookPostService{
         }
       )
   }
-  getBookCollection() {
+  getBookCollection(count:number = 0) {
     if (this.bookCollection.length === 0){
-      this.initBookCollection()
+      this.initBookCollection().subscribe(
+        {
+          next:(data:any)=>{
+            let bookCol: Book[] = data.listTransfer;
+            bookCol.map(item => this.bookCollection.push(item))
+            this.collectionSubject.next(this.bookCollection)
+            this.bookNumber = data.bookCount;
+            this.bookCountSubject.next(this.bookNumber)
+            this.globalBookNumber = this.bookNumber;
+            this.globalBookCountSubject.next(this.bookNumber)
+
+          },
+          error:(error)=>{
+            console.log(error)
+            ++count
+            if (count < 5)
+              setTimeout(() => {
+                this.getBookCollection(count)
+              }, 3000)
+
+          },complete:()=>{
+            //initialize user count here: because we always update book list
+            this.userService.getUserCount()}
+        }
+      )
       this.filterSubGenreIdSubject.next((this.filterSubGenreId = ""))
     }
     return this.BookCollectionObservable()
   }
   getBuId(id: string) {
     return this.http.get<Book>(this.serverUrl + "/" + id)
+  }
+  reInitBookCollection(){
+    this.bookCollection =[]
+    this.getBookCollection()
   }
   getBookSliceBySybGenreFilter(id: string, currentPage:number = 1) {
     this.http.get(this.serverUrl +"/filterBySubGenre"+"/?subGenreId=" + id+"&page="+currentPage).subscribe(
@@ -124,29 +155,22 @@ export class BookPostService{
   }
 
   private initBookCollection() {
-    let count: number = 0;
-    this.http.get(this.serverUrl).subscribe(
-      (data: any) => {
-        let bookCol: Book[] = data.listTransfer;
-        bookCol.map(item => this.bookCollection.push(item))
-        this.bookNumber = data.bookCount;
-        this.bookCountSubject.next(this.bookNumber)
-        this.globalBookNumber = this.bookNumber;
-        this.globalBookCountSubject.next(this.bookNumber)
-      },
-      error => {
-        console.log(error)
-        ++count
-        if (count < 3)
-          setTimeout(() => {
-            this.initBookCollection()
-          }, 2000)
-      }
-    )
+     return  this.http.get(this.serverUrl)
   }
   //endregion
   editService(formData: FormData) {
   return   this.http.put(this.serverUrl,formData)
 
+  }
+
+  deleteBook(book: Book) {
+    this.http.delete(this.serverUrl+'/?id='+ book.id).subscribe(
+      {
+        next:()=>{
+        this.bookCollection =  this.bookCollection.filter(b=> b.id !== book.id)
+          this.collectionSubject.next(this.bookCollection)
+        }
+      }
+    )
   }
 }

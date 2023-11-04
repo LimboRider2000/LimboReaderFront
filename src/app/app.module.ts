@@ -22,9 +22,7 @@ import {RegistrationServices} from "./Servises/DataService/User/RegistrationServ
 import {AvatarTransferServices} from "./Servises/FileService/AvatarTransferServices";
 import { UsersComponent } from './componenet/main/admin-panel/users/users.component';
 import { GenresComponent } from './componenet/main/admin-panel/genres/genres.component';
-import { TagsComponent } from './componenet/main/admin-panel/tags/tags.component';
 import { BooksComponent } from './componenet/main/admin-panel/books/books.component';
-import { AuthorsComponent } from './componenet/main/admin-panel/authors/authors.component';
 import {ChildNavbarComponent} from "./componenet/main/admin-panel/childNavbar/childNavbar.component";
 import {GenreServices} from "./Servises/DataService/GenreServices/GenreServices";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -60,8 +58,6 @@ const adminAPanelRoutes: Routes=[
   {path: "user", component:UsersComponent },
   {path: "books", component:BooksComponent },
   {path: "genre", component:GenresComponent },
-  {path: "tags", component:TagsComponent },
-  {path: "authors", component:AuthorsComponent },
 ]
 
 const userPage : Routes=[
@@ -99,9 +95,7 @@ const MainPageRouth : Routes =[
     UserPanelComponent,
     UsersComponent,
     GenresComponent,
-    TagsComponent,
     BooksComponent,
-    AuthorsComponent,
     PopupComponent,
     ConfirmPopupComponent,
     MyConfirmPageComponent,

@@ -5,6 +5,7 @@
     </div>
     <div class="col-8">
       <h1 class="text-center fs-5">{{bookData.title}}</h1>
+      <h1 class="text-end fs-5"> Кто добавил:  <span class="fw-bold"> {{bookData.user_name}}</span></h1>
      <p class="text-end fs-5">Автор: {{bookData.author.name}} {{bookData.author.lastName}}</p>
      <p class="text-end fw-bold" >Жанр: {{bookData.genre_name}} - {{bookData.subGenre_name}}</p>
       <p class="descriptionSmall">{{bookData.description}}</p>

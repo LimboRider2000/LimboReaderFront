@@ -6,6 +6,10 @@
         <span class="input-group-text">T</span>
         <input type="text" class="form-control" placeholder="Название книги" aria-label="bookTittle" formControlName="tittle">
       </div>
+      <div class="alert alert-danger"
+           *ngIf="addNewPostForm.controls['tittle'].invalid && addNewPostForm.controls['tittle'].touched">
+        Укажите название книги
+      </div>
       <div class="input-group mb-3">
         <span class="input-group-text">Фамилия</span>
         <input type="text" class="form-control" placeholder="Автор Фамилия"  formControlName="authorLastName">
@@ -13,7 +17,7 @@
         <input type="text" class="form-control" placeholder="Автор Имя" formControlName="authorName">
       </div>
       <div class="alert alert-danger"
-           *ngIf="addNewPostForm.controls['tittle'].invalid && addNewPostForm.controls['tittle'].touched">
+           *ngIf="addNewPostForm.controls['authorLastName'].invalid && addNewPostForm.controls['authorLastName'].touched">
         Укажите автора
       </div>
       <div class="input-group mb-3">
@@ -66,7 +70,7 @@
       </div>
     </div>
     <div class="text-center mt-3">
-    <button class="btn btn-outline-primary" type="submit" [disabled]="addNewPostForm.invalid"><i class="bi bi-plus-circle-fill me-1"> Добавить</i></button>
+    <button class="btn btn-outline-primary" type="submit" #addBtb [disabled]="addNewPostForm.invalid"><i class="bi bi-plus-circle-fill me-1"> Добавить</i></button>
     <button class="btn btn-danger ms-1" (click)="formReset($event)" type="submit"><i class="bi bi-arrow-clockwise ms-1"> Сбросить</i></button>
       <div class="alert alert-danger"
            *ngIf="this.message !== ''">
