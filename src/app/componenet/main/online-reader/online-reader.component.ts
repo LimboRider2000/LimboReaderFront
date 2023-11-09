@@ -87,7 +87,7 @@ callBackFn(pdf:PDFDocumentProxy){
   }
 
   private getCollectionFromLocalStorage():UnreadBookCollection | null{
-if(localStorage.getItem("UnreadBook" + this.user.id) != null) {
+if(this.user != null && localStorage.getItem("UnreadBook" + this.user.id) != null) {
   const localString: string | null = localStorage.getItem("UnreadBook" + this.user.id) as string;
   if (localString) {
     const collection = JSON.parse(localString) as UnreadBookCollection

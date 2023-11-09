@@ -21,6 +21,7 @@ export class GlobalSearch {
 
   resetFilter() {
     this.bookService.reInitBookCollection();
+    this.bookService.filterBookCountInitObservable(0);
     this.searchString ="";
   }
 }

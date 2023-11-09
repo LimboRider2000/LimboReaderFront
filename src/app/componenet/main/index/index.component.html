@@ -8,7 +8,7 @@
 <div>
   <ul class="pagination">
     <li [ngClass]=" currentPage > 1? 'page-item':'page-item disabled' ">
-      <button class="page-link" (click)="PreviousPage()">Previous</button>
+      <button class="page-link" [disabled]="!isBtnDisable" (click)="PreviousPage()"><i class="bi bi-arrow-left"></i></button>
     </li>
 
     <li  *ngFor="let item of pageStock" class="page-item" aria-current="page">
@@ -16,7 +16,7 @@
        <button *ngIf="currentPage != item" class="page-link" (click)="SelectPage(item)">{{item}}</button>
     </li>
     <li  [ngClass]="pageCount == currentPage ?'page-item disabled' : 'page-item'">
-      <button  class="page-link" (click)="NextPage()">Next</button>
+      <button  class="page-link" [disabled]="!isBtnDisable" (click)="NextPage()"><i class="bi bi-arrow-right"></i></button>
     </li>
   </ul>
 </div>

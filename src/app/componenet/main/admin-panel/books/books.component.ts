@@ -15,7 +15,7 @@ export class BooksComponent implements OnInit {
 
   dataSource: MatTableDataSource<Book>;
   displayedColumns: string[] = ['tittle', 'author', 'user', 'action'];
-  total$:Observable< number> = this.bookService.bookCountObservable();
+  total$:Observable< number> = this.bookService.filterBookCountObservable();
   pageSize: number = 5;
   total:number;
 

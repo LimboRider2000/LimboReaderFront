@@ -13,21 +13,28 @@ export class BookPostService{
   serverUrl = serverAddress + "api/Book"
   private bookCollection: Book[] = [];
   private userBooksCollection: Book[] =[];
-  private bookNumber: number = 0;
+  private filterBookCount: number = 0;
   private globalBookNumber: number = 0;
   private filterSubGenreId: string="";
+  private answerPass = true;
+
 
   private readonly http = inject(HttpClient)
   private readonly collectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.bookCollection)
-  private readonly bookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.bookNumber)
+  private readonly answerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.answerPass)
+  private readonly filterBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.filterBookCount)
   private readonly globalBookCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.globalBookNumber)
   private readonly filterSubGenreIdSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.filterSubGenreId)
   private readonly userBookCollectionSubject: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(this.userBooksCollection)
   private readonly userService = inject(UserService)
 
+
   //region Observable
-  bookCountObservable() {
-    return this.bookCountSubject.asObservable()
+  answerPassObserver(){
+    return this.answerSubject.asObservable();
+  }
+  filterBookCountObservable() {
+    return this.filterBookCountSubject.asObservable()
   }
   getGlobalBookCountObservable() {
     return this.globalBookCountSubject.asObservable()
@@ -38,14 +45,14 @@ export class BookPostService{
   getFilterSybGenreByIdObservable(){
     return this.filterSubGenreIdSubject.asObservable()
   }
-  private bookCountInitObservable(count: number) {
-    this.bookCountSubject.next(this.bookNumber = count)
-  }
+
  getUserBookCollectionObservable():Observable<Book[]>{
     return this.userBookCollectionSubject.asObservable()
  }
   //endregion
-
+  public filterBookCountInitObservable(count: number) {
+    this.filterBookCountSubject.next(this.filterBookCount = count)
+  }
   //region AddMethod
   newPostAdd(data: any) {
     return this.http.post(this.serverUrl, data)
@@ -60,15 +67,22 @@ addBookNumber(){
 }
   //region GetBOOK
   getSliceBook(page: number) {
+    this.answerPass = false;
+    this.answerSubject.next(this.answerPass);
     this.http.get(this.serverUrl + "/?page=" + page)
-      .subscribe(
-        (data: any) => {
+      .subscribe({
+        next: (data: any) => {
           let bookCol: Book[] = data.listTransfer;
           this.bookCollectionInit(bookCol)
-          this.bookCountInitObservable(data.bookCount);
+          this.filterBookCountInitObservable(data.bookCount);
         },
-        error => {
+        error:error => {
+
           console.log(error.error)
+        },
+        complete:()=>{
+          this.answerPass = true
+          this.answerSubject.next(this.answerPass);}
         }
       )
   }
@@ -80,10 +94,10 @@ addBookNumber(){
             let bookCol: Book[] = data.listTransfer;
             bookCol.map(item => this.bookCollection.push(item))
             this.collectionSubject.next(this.bookCollection)
-            this.bookNumber = data.bookCount;
-            this.bookCountSubject.next(this.bookNumber)
-            this.globalBookNumber = this.bookNumber;
-            this.globalBookCountSubject.next(this.bookNumber)
+            this.filterBookCount = data.bookCount;
+            this.filterBookCountSubject.next(this.filterBookCount)
+            this.globalBookNumber = this.filterBookCount;
+            this.globalBookCountSubject.next(this.filterBookCount)
 
           },
           error:(error)=>{
@@ -115,8 +129,9 @@ addBookNumber(){
       (data: any) => {
         let bookCol: Book[] = data.listTransfer;
         this.bookCollectionInit(bookCol)
-        this.bookCountInitObservable(data.bookCount);
+        this.filterBookCountInitObservable(data.bookCount);
         this.filterSubGenreIdSubject.next((this.filterSubGenreId = id))
+
       },
       error => {
         console.log(error.error)
@@ -127,6 +142,7 @@ addBookNumber(){
     this.http.get<Book[]>(this.serverUrl+"/bySearchSting/?search="+searchString).subscribe(
       (data:Book[])=>{
         this.bookCollectionInit(data)
+        this.filterBookCountInitObservable(data.length);
       },
       error => {console.error(error)}
     )

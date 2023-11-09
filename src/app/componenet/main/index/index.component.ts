@@ -13,6 +13,7 @@ export class IndexComponent implements OnInit, OnDestroy{
   public currentPage : number = 1;
   public pageCount: number;
   public pageStock : number[] = [];
+  public filterBookCount : number;
 
   private filterBookBySubGenreId:string ="";
   private filterBookIdSub:Subscription;
@@ -20,14 +21,29 @@ export class IndexComponent implements OnInit, OnDestroy{
   private bookService = inject(BookPostService)
 
   public bookCollection$: Observable<Book[]>;
+  isBtnDisable:boolean
 
-    ngOnInit(): void {
-     this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
+  ngOnInit(): void {
+    this.bookService.filterBookCountObservable().subscribe(
+      {
+        next:(data)=>{
+         this.filterBookCount = data;
+        }
+      }
+    )
+
+    this.bookService.answerPassObserver().subscribe(
+      {
+        next:(data:boolean)=> this.isBtnDisable = data
+      }
+    );
+      this.filterBookIdSub =this.bookService.getFilterSybGenreByIdObservable().subscribe(
     (data:string)=>this.filterBookBySubGenreId = data
+
   )
     this.bookCollection$ = this.bookService.getBookCollection();
 
-   this.BookCountSubscription= this.bookService.bookCountObservable().subscribe(
+   this.BookCountSubscription= this.bookService.filterBookCountObservable().subscribe(
       (data)=>{
         let bookCount = data
         if(bookCount != null && bookCount != 0)
@@ -36,8 +52,13 @@ export class IndexComponent implements OnInit, OnDestroy{
       }
     )
   }
- private pageStockCalculation(){
+ private async pageStockCalculation(){
+
+    if(this.filterBookCount!= undefined && this.filterBookCount != 0 )
+      this.pageCount = Math.ceil(this.filterBookCount / this.perPage)
+
     this.pageStock = []
+
     let fromPage = this.currentPage > 2 ?this.currentPage - 1 : 1;
     for(let i = 0;i < 3;i++){
       this.pageStock[i] = fromPage++;
@@ -51,12 +72,13 @@ export class IndexComponent implements OnInit, OnDestroy{
 
     if(this.filterBookBySubGenreId === "" || this.filterBookBySubGenreId == null)
       this.bookService.getSliceBook(this.currentPage)
-    else
-      this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
+    else {
+      this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId, this.currentPage)
+    }
 
-    this.pageStockCalculation()
+    this.bookCollection$ = this.bookService.getBookCollection()
 
-    this.bookCollection$ =this.bookService.getBookCollection()
+     this.pageStockCalculation()
   }
   PreviousPage() {
     this.currentPage--;
@@ -66,8 +88,8 @@ export class IndexComponent implements OnInit, OnDestroy{
     else
       this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
 
-    this.pageStockCalculation()
     this.bookCollection$ =this.bookService.getBookCollection()
+    this.pageStockCalculation()
   }
   SelectPage(page:number) {
     this.currentPage = page
@@ -77,8 +99,8 @@ export class IndexComponent implements OnInit, OnDestroy{
     else
       this.bookService.getBookSliceBySybGenreFilter(this.filterBookBySubGenreId,this.currentPage)
 
+    this.bookCollection$ =this.bookService.getBookCollection()
     this.pageStockCalculation()
-     this.bookCollection$ =this.bookService.getBookCollection()
 
   }
   ngOnDestroy(): void {
