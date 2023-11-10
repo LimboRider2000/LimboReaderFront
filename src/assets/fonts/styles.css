@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'NotoSerif-Regular';
+  src: url(./NotoSerif-Regular.woff2) format('woff2'),
+       url(./NotoSerif-Regular.woff) format('woff'),
+       url(./NotoSerif-Regular.otf) format('otf');
+}
