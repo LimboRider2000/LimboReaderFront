@@ -6,9 +6,9 @@
   <span>{{page}} / {{totalPages}}</span>
   <button class=" btn btn-primary" (click)="nextPage()" [disabled]="page===totalPages"><i class="bi bi-arrow-right-square-fill w-100 h-100"></i></button>
 </div>
-<div class="w-100" [ngStyle]="{height:riderHeight+'px' }" >
+<div class="container col-8" [ngStyle]="{height:riderHeight+'px' }" >
     <pdf-viewer
-      class="w-100 h-100"
+      class="w-80 h-100"
       [src]="serverAddress+readerData.path+'.pdf'"
       [original-size]="false"
       [show-all]="false"

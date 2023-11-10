@@ -4,7 +4,7 @@
       <div class="d-flex col-10">
         <input class="form-control me-3"
                type="search"
-               placeholder="Введите Фамилию Автора ,название Книги или логин пользователя "
+               placeholder="Введите Фамилию Автора, название Книги или логин пользователя "
                aria-label="Search"
         [(ngModel)]="searchString">
         <button class="btn btn-success me-1 col-2" [disabled]="searchString.length < 2" (click)="Submit()"><i class="bi bi-search me-1 "></i>Поиск</button>

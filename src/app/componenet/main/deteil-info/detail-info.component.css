@@ -14,3 +14,13 @@ img{
   height: 400px;
   object-fit: fill;
 }
+.font{
+  font-family: "Lora",sans-serif;
+  font-weight: bold;
+}
+.font1{
+  font-family: "NotoSerif",sans-serif;
+}
+.font2{
+  font-family: "NotoSerifThinItalic",sans-serif;
+}

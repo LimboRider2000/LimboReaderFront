@@ -58,8 +58,10 @@ export class BookPostService{
     return this.http.post(this.serverUrl, data)
   }
   addToCollection(data: Book) {
-    this.bookCollection.push(data);
-    this.collectionSubject.next(this.bookCollection.slice());
+    this.bookCollection.unshift(data);
+    this.collectionSubject.next(this.bookCollection);
+    this.globalBookNumber++;
+    this.globalBookCountSubject.next(this.globalBookNumber)
   }
   //endregion
 addBookNumber(){

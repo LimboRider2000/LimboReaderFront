@@ -3,12 +3,86 @@
 @import url("../node_modules/bootstrap-icons/font/bootstrap-icons.css");
 @import url('../node_modules/@angular/material/prebuilt-themes/indigo-pink.css');
 @import url("../reset.css");
-/* html, body,p{
 
-  overflow-x: hidden;
+*{
+  font-family: 'LoraSemiBoldItalic', serif;
+}
+@font-face {
+  font-family: 'NotoSerif-Regular';
+  src: url("/assets/fonts/NotoSerif-Regular.woff2") format('woff2'),
+  url("/assets/fonts/NotoSerif-Regular.woff") format('woff'),
+  url("/assets/fonts/NotoSerif-Regular.otf") format('otf');
+}
+@font-face {
+  font-family: 'Lora-Italic';
+  src: url('/assets/fonts/Lora-Italic.woff2') format('woff2'),
+  url('/assets/fonts/Lora-Italic.woff') format('woff'),
+  url('/assets/fonts/Lora-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
 
-}*/
-html, body{
+@font-face {
+  font-family: 'LoraSemiBoldItalic';
+  src: url('/assets/fonts/Lora-SemiBoldItalic.woff2') format('woff2'),
+  url('/assets/fonts/Lora-SemiBoldItalic.woff') format('woff'),
+  url('/assets/fonts/Lora-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('/assets/fonts/Lora-Regular.woff2') format('woff2'),
+  url('/assets/fonts/Lora-Regular.woff') format('woff'),
+  url('/assets/fonts/Lora-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('/assets/fonts/Lora-Bold.woff2') format('woff2'),
+  url('/assets/fonts/Lora-Bold.woff') format('woff'),
+  url('/assets/fonts/Lora-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSerif';
+  src: url('/assets/fonts/NotoSerif-Medium.woff2') format('woff2'),
+  url('/assets/fonts/NotoSerif-Medium.woff') format('woff'),
+  url('/assets/fonts/NotoSerif-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSerifThinItalic';
+  src: url('/assets/fonts/NotoSerif-ThinItalic.woff2') format('woff2'),
+  url('/assets/fonts/NotoSerif-ThinItalic.woff') format('woff'),
+  url('/assets/fonts/NotoSerif-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSerif';
+  src: url('/assets/fonts/NotoSerif-SemiBold.woff2') format('woff2'),
+  url('/assets/fonts/NotoSerif-SemiBold.woff') format('woff'),
+  url('/assets/fonts/NotoSerif-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+  html, body{
   height: 100%;
   margin: 0;
   padding: 0;

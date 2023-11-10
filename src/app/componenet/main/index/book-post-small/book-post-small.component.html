@@ -1,14 +1,15 @@
-<a  id="page-content-wrapper m-1" class="col-10  container content rounded">
+<a id="page-content-wrapper m-1" class="col-10  container content rounded" xmlns="http://www.w3.org/1999/html">
   <div class="container-fluid input-group">
     <div class="p-2 col-2 coverImg ">
       <img [src]="serverAddress + bookData.titleImgPath" alt="bookData.titleImgPath">
     </div>
     <div class="col-8">
-      <h1 class="text-center fs-5">{{bookData.title}}</h1>
-      <h1 class="text-end fs-5"> Кто добавил:  <span class="fw-bold"> {{bookData.user_name}}</span></h1>
-     <p class="text-end fs-5">Автор: {{bookData.author.name}} {{bookData.author.lastName}}</p>
-     <p class="text-end fw-bold" >Жанр: {{bookData.genre_name}} - {{bookData.subGenre_name}}</p>
-      <p class="descriptionSmall">{{bookData.description}}</p>
+      <h1 class="text-center fs-3 font">{{bookData.title}}</h1>
+      <h1 class="text-end font fs-4 "> Кто добавил: <span class="font1 fs-6"> {{bookData.user_name}}</span></h1>
+      <p class="text-end font fs-4">Автор: <span class="font1 fs-6"> {{bookData.author.name}} {{bookData.author.lastName}}</span></p>
+     <p class="text-end fw-bold font fs-4" >Жанр: <span class="font1 fs-6">{{bookData.genre_name}} - {{bookData.subGenre_name}}</span></p>
+     <p class="text-center fw-bold" > - - - - </p>
+      <p class="descriptionSmall ps-4 pe-4 fs-5">{{bookData.description}}</p>
     </div>
   </div>
   <hr class="m-0"/>

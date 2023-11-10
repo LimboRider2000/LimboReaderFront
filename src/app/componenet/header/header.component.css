@@ -1,6 +1,11 @@
+.font{
+  font-weight: bold;
+}
+
 .avatar {
   border-radius: 50%;
   width: 75px;
   height: 50px;
   overflow: hidden;
 }
+
